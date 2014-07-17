@@ -15,7 +15,7 @@
   <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
 
   <Target Name="Build">
-    <MSBuild Projects="@(ProjectFile)" Targets="Build"/>
+    <MSBuild Projects="@(ProjectFile)" Targets="Build" BuildInParallel="true"/>
     <MSBuild Projects="@(SequencedProjectFile)" Targets="Build"/>
   </Target>
 

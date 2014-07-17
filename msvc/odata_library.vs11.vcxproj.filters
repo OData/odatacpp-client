@@ -69,7 +69,7 @@
     <ClCompile Include="$(ODataCppSrc)\common\xmlhelpers.cpp">
       <Filter>common</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\common\utility.cpp">
+    <ClCompile Include="$(ODataCppSrc)\common\utility.cpp">
       <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,10 +179,10 @@
     <ClInclude Include="$(ODataCppInc)\odata\core\odata_value.h">
       <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\odata\common\utility.h">
+    <ClInclude Include="$(ODataCppInc)\odata\common\utility.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\odata\common\xmlstream.h">
+    <ClInclude Include="$(ODataCppInc)\odata\common\xmlstream.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
