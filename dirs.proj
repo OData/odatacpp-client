@@ -1,0 +1,11 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.root))\msvc\Common.Build.settings" />
+
+  <ItemGroup Condition="'$(BuildInRazzle)'=='' or '$(BuildAgainstVSInstallation)'==''">
+    <ProjectFile Include="msvc\dirs.proj"/>
+  </ItemGroup>
+
+  <Import Project="$(TargetsPath)\Common.Build.Traversal.targets" />
+
+</Project>
