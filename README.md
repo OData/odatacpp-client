@@ -12,11 +12,11 @@ Currently the following target platforms are supported:
 Getting the source
 ------------------
 
-1.Please install 'git' on your system:
+1.Please install 'Git' on your system:
 
-  1) On Windows, please download and install 'Git for Windows' (http://code.google.com/p/msysgit/downloads/list).
+  1) On Windows, please download and install 'Git for Windows' (http://msysgit.github.io/).
 
-  2) On OS X, please install 'git' with your package manager. Take Homebrew for example:
+  2) On OS X, please install 'Git' with your package manager. Take Homebrew for example:
 
     brew install git
 
@@ -36,9 +36,9 @@ Building on Windows with Visual Studio 2012
     cd odatacpp\msvc
     .nuget\nuget.exe restore odatacpp_tests.sln
 
-3.Open 'odatacpp_tests.sln' under 'msvc' with VS2012 and click 'Build Solution' in the 'BUILD' menu.
+3.Open 'odatacpp_tests.sln' under 'odatacpp\msvc' with VS2012 and click 'Build Solution' in the 'BUILD' menu.
 
-4.Built libraries are placed under 'output\<Configuration>' where '<Configuration>' could be either 'Debug' or 'Release' according to your build configuration in VS2012.
+4.Built libraries are placed under 'odatacpp\output\<Configuration>' where '<Configuration>' could be either 'Debug' or 'Release' according to your build configuration in VS2012.
 
 
 Building on Windows with MSBuild
@@ -50,7 +50,7 @@ Building on Windows with MSBuild
     powershell
     .\setup_ps_env_VS2012.ps1
 
-   If you receive an error message like 'running scripts is disabled on this system', please run PowerShell with administrator, type the following command, and then rerun the setup script above.
+   If you receive an error message like 'running scripts is disabled on this system', please run PowerShell as administrator, type the following command, and then rerun the setup script above.
 
     Set-ExecutionPolicy RemoteSigned
 
