@@ -38,7 +38,7 @@ Building on Windows with Visual Studio 2012
 
 3.Open 'odatacpp_tests.sln' under 'odatacpp\msvc' with VS2012 and click 'Build Solution' in the 'BUILD' menu.
 
-4.Built libraries are placed under 'odatacpp\output\<Configuration>' where '<Configuration>' could be either 'Debug' or 'Release' according to your build configuration in VS2012.
+4.Built libraries are placed under 'odatacpp\output\\\<Configuration\>' where '\<Configuration\>' could be either 'Debug' or 'Release' according to your build configuration in VS2012.
 
 
 Building on Windows with MSBuild
