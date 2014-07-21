@@ -83,12 +83,12 @@ Running tests on Windows
   1) Test the Debug version of ODataCpp Libraries:
 
     cd odatacpp\output\Debug
-    TestRunner.exe odata_functional_test.vs11d.dll odata_e2e_test.vs11d.dll
+    .\TestRunner.exe odata_functional_test.vs11d.dll odata_e2e_test.vs11d.dll
 
   2) Test the Release version of ODataCpp Libraries:
 
     cd odatacpp\output\Release
-    TestRunner.exe odata_functional_test.vs11.dll odata_e2e_test.vs11.dll
+    .\TestRunner.exe odata_functional_test.vs11.dll odata_e2e_test.vs11.dll
 
   Don't worry about the failed tests as they are known issues and we will get them fixed in the future releases.
 
