@@ -1,79 +1,215 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Odatacpp : OData C++ Libraries" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-    <title>Odatacpp</title>
+    <title>ODataCpp by OData</title>
   </head>
 
   <body>
+    <header>
+      <div class="inner">
+        <h1>ODataCpp</h1>
+        <h2>The open-source C++ libraries for OData</h2>
+        <a href="https://github.com/OData/odatacpp" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/OData/odatacpp">View on GitHub</a>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="welcome-to-odatacpp" class="anchor" href="#welcome-to-odatacpp"><span class="octicon octicon-link"></span></a>Welcome to ODataCpp</h1>
 
-          <h1 id="project_title">Odatacpp</h1>
-          <h2 id="project_tagline">OData C++ Libraries</h2>
+<p>ODataCpp is an open-source C++ library that implements the Open Data Protocol (OData). It supports the <a href="http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html">OData protocol version 4.0</a>. It currently serves only client and client side proxy generation (code gen) aspects of OData. The server library is under development and will be included soon.</p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/OData/odatacpp/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/OData/odatacpp/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+<h1>
+<a name="getting-started" class="anchor" href="#getting-started"><span class="octicon octicon-link"></span></a>Getting started</h1>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<h2>
+<a name="getting-the-source" class="anchor" href="#getting-the-source"><span class="octicon octicon-link"></span></a>Getting the source</h2>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<pre><code>git clone https://github.com/odata/odatacpp
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>
+<a name="building-on-windows-with-visual-studio-2012" class="anchor" href="#building-on-windows-with-visual-studio-2012"><span class="octicon octicon-link"></span></a>Building on Windows with Visual Studio 2012</h2>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>1.Please ensure that you have Visual Studio 2012 installed.</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>2.ODataCpp depends on Casablanca (<a href="http://casablanca.codeplex.com">http://casablanca.codeplex.com</a>) which is distributed as a NuGet package.
+  Please restore this NuGet package before you open any solution:</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<pre><code>cd odatacpp\msvc
+.nuget\nuget.exe restore odatacpp_tests.sln
+</code></pre>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>3.Open 'odatacpp_tests.sln' under 'odatacpp\msvc' with VS2012 and click 'Build Solution' in the 'BUILD' menu.</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p>4.Built libraries are placed under 'odatacpp\output\&lt;Configuration&gt;' where '&lt;Configuration&gt;' could be either 'Debug' or 'Release' according to your build configuration in VS2012.</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h2>
+<a name="building-on-windows-with-msbuild" class="anchor" href="#building-on-windows-with-msbuild"><span class="octicon octicon-link"></span></a>Building on Windows with MSBuild</h2>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>1.Setup build environment for VS2012:</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+<pre><code>cd odatacpp
+powershell
+.\setup_ps_env_VS2012.ps1
+</code></pre>
+
+<p>If you receive an error message like 'running scripts is disabled on this system', please run PowerShell as administrator, type the following command, and then rerun the setup script above.</p>
+
+<pre><code>Set-ExecutionPolicy RemoteSigned
+</code></pre>
+
+<p>2.Here are some examples to invoke MSBuild:</p>
+
+<p>1) Build Debug version of ODataCpp libraries in parallel.</p>
+
+<pre><code>msbuild /m
+</code></pre>
+
+<p>2) Build Release version of ODataCpp libraries.</p>
+
+<pre><code>msbuild /p:Configuration=Release
+</code></pre>
+
+<p>3) Rebuild Debug version of ODataCpp.</p>
+
+<pre><code>msbuild /t:Rebuild /p:Configuration=Debug
+</code></pre>
+
+<p>4) Clean build outputs.</p>
+
+<pre><code>msbuild /t:Clean
+</code></pre>
+
+<p>3.Built libraries are placed under the same folder of VS2012. Actually they are no different than the ones built by VS2012.</p>
+
+<h2>
+<a name="running-tests-on-windows" class="anchor" href="#running-tests-on-windows"><span class="octicon octicon-link"></span></a>Running tests on Windows</h2>
+
+<p>1.After you have successfully built the libraries, you can run our functional and end-to-end tests to check the basic functionality.</p>
+
+<p>1) Test the Debug version of ODataCpp Libraries:</p>
+
+<pre><code>cd odatacpp\output\Debug
+TestRunner.exe odata_functional_test.vs11d.dll odata_e2e_test.vs11d.dll
+</code></pre>
+
+<p>2) Test the Release version of ODataCpp Libraries:</p>
+
+<pre><code>cd odatacpp\output\Release
+TestRunner.exe odata_functional_test.vs11.dll odata_e2e_test.vs11.dll
+</code></pre>
+
+<p>Don't worry about the failed tests as they are known issues and we will get them fixed in the future releases.</p>
+
+<h2>
+<a name="building-on-os-x" class="anchor" href="#building-on-os-x"><span class="octicon octicon-link"></span></a>Building on OS X</h2>
+
+<p>1.Please ensure that you have OS X later than 10.9, Xcode later than 5.0 and Xcode Command Line Tools installed.</p>
+
+<p>2.Install the Homebrew package manager (<a href="http://brew.sh">http://brew.sh</a>). Skip this step if you want to use your own package manager.</p>
+
+<p>3.Install the required packages to build ODataCpp via Homebrew or your own package manager.</p>
+
+<pre><code>brew install cmake git boost libxml++ pkg-config
+</code></pre>
+
+<p>4.Clone (do not change the location below) and build the dependency library Casablanca (<a href="http://casablanca.codeplex.com">http://casablanca.codeplex.com</a>).</p>
+
+<pre><code>cd odatacpp
+mkdir lib
+cd lib
+git clone https://git01.codeplex.com/casablanca
+cd casablanca
+mkdir build.release
+cd build.release
+cmake ../Release -DCMAKE_BUILD_TYPE=Release
+make -j 4
+</code></pre>
+
+<p>5.Return to the root folder of ODataCpp and generate 'Makefile' using CMake.</p>
+
+<pre><code>cd ../../..
+cmake -DCMAKE_BUILD_TYPE=Debug # replace 'Debug' with 'Release' if needed
+make -j 4
+</code></pre>
+
+<p>Ignore the possible warning CMP0042 issued by CMake.</p>
+
+<p>6.Please find your built libraries under 'output'.</p>
+
+<h2>
+<a name="running-tests-on-os-x" class="anchor" href="#running-tests-on-os-x"><span class="octicon octicon-link"></span></a>Running tests on OS X</h2>
+
+<p>After successfully building the libraries, you can run the functional and end-to-end tests via the terminal.</p>
+
+<pre><code>cd odatacpp/output
+./test_runner *tests*
+</code></pre>
+
+<p>Please ignore the failed tests as they are already known to us and will be fixed in the future releases.</p>
+
+<h1>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h1>
+
+<p>Please refer to our <a href="https://github.com/OData/odatacpp/wiki">wiki</a> for documentation.</p>
+
+<h1>
+<a name="community" class="anchor" href="#community"><span class="octicon octicon-link"></span></a>Community</h1>
+
+<h2>
+<a name="issue-tracker" class="anchor" href="#issue-tracker"><span class="octicon octicon-link"></span></a>Issue tracker</h2>
+
+<p>To report bugs and require features, please use our <a href="https://github.com/OData/odatacpp/issues?state=open">issue tracker</a>.</p>
+
+<h2>
+<a name="mailing-list" class="anchor" href="#mailing-list"><span class="octicon octicon-link"></span></a>Mailing list</h2>
+
+<p>To receive announcements or discussions, please subscribe to our mailing list:</p>
+
+<p><a href="mailto:odatacpp-discussion+subscribe@googlegroups.com">odatacpp-discussion+subscribe@googlegroups.com</a>.</p>
+
+<p>To ask questions or provide feedback, simply send mail to:</p>
+
+<p><a href="mailto:odatacpp-discussion@googlegroups.com">odatacpp-discussion@googlegroups.com</a>.</p>
+
+<h2>
+<a name="team-blog" class="anchor" href="#team-blog"><span class="octicon octicon-link"></span></a>Team blog</h2>
+
+<p>Please visit <a href="http://blogs.msdn.com/b/odatateam/">http://blogs.msdn.com/b/odatateam/</a>.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/OData/odatacpp/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/OData/odatacpp/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/OData/odatacpp"></a> is maintained by <a href="https://github.com/OData">OData</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Odatacpp maintained by <a href="https://github.com/OData">OData</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
+  
   </body>
 </html>
