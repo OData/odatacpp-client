@@ -136,3 +136,15 @@ After successfully building the libraries, you can run the functional and end-to
     ./test_runner *tests*
 
 Please ignore the failed tests as they are already known to us and will be fixed in the future releases.
+
+Building for iOS
+---------------------
+Complete on Building on OS X.
+Run:
+   cd lib/casablanca/Build_iOS
+   ./configure.sh
+   cd ../../..
+   cd ios
+   ./configure.sh
+ 
+ The libraries (libodata-client.a and libodata-library.a) will be built in /ios/build.ios.
