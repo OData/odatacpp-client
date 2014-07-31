@@ -7,6 +7,7 @@ Currently the following target platforms are supported:
 
   * Windows 32-bit
   * OS X 64-bit
+  * iOS
 
 
 Getting the source
@@ -102,7 +103,7 @@ Building on OS X
 
 3.Install the required packages to build ODataCpp via Homebrew or your own package manager.
 
-    brew install cmake git boost libxml++ pkg-config
+    brew install cmake git boost pkg-config
 
 4.Clone (do not change the location below) and build the dependency library Casablanca (http://casablanca.codeplex.com).
 
