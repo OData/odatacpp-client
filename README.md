@@ -139,12 +139,15 @@ Please ignore the failed tests as they are already known to us and will be fixed
 
 Building for iOS
 ---------------------
-Complete on Building on OS X.
-Run:
-   cd lib/casablanca/Build_iOS
-   ./configure.sh
-   cd ../../..
-   cd ios
-   ./configure.sh
+
+Complete on Building on OS X. Return to the root folder of odatacpp
+
+    cd lib/casablanca/Build_iOS
+    ./configure.sh
+    cd ../../..
+    cd ios
+    ./configure.sh
  
  The libraries (libodata-client.a and libodata-library.a) will be built in /ios/build.ios.
+ 
+Check the wiki [Create iOS app using odatacpp in Xcode ](https://github.com/OData/odatacpp/wiki/1.1.2-Create-iOS-app-using-odatacpp-in-Xcode) on how to build iOS app using the libraries.
