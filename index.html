@@ -4,9 +4,9 @@
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -46,7 +46,10 @@
 </code></pre>
 
 <h2>
-<a name="building-on-windows-with-visual-studio-2012" class="anchor" href="#building-on-windows-with-visual-studio-2012"><span class="octicon octicon-link"></span></a>Building on Windows with Visual Studio 2012</h2>
+<a name="building-and-testing" class="anchor" href="#building-and-testing"><span class="octicon octicon-link"></span></a>Building and testing</h2>
+
+<h3>
+<a name="building-on-windows-with-visual-studio-2012" class="anchor" href="#building-on-windows-with-visual-studio-2012"><span class="octicon octicon-link"></span></a>Building on Windows with Visual Studio 2012</h3>
 
 <p>1.Please ensure that you have Visual Studio 2012 installed.</p>
 
@@ -61,8 +64,8 @@
 
 <p>4.Built libraries are placed under 'odatacpp\output\&lt;Configuration&gt;' where '&lt;Configuration&gt;' could be either 'Debug' or 'Release' according to your build configuration in VS2012.</p>
 
-<h2>
-<a name="building-on-windows-with-msbuild" class="anchor" href="#building-on-windows-with-msbuild"><span class="octicon octicon-link"></span></a>Building on Windows with MSBuild</h2>
+<h3>
+<a name="building-on-windows-with-msbuild" class="anchor" href="#building-on-windows-with-msbuild"><span class="octicon octicon-link"></span></a>Building on Windows with MSBuild</h3>
 
 <p>1.Setup build environment for VS2012:</p>
 
@@ -100,8 +103,8 @@ powershell
 
 <p>3.Built libraries are placed under the same folder of VS2012. Actually they are no different than the ones built by VS2012.</p>
 
-<h2>
-<a name="running-tests-on-windows" class="anchor" href="#running-tests-on-windows"><span class="octicon octicon-link"></span></a>Running tests on Windows</h2>
+<h3>
+<a name="running-tests-on-windows" class="anchor" href="#running-tests-on-windows"><span class="octicon octicon-link"></span></a>Running tests on Windows</h3>
 
 <p>1.After you have successfully built the libraries, you can run our functional and end-to-end tests to check the basic functionality.</p>
 
@@ -119,8 +122,8 @@ TestRunner.exe odata_functional_test.vs11.dll odata_e2e_test.vs11.dll
 
 <p>Don't worry about the failed tests as they are known issues and we will get them fixed in the future releases.</p>
 
-<h2>
-<a name="building-on-os-x" class="anchor" href="#building-on-os-x"><span class="octicon octicon-link"></span></a>Building on OS X</h2>
+<h3>
+<a name="building-on-os-x" class="anchor" href="#building-on-os-x"><span class="octicon octicon-link"></span></a>Building on OS X</h3>
 
 <p>1.Please ensure that you have OS X later than 10.9, Xcode later than 5.0 and Xcode Command Line Tools installed.</p>
 
@@ -128,7 +131,7 @@ TestRunner.exe odata_functional_test.vs11.dll odata_e2e_test.vs11.dll
 
 <p>3.Install the required packages to build ODataCpp via Homebrew or your own package manager.</p>
 
-<pre><code>brew install cmake git boost libxml++ pkg-config
+<pre><code>brew install cmake git boost pkg-config
 </code></pre>
 
 <p>4.Clone (do not change the location below) and build the dependency library Casablanca (<a href="http://casablanca.codeplex.com">http://casablanca.codeplex.com</a>).</p>
@@ -155,8 +158,8 @@ make -j 4
 
 <p>6.Please find your built libraries under 'output'.</p>
 
-<h2>
-<a name="running-tests-on-os-x" class="anchor" href="#running-tests-on-os-x"><span class="octicon octicon-link"></span></a>Running tests on OS X</h2>
+<h3>
+<a name="running-tests-on-os-x" class="anchor" href="#running-tests-on-os-x"><span class="octicon octicon-link"></span></a>Running tests on OS X</h3>
 
 <p>After successfully building the libraries, you can run the functional and end-to-end tests via the terminal.</p>
 
@@ -165,6 +168,22 @@ make -j 4
 </code></pre>
 
 <p>Please ignore the failed tests as they are already known to us and will be fixed in the future releases.</p>
+
+<h3>
+<a name="building-for-ios" class="anchor" href="#building-for-ios"><span class="octicon octicon-link"></span></a>Building for iOS</h3>
+
+<p>Complete on Building on OS X. Return to the root folder of odatacpp</p>
+
+<pre><code>cd lib/casablanca/Build_iOS
+./configure.sh
+cd ../../..
+cd ios
+./configure.sh
+</code></pre>
+
+<p>The libraries (libodata-client.a and libodata-library.a) will be built in /ios/build.ios.</p>
+
+<p>Check the wiki <a href="https://github.com/OData/odatacpp/wiki/1.1.2-Create-iOS-app-using-odatacpp-in-Xcode">Create iOS app using odatacpp in Xcode </a> on how to build iOS app using the libraries.</p>
 
 <h1>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h1>
@@ -178,17 +197,6 @@ make -j 4
 <a name="issue-tracker" class="anchor" href="#issue-tracker"><span class="octicon octicon-link"></span></a>Issue tracker</h2>
 
 <p>To report bugs and require features, please use our <a href="https://github.com/OData/odatacpp/issues?state=open">issue tracker</a>.</p>
-
-<h2>
-<a name="mailing-list" class="anchor" href="#mailing-list"><span class="octicon octicon-link"></span></a>Mailing list</h2>
-
-<p>To receive announcements or discussions, please subscribe to our mailing list:</p>
-
-<p><a href="mailto:odatacpp-discussion+subscribe@googlegroups.com">odatacpp-discussion+subscribe@googlegroups.com</a>.</p>
-
-<p>To ask questions or provide feedback, simply send mail to:</p>
-
-<p><a href="mailto:odatacpp-discussion@googlegroups.com">odatacpp-discussion@googlegroups.com</a>.</p>
 
 <h2>
 <a name="team-blog" class="anchor" href="#team-blog"><span class="octicon octicon-link"></span></a>Team blog</h2>
