@@ -1,7 +1,13 @@
-Instructions on building and testing ODataCpp
-=============================================
+# Welcome to ODataCpp
+ODataCpp is an open-source C++ library that implements the Open Data Protocol (OData). It supports the [OData protocol version 4.0](http://docs.oasis-open.org/odata/odata/v4.0/os/part1-protocol/odata-v4.0-os-part1-protocol.html). It currently serves only client and client side proxy generation (code gen) aspects of OData. The server library is under development and will be included soon.
 
-This document is to guide you through the steps to build and test ODataCpp.
+# Getting started
+
+## Getting the source
+
+    git clone https://github.com/odata/odatacpp
+
+## Building and testing
 
 Currently the following target platforms are supported:
 
@@ -9,25 +15,7 @@ Currently the following target platforms are supported:
   * OS X 64-bit
   * iOS
 
-
-Getting the source
-------------------
-
-1.Please install 'Git' on your system:
-
-  1) On Windows, please download and install 'Git for Windows' (http://msysgit.github.io/).
-
-  2) On OS X, please install 'Git' with your package manager. Take Homebrew for example:
-
-    brew install git
-
-2.Get the source of ODataCpp from our GitHub:
-
-    git clone https://github.com/odata/odatacpp
-
-
-Building on Windows with Visual Studio 2012
--------------------------------------------
+### Building on Windows with Visual Studio 2012
 
 1.Please ensure that you have Visual Studio 2012 installed.
 
@@ -41,9 +29,7 @@ Building on Windows with Visual Studio 2012
 
 4.Built libraries are placed under 'odatacpp\output\\\<Configuration\>' where '\<Configuration\>' could be either 'Debug' or 'Release' according to your build configuration in VS2012.
 
-
-Building on Windows with MSBuild
---------------------------------
+### Building on Windows with MSBuild
 
 1.Setup build environment for VS2012:
 
@@ -75,9 +61,7 @@ Building on Windows with MSBuild
 
 3.Built libraries are placed under the same folder of VS2012. Actually they are no different than the ones built by VS2012.
 
-
-Running tests on Windows
-------------------------
+### Running tests on Windows
 
 1.After you have successfully built the libraries, you can run our functional and end-to-end tests to check the basic functionality.
 
@@ -93,9 +77,7 @@ Running tests on Windows
 
   Don't worry about the failed tests as they are known issues and we will get them fixed in the future releases.
 
-
-Building on OS X
-----------------
+### Building on OS X
 
 1.Please ensure that you have OS X later than 10.9, Xcode later than 5.0 and Xcode Command Line Tools installed.
 
@@ -127,9 +109,7 @@ Building on OS X
 
 6.Please find your built libraries under 'output'.
 
-
-Running tests on OS X
----------------------
+### Running tests on OS X
 
 After successfully building the libraries, you can run the functional and end-to-end tests via the terminal.
 
@@ -138,8 +118,7 @@ After successfully building the libraries, you can run the functional and end-to
 
 Please ignore the failed tests as they are already known to us and will be fixed in the future releases.
 
-Building for iOS
----------------------
+### Building for iOS
 
 Complete on Building on OS X. Return to the root folder of odatacpp
 
@@ -148,7 +127,15 @@ Complete on Building on OS X. Return to the root folder of odatacpp
     cd ../../..
     cd ios
     ./configure.sh
- 
- The libraries (libodata-client.a and libodata-library.a) will be built in /ios/build.ios.
- 
-Check the wiki [Create iOS app using odatacpp in Xcode ](https://github.com/OData/odatacpp/wiki/1.1.2-Create-iOS-app-using-odatacpp-in-Xcode) on how to build iOS app using the libraries.
+
+The libraries (libodata-client.a and libodata-library.a) will be built in /ios/build.ios.
+
+# Documentation
+Please refer to our [wiki](https://github.com/OData/odatacpp/wiki) for documentation.
+
+# Community
+## Issue tracker
+To report bugs and require features, please use our [issue tracker](https://github.com/OData/odatacpp/issues?state=open).
+
+## Team blog
+Please visit http://blogs.msdn.com/b/odatateam/.
