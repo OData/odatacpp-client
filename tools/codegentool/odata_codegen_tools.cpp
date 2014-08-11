@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- ﻿#include "odata_codegen_initializer.h"
+#include "odata_codegen_initializer.h"
 #include "odata_codegen_writer.h"
 #include "odata/client/odata_client.h"
 #include "cpprest/uri.h"
