@@ -45,7 +45,7 @@ const std::unordered_map<::utility::string_t, ::utility::string_t>::value_type i
 {
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Binary"), U("std::vector<unsigned char>")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Boolean"), U("bool")),
-	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Byte"), U("char")),
+	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Byte"), U("uint8_t")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Duration"), U("::utility::seconds")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.DateTimeOffset"), U("::utility::datetime")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Double"), U("double")),
@@ -54,7 +54,7 @@ const std::unordered_map<::utility::string_t, ::utility::string_t>::value_type i
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Int16"), U("int16_t")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Int32"), U("int32_t")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Int64"), U("int64_t")),
-	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.SByte"), U("unsigned char")),
+	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.SByte"), U("int8_t")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Single"), U("float")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.String"), U("::utility::string_t")),
 };
@@ -65,7 +65,7 @@ const std::unordered_map<::utility::string_t, ::utility::string_t>::value_type i
 {
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Binary"), U("")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Boolean"), U("false")),
-	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Byte"), U("'\0'")),
+	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Byte"), U("0")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Duration"), U("")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.DateTimeOffset"), U("")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Double"), U("0.0")),
@@ -74,7 +74,7 @@ const std::unordered_map<::utility::string_t, ::utility::string_t>::value_type i
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Int16"), U("0")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Int32"), U("0")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Int64"), U("0")),
-	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.SByte"), U("'\0'")),
+	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.SByte"), U("0")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.Single"), U("0.0")),
 	std::unordered_map<::utility::string_t, ::utility::string_t>::value_type(U("Edm.String"), U("")),
 };

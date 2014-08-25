@@ -285,35 +285,36 @@ pplx::task<std::vector<std::shared_ptr<odata_value>>> odata_client::get_data_fro
 {
     if (!m_model)
     {
-		return get_model().then([this, path](std::shared_ptr<edm_model> model){
-			return get_data_from_server(path);
-		});
+        return get_model().then([this, path](std::shared_ptr<edm_model> model){
+            return get_data_from_server(path);
+        });
     }
 
-	::utility::string_t accept = U("application/json");
-	if (!m_options.m_json_mdlevel.empty())
-	{
-		accept.append(U(";odata.metadata=")).append(m_options.m_json_mdlevel);
-	}
+    ::utility::string_t accept = U("application/json");
+    if (!m_options.m_json_mdlevel.empty())
+    {
+        accept.append(U(";odata.metadata=")).append(m_options.m_json_mdlevel);
+    }
 
-	return m_client_proxy->send_http_request(HTTP_GET, path, accept).then(
-      [this, path] (const http::http_response& response) -> std::vector<std::shared_ptr<odata_value>>
+    return m_client_proxy->send_http_request(HTTP_GET, path, accept).then(
+        [this, path] (const http::http_response& response) -> std::vector<std::shared_ptr<odata_value>>
+    {
+        if (!http_utility::is_successful_status_code(response.status_code()))
         {
-            if (!http_utility::is_successful_status_code(response.status_code()))
-            {
-                throw service_exception(response.to_string());
-            }
+            throw service_exception(response.to_string());
+        }
 
-            auto payload = parse_payload_from_response(response);
+        auto payload = parse_payload_from_response(response);
 
-			if (!payload->get_next_link().empty())
-			{
-				auto next_entities = get_data_from_server(path).get();
-				payload->insert_values(next_entities);
-			}
+        ::utility::string_t next_link = payload->get_next_link();
+        if (!next_link.empty())
+        {
+            auto next_entities = get_data_from_server(get_relative_path(next_link)).get();
+            payload->insert_values(next_entities);
+        }
 
-			return payload->get_values();		
-        });
+        return payload->get_values();		
+    });
 }
 
 pplx::task<std::shared_ptr<odata_payload>> odata_client::get_paged_data_from_server(const ::utility::string_t& path)

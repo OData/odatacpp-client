@@ -75,7 +75,7 @@ protected: \
 //	    { \
 //			return ; \
 //		} \
-//	    if (property_value->get_value_type()->get_type_kind() == edm_type_kind_t::Complex) \
+//	    if (property_value->get_value_type()->get_type_kind() == ::odata::edm::edm_type_kind_t::Complex) \
 //	    { \
 //		    property_name.from_value(std::dynamic_pointer_cast<::odata::core::odata_complex_value>(property_value)); \
 //        } \
@@ -216,7 +216,7 @@ protected: \
 		map_class_member_to_entity_value(entity_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-		    entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+		    entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return entity_value; \
 	} \
@@ -237,7 +237,7 @@ protected: \
 		map_class_member_to_entity_value(entity_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return entity_value; \
 	} \
@@ -282,7 +282,7 @@ entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitiv
 		map_class_member_to_complex_value(complex_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-		    complex_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+		    complex_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return complex_value; \
 	} \
@@ -303,7 +303,7 @@ entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitiv
 		map_class_member_to_complex_value(complex_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-		    complex_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+		    complex_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return complex_value; \
 	} \
@@ -459,7 +459,7 @@ protected: \
 	    { \
 			return ; \
 		} \
-	    if (property_value->get_value_type()->get_type_kind() == edm_type_kind_t::Entity) \
+	    if (property_value->get_value_type()->get_type_kind() == ::odata::edm::edm_type_kind_t::Entity) \
 	    { \
 			auto entity_value = std::dynamic_pointer_cast<::odata::core::odata_entity_value>(property_value); \
 			navigation_property_name = create_instance_from_entity<type>(entity_value, m_service_context); \
@@ -531,7 +531,7 @@ protected: \
 			return ; \
 		} \
 		auto property_type = edm_property->get_property_type(); \
-		auto collection_value_type = std::dynamic_pointer_cast<edm_collection_type>(property_type); \
+		auto collection_value_type = std::dynamic_pointer_cast<::odata::edm::edm_collection_type>(property_type); \
 		if (!collection_value_type) \
 		{ \
 			return ; \
@@ -594,7 +594,7 @@ protected: \
 			return ; \
 		} \
 		auto property_type = edm_property->get_property_type(); \
-		auto collection_value_type = std::dynamic_pointer_cast<edm_collection_type>(property_type); \
+		auto collection_value_type = std::dynamic_pointer_cast<::odata::edm::edm_collection_type>(property_type); \
 		if (!collection_value_type) \
 		{ \
 			return ; \
@@ -694,7 +694,7 @@ protected: \
 		{ \
 			return ; \
 		} \
-		if (property_value->get_value_type()->get_type_kind() == edm_type_kind_t::Complex) \
+		if (property_value->get_value_type()->get_type_kind() == ::odata::edm::edm_type_kind_t::Complex) \
 		{ \
 			property_name = create_instance_from_complex<type>(std::dynamic_pointer_cast<::odata::core::odata_complex_value>(property_value), m_service_context); \
 		} \
@@ -725,7 +725,7 @@ protected: \
 		{ \
 			return ; \
 		} \
-		if (property_value->get_value_type()->get_type_kind() == edm_type_kind_t::Complex) \
+		if (property_value->get_value_type()->get_type_kind() == ::odata::edm::edm_type_kind_t::Complex) \
 		{ \
 			property_name = create_instance_from_complex<type>(std::dynamic_pointer_cast<::odata::core::odata_complex_value>(property_value), m_service_context); \
 		} \
@@ -845,7 +845,7 @@ protected: \
 			return ; \
 		} \
 		auto property_type = edm_property->get_property_type(); \
-		auto collection_value_type = std::dynamic_pointer_cast<edm_collection_type>(property_type); \
+		auto collection_value_type = std::dynamic_pointer_cast<::odata::edm::edm_collection_type>(property_type); \
 		if (!collection_value_type) \
 		{ \
 			return ; \
@@ -1004,7 +1004,7 @@ protected: \
 			return ; \
 		} \
 		auto property_type = edm_property->get_property_type(); \
-		auto collection_value_type = std::dynamic_pointer_cast<edm_collection_type>(property_type); \
+		auto collection_value_type = std::dynamic_pointer_cast<::odata::edm::edm_collection_type>(property_type); \
 		if (!collection_value_type) \
 		{ \
 			return ; \
@@ -1067,7 +1067,7 @@ protected: \
 			return ; \
 		} \
 		auto property_type = edm_property->get_property_type(); \
-		auto collection_value_type = std::dynamic_pointer_cast<edm_collection_type>(property_type); \
+		auto collection_value_type = std::dynamic_pointer_cast<::odata::edm::edm_collection_type>(property_type); \
 		if (!collection_value_type) \
 		{ \
 			return ; \

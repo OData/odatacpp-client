@@ -68,9 +68,9 @@ struct class_info
 struct operation_param
 {
 	::utility::string_t _edm_name;
-	::utility::string_t _memeber_name;
-	::utility::string_t _memeber_type;
-	::utility::string_t _memeber_strong_type_name;
+	::utility::string_t _member_name;
+	::utility::string_t _member_type;
+	::utility::string_t _member_strong_type_name;
 };
 
 struct operation_info
@@ -83,9 +83,9 @@ struct operation_info
 struct property_info
 {
 	::utility::string_t _edm_name;
-	::utility::string_t _class_memeber_name;
+	::utility::string_t _class_member_name;
 	// int* or vector<int>
-	::utility::string_t _class_memeber_type;
+	::utility::string_t _class_member_type;
 	// int or single entity type name
 	::utility::string_t _strong_type_name;
 	PROPERTY_TYPE       _type;
@@ -121,7 +121,7 @@ struct code_gen_configuration
 // key is property name
 typedef std::unordered_map<::utility::string_t, property_info>  class_property_info;
 // key is enity complex enum type name
-typedef std::unordered_map<::utility::string_t, class_property_info>  class_property_map;  // class memeber infomation
+typedef std::unordered_map<::utility::string_t, class_property_info>  class_property_map;  // class member infomation
 // key is enity complex enum type name
 typedef std::unordered_map<::utility::string_t, class_info>  class_map;   // class infomation
 typedef std::unordered_map<::utility::string_t, std::vector<::utility::string_t>> derived_class_map;

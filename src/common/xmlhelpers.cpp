@@ -45,9 +45,9 @@
 #include "odata/common/xmlstream.h"
 #else
 typedef int XmlNodeType;
-#define XmlNodeType_Element xmlpp::TextReader::xmlNodeType::Element
-#define XmlNodeType_Text xmlpp::TextReader::xmlNodeType::Text
-#define XmlNodeType_EndElement xmlpp::TextReader::xmlNodeType::EndElement
+#define XmlNodeType_Element XML_READER_TYPE_ELEMENT
+#define XmlNodeType_Text XML_READER_TYPE_TEXT
+#define XmlNodeType_EndElement XML_READER_TYPE_END_ELEMENT
 #endif
 
 using namespace utility;
@@ -98,10 +98,10 @@ namespace odata { namespace edm {
         concurrency::streams::stringstreambuf buffer;
         stream.read_to_end(buffer).get();
         m_data = buffer.collection();
-        if (m_data.empty())
-            m_reader.reset();
-        else
-            m_reader.reset(new xmlpp::TextReader(reinterpret_cast<const unsigned char*>(m_data.data()), static_cast<unsigned int>(m_data.size())));
+        const char* xmlBuffer = reinterpret_cast<const char*>(m_data.data());
+        unsigned int size = static_cast<unsigned int>(m_data.size());
+        xmlInitParser();
+        m_reader = xmlReaderForMemory(xmlBuffer, size, "", "", XML_PARSE_RECOVER);
 #endif
     }
 
@@ -138,9 +138,9 @@ namespace odata { namespace edm {
         if (m_reader == nullptr)
             return !m_continueParsing; // no XML document to read
 
-        while (m_continueParsing && m_reader->read())
+        while (m_continueParsing && xmlTextReaderRead(m_reader))
         {
-            auto nodeType = m_reader->get_node_type();
+            auto nodeType = xmlTextReaderNodeType(m_reader);
 #endif
             switch (nodeType)
             {
@@ -151,7 +151,7 @@ namespace odata { namespace edm {
 #ifdef WIN32
 				BOOL is_empty_element = m_reader->IsEmptyElement();
 #else
-                bool is_empty_element = m_reader->is_empty_element();
+                bool is_empty_element = xmlTextReaderIsEmptyElement(m_reader);
 #endif
                 m_elementStack.push_back(name);
                 handle_begin_element(name);
@@ -217,7 +217,11 @@ namespace odata { namespace edm {
         }
         return ::utility::string_t(pwszLocalName);
 #else
-        return ::utility::string_t(m_reader->get_local_name().raw());
+        xmlChar* valueXml = xmlTextReaderLocalName(m_reader);
+        std::string input((char*)valueXml);
+        ::utility::string_t stringt = ::utility::conversions::to_string_t(input);
+        xmlFree(valueXml);
+        return stringt;
 #endif
     }
 
@@ -254,7 +258,11 @@ namespace odata { namespace edm {
 
         return ::utility::string_t(pwszValue);
 #else
-        return ::utility::string_t(m_reader->get_value().raw());
+        xmlChar* valueXml = xmlTextReaderValue(m_reader);
+        std::string input((char*)valueXml);
+        ::utility::string_t stringt = ::utility::conversions::to_string_t(input);
+        xmlFree(valueXml);
+        return stringt;
 #endif
     }
 
@@ -270,7 +278,7 @@ namespace odata { namespace edm {
         }
         return (hr == S_OK);
 #else
-        return m_reader->move_to_first_attribute();
+        return xmlTextReaderMoveToFirstAttribute(m_reader) > 0;
 #endif
     }
 
@@ -286,7 +294,7 @@ namespace odata { namespace edm {
         }
         return (hr == S_OK);
 #else
-        return m_reader->move_to_next_attribute();
+        return xmlTextReaderMoveToNextAttribute(m_reader) > 0;
 #endif
     }
 
@@ -332,8 +340,7 @@ namespace odata { namespace edm {
             throw utility::details::create_system_error(error);
         }
 #else // LINUX
-        m_document.reset(new xmlpp::Document());
-        m_elementStack = std::stack<xmlpp::Element*>();
+        m_writer = xmlNewTextWriterDoc(&m_doc, 0);
         m_stream = &stream;
 #endif
     }
@@ -356,13 +363,16 @@ namespace odata { namespace edm {
             throw utility::details::create_system_error(error);
         }
 #else // LINUX
-        auto result = m_document->write_to_string();
-        *m_stream << reinterpret_cast<const char *>(result.c_str());
+        xmlChar *memory;
+        int size;
+        xmlDocDumpMemory(m_doc, &memory, &size);
+        *m_stream << memory;
+        xmlFree(memory);
 
 #endif
     }
 
-    void xml_writer::write_start_element_with_prefix(const ::utility::string_t& elementPrefix, const ::utility::string_t& elementName, const ::utility::string_t& namespaceName)
+    void xml_writer::write_start_element_with_prefix(const utility::string_t& elementPrefix, const utility::string_t& elementName, const utility::string_t& namespaceName)
     {
 #ifdef WIN32
         HRESULT hr;
@@ -373,19 +383,13 @@ namespace odata { namespace edm {
             throw utility::details::create_system_error(error);
         }
 #else 
-        if (m_elementStack.empty())
-        {
-            m_elementStack.push(m_document->create_root_node(elementName, namespaceName, elementPrefix));
-        }
-        else
-        {
-            m_elementStack.push(m_elementStack.top()->add_child(elementName, elementPrefix));
-            m_elementStack.top()->set_namespace_declaration(namespaceName, elementPrefix);
-        }
+        xmlChar* valueXml = (xmlChar*) ::utility::conversions::to_utf8string(elementName).c_str();
+        xmlTextWriterStartElement(m_writer, valueXml);
+        xmlFree(valueXml);
 #endif
     }
 
-    void xml_writer::write_start_element(const ::utility::string_t& elementName, const ::utility::string_t& namespaceName)
+    void xml_writer::write_start_element(const utility::string_t& elementName, const utility::string_t& namespaceName)
     {
 #ifdef WIN32
         HRESULT hr;
@@ -412,8 +416,8 @@ namespace odata { namespace edm {
             log_error_message(U("XML writer WriteEndElement failed"), error);
             throw utility::details::create_system_error(error);
         }
-#else 
-        m_elementStack.pop();
+#else
+        xmlTextWriterEndElement(m_writer);
 #endif
     }
 
@@ -433,7 +437,7 @@ namespace odata { namespace edm {
 #endif
     }
 
-    void xml_writer::write_string(const ::utility::string_t& str)
+    void xml_writer::write_string(const utility::string_t& str)
     {
 #ifdef WIN32
         HRESULT hr;
@@ -451,7 +455,7 @@ namespace odata { namespace edm {
     }
 
 
-    void xml_writer::write_attribute_string(const ::utility::string_t& prefix, const ::utility::string_t& name, const ::utility::string_t& namespaceUri, const ::utility::string_t& value)
+    void xml_writer::write_attribute_string(const utility::string_t& prefix, const utility::string_t& name, const utility::string_t& namespaceUri, const utility::string_t& value)
     {
 #ifdef WIN32
         HRESULT hr;
@@ -466,24 +470,15 @@ namespace odata { namespace edm {
             throw utility::details::create_system_error(error);
         }
 #else
-        //UNUSED_PARAMETER(namespaceUri);
-        if (prefix == U("xmlns"))
-        {
-            m_elementStack.top()->set_namespace_declaration(
-                value, name
-                );
-        }
-        else
-        {
-            m_elementStack.top()->set_attribute(
-                name,
-                value,
-                prefix);
-        }
+        xmlChar* nameXml = (xmlChar*) ::utility::conversions::to_utf8string(name).c_str();
+        xmlChar* valueXml = (xmlChar*) ::utility::conversions::to_utf8string(value).c_str();
+        xmlTextWriterWriteAttribute(m_writer, nameXml, valueXml);
+        xmlFree(nameXml);
+        xmlFree(valueXml);
 #endif
     }
 
-    void xml_writer::write_element(const ::utility::string_t& elementName, const ::utility::string_t& value)
+    void xml_writer::write_element(const utility::string_t& elementName, const utility::string_t& value)
     {
 #ifdef WIN32
         HRESULT hr;
@@ -492,14 +487,14 @@ namespace odata { namespace edm {
         {
             auto error = GetLastError();
             log_error_message(U("XML writer WriteElementString failed"), error);
-            throw ::utility::details::create_system_error(error);
+            throw utility::details::create_system_error(error);
         }
 #else // LINUX
         write_element_with_prefix(U(""), elementName, value);
 #endif
     }
 
-    void xml_writer::write_element_with_prefix(const ::utility::string_t& prefix, const ::utility::string_t& elementName, const ::utility::string_t& value)
+    void xml_writer::write_element_with_prefix(const utility::string_t& prefix, const utility::string_t& elementName, const utility::string_t& value)
     {
 #ifdef WIN32
         HRESULT hr;
@@ -508,14 +503,15 @@ namespace odata { namespace edm {
         {
             auto error = GetLastError();
             log_error_message(U("XML writer WriteElementStringWithPrefix failed"), error);
-            throw ::utility::details::create_system_error(error);
+            throw utility::details::create_system_error(error);
         }
 #else
         write_start_element_with_prefix(prefix, elementName);
-        m_elementStack.top()->set_child_text(value);
+        write_string(value);
         write_end_element();
 #endif
     }
+
 
 }}
 // namespace odata::edm

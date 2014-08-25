@@ -376,7 +376,13 @@ void edm_model_reader::_process_property()
 {
 	if (m_current_st)
 	{
-		auto prop = std::make_shared<edm_property_type>();
+        ::utility::string_t property_name;
+        bool is_nullable;
+        std::shared_ptr<edm_named_type> type;
+        unsigned int max_length = undefined_value;
+        bool is_unicode;
+	    unsigned int scale = undefined_value;
+	    unsigned int precision = undefined_value;
 
 		while (move_to_next_attribute())
 		{
@@ -385,45 +391,49 @@ void edm_model_reader::_process_property()
 
 			if (name == U("Name"))
 			{
-				prop->m_name = value;
+				property_name = value;
 			}
 			else if (name == U("Nullable"))
 			{
-				prop->m_is_nullable = (value == U("true"));
+				is_nullable = (value == U("true"));
 			}
 			else if (name == U("Type"))
 			{           
-				prop->m_type = edm_model_utility::get_edm_type_from_name(value);
+				type = edm_model_utility::get_edm_type_from_name(value);
 				
-				if (!prop->m_type)
+				if (!type)
 				{
 					// we have to parse the real type after first round parsing
-				    prop->m_type = std::make_shared<edm_named_type>(value, U(""), edm_type_kind_t::Unknown);
+				    type = std::make_shared<edm_named_type>(value, U(""), edm_type_kind_t::Unknown);
 				}
 			}
 			else if (name == U("MaxLength"))
 			{
-				web::http::bind(value.c_str(), prop->m_maxLength);
+				web::http::bind(value.c_str(), max_length);
 			}
 			else if (name == U("Unicode"))
 			{
-				prop->m_is_unicode = (value == U("true"));
+				is_unicode = (value == U("true"));
 			}
 			else if (name == U("Scale"))
 			{
-				web::http::bind(value.c_str(), prop->m_scale);
+				web::http::bind(value.c_str(), scale);
 			}
 			else if (name == U("Precision"))
 			{
-				web::http::bind(value.c_str(), prop->m_precision);
+				web::http::bind(value.c_str(), precision);
 			}
 		}
 
+        auto prop = std::make_shared<edm_property_type>(property_name, is_nullable, max_length, is_unicode, scale);
+        prop->set_property_type(type);
+        prop->set_precision(precision);
 		m_current_st->add_property(prop);
 	}
 	else if (m_current_enum)
 	{
-		auto prop = std::make_shared<edm_enum_member>();
+        ::utility::string_t enum_name;
+        unsigned long enum_value;
 
 		while (move_to_next_attribute())
 		{
@@ -432,14 +442,15 @@ void edm_model_reader::_process_property()
 
 			if (name == U("Name"))
 			{
-				prop->m_name = value;
+				enum_name = value;
 			}
 			else if (name == U("Value"))
 			{
-				web::http::bind(value.c_str(), prop->m_value);
+				web::http::bind(value.c_str(), enum_value);
 			}
 		}
 
+        auto prop = std::make_shared<edm_enum_member>(enum_name, enum_value);
 		m_current_enum->add_enum_member(prop);
 	}
 }
@@ -448,11 +459,11 @@ void edm_model_reader::_process_navigation_property()
 {
 	if (m_current_st)
 	{
-		auto prop = std::make_shared<edm_property_type>();
-
+        ::utility::string_t property_name;
 		::utility::string_t partner_name;
 		::utility::string_t type_name;
 		bool is_contained = false;
+        bool is_nullable = false;
 
 		while (move_to_next_attribute())
 		{
@@ -461,11 +472,11 @@ void edm_model_reader::_process_navigation_property()
 
 			if (name == U("Name"))
 			{
-				prop->m_name = value;
+				property_name = value;
 			}
 			else if (name == U("Nullable"))
 			{
-				prop->m_is_nullable = (value == U("true"));
+				is_nullable = (value == U("true"));
 			}
 			else if (name == U("Partner"))
 			{
@@ -481,8 +492,9 @@ void edm_model_reader::_process_navigation_property()
 			}
 		}
 
-		prop->m_type = std::make_shared<edm_navigation_type>(type_name, partner_name, is_contained); 
-
+        
+		auto type = std::make_shared<edm_navigation_type>(type_name, partner_name, is_contained); 
+        auto prop = std::make_shared<edm_property_type>(property_name, is_nullable, type);
 		m_current_st->add_property(prop);
 	}
 }
@@ -521,7 +533,8 @@ void edm_model_reader::_process_operation_parameter()
 {
 	if (m_current_operation)
 	{
-		auto param = std::make_shared<edm_operation_parameter>();
+        ::utility::string_t param_name;
+        std::shared_ptr<edm_named_type> param_type;
 
 		while (move_to_next_attribute())
 		{
@@ -530,13 +543,15 @@ void edm_model_reader::_process_operation_parameter()
 
 			if (name == U("Name"))
 			{
-				param->m_param_name = value;
+				param_name = value;
 			}
 			else if (name == U("Type"))
 			{
-				param->m_param_type = std::make_shared<edm_named_type>(value, U(""), edm_type_kind_t::Unknown);
+				param_type = std::make_shared<edm_named_type>(value, U(""), edm_type_kind_t::Unknown);
 			}
 		}
+
+        auto param = std::make_shared<edm_operation_parameter>(param_name, param_type);
 
 		m_current_operation->add_operation_parameter(param);
 	}

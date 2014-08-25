@@ -58,13 +58,7 @@ public:
 
 	::utility::string_t get_relative_path(const ::utility::string_t& full_path)
 	{
-		if (::odata::utility::is_relative_path(get_root_url(), full_path))
-		{
-			return full_path;
-		}
-
-		::utility::string_t path = full_path;
-		return path.substr(m_client->get_service_root_url().length() + 1, path.length() - m_client->get_service_root_url().length());
+		return m_client->get_relative_path(full_path);
 	}
 
 	template<typename Executor, typename Builder>

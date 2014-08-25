@@ -61,7 +61,8 @@ static ::utility::string_t normalize_namespace(const ::utility::string_t& _names
 
 		// generate derived creator in cpp
 		generate_derived_creator(ofs_cpp, schema_iter->second);
-
+        
+        generate_declare_include_files_end(ofs_header);
 	    generate_declare_namespace_end(ofs_header);
 	    generate_implement_namespace_end(ofs_cpp);
 	}
@@ -75,17 +76,17 @@ static ::utility::string_t normalize_namespace(const ::utility::string_t& _names
 void odata_codegen_writer::generate_declare_include_files(::utility::ofstream_t& out)
 {
 	output_line_content(out, U("#pragma once"));
-	output_line_content(out, U("#include \"codegen/code_generation.h\""));
-	output_line_content(out, U("#include \"codegen/odata_service_context.h\""));
-	output_line_content(out, U("#include \"codegen/odata_service_query.h\""));
-	output_line_content(out, U("#include \"codegen/odata_entityset_query_executor.h\""));
-	output_line_content(out, U("#include \"codegen/odata_singleton_query_executor.h\""));
-	output_line_content(out, U("#include \"codegen/odata_primitive_query_executor.h\""));
-	output_line_content(out, U("#include \"codegen/odata_primitive_query_executor.h\""));
-	output_line_content(out, U("#include \"codegen/odata_complex_query_executor.h\""));
-	output_line_content(out, U("#include \"codegen/odata_enum_query_executor.h\""));
-	output_line_content(out, U("#include \"codegen/odata_void_query_executor.h\""));
-	output_line_content(out, U("#include \"codegen/odata_query_builder.h\""));
+	output_line_content(out, U("#include \"odata/codegen/code_generation.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_service_context.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_service_query.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_entityset_query_executor.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_singleton_query_executor.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_primitive_query_executor.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_primitive_query_executor.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_complex_query_executor.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_enum_query_executor.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_void_query_executor.h\""));
+	output_line_content(out, U("#include \"odata/codegen/odata_query_builder.h\""));
 	output_line_content(out, U("#include \"cpprest/json.h\""));
 	output_empty_line(out, 1);
 	output_line_content(out, U("using namespace std;"));
@@ -106,13 +107,17 @@ void odata_codegen_writer::generate_declare_namespace_begin(::utility::ofstream_
 	output_line_content(out, U("namespace ") + normalize_namespace(_namespace));
 	output_line_content(out, U("{"));
 	output_empty_line(out, 1);
-	output_line_content(out, U("#include \"codegen/odata_function_param_formatter.h\""));
-	output_empty_line(out, 1);
 }
 
 void odata_codegen_writer::generate_implement_namespace_begin(::utility::ofstream_t& out, const ::utility::string_t& _namespace)
 {
 	generate_declare_namespace_begin(out, _namespace);
+}
+    
+void odata_codegen_writer::generate_declare_include_files_end(::utility::ofstream_t& out)
+{
+    output_line_content(out, U("#include \"odata/codegen/odata_function_param_formatter.h\""));
+    output_empty_line(out, 1);
 }
 
 void odata_codegen_writer::generate_declare_namespace_end(::utility::ofstream_t& out)
@@ -406,7 +411,7 @@ void odata_codegen_writer::generate_entity_container_begin(::utility::ofstream_t
 	//}
 void odata_codegen_writer::generate_declare_entity_set_in_entity_container(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info)
 {
-	out << INDENT << U("std::shared_ptr<odata_service_query<odata_entityset_query_executor<") << _property_info._strong_type_name << U(">, odata_query_builder>> ") << _property_info._class_memeber_name << std::endl;
+	out << INDENT << U("std::shared_ptr<odata_service_query<odata_entityset_query_executor<") << _property_info._strong_type_name << U(">, odata_query_builder>> ") << _property_info._class_member_name << std::endl;
 	out << INDENT << U("{") << std::endl;
 	out << INDENT << INDENT << U("return create_query<odata_entityset_query_executor<") << _property_info._strong_type_name << U(">, odata_query_builder>(U(\"") << _property_info._edm_name << U("\"));") << std::endl; 
 	out << INDENT << U("}") << std::endl << std::endl;
@@ -418,7 +423,7 @@ void odata_codegen_writer::generate_declare_entity_set_in_entity_container(::uti
 	//}
 void odata_codegen_writer::generate_declare_singleton_in_entity_container(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info)
 {
-	out << INDENT << U("std::shared_ptr<odata_service_query<odata_singleton_query_executor<") << _property_info._strong_type_name << U(">, odata_query_builder>> ") << _property_info._class_memeber_name << std::endl;
+	out << INDENT << U("std::shared_ptr<odata_service_query<odata_singleton_query_executor<") << _property_info._strong_type_name << U(">, odata_query_builder>> ") << _property_info._class_member_name << std::endl;
 	out << INDENT << U("{") << std::endl;
 	out << INDENT << INDENT << U("return create_query<odata_singleton_query_executor<") << _property_info._strong_type_name << U(">, odata_query_builder>(U(\"") << _property_info._edm_name << U("\"));") << std::endl; 
 	out << INDENT << U("}") << std::endl << std::endl;
@@ -450,25 +455,25 @@ void odata_codegen_writer::generate_declare_operation_imports_in_entity_containe
 	{
 		// DECLARE_FUNCTION_IMPORT_P0(InMemoryEntities, GetDefaultColor, enum_GetDefaultColor_excecutor);
 		out << INDENT << U("typedef odata_enum_query_executor<") << _operation_info->_return_type << U(", enum_type_resolver> ")
-			<< U("enum_") << _property_info._class_memeber_name << U("_excecutor;") << std::endl;
+			<< U("enum_") << _property_info._class_member_name << U("_excecutor;") << std::endl;
 
-	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
-		    << U(", ") << U("enum_") << _property_info._class_memeber_name << U("_excecutor");
+	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
+		    << U(", ") << U("enum_") << _property_info._class_member_name << U("_excecutor");
 	}
 	else if (_operation_info->_executor_name == U("odata_void_query_executor"))
 	{
-	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name;
 	}
 	else
 	{
-	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name << U("<") << _operation_info->_return_type << U(">");
 	}
 
 	for (auto param_iter = _operation_info->vec_params.cbegin(); param_iter != _operation_info->vec_params.cend(); param_iter++)
 	{
-		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_memeber_strong_type_name << U(", ") <<  param_iter->_memeber_name;
+		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_member_strong_type_name << U(", ") <<  param_iter->_member_name;
 	}
 
 	out << U(");") << std::endl << std::endl;
@@ -495,23 +500,23 @@ void odata_codegen_writer::generate_implement_operation_imports_in_entity_contai
 
 	if ( _operation_info->_executor_name == U("odata_enum_query_executor"))
 	{
-	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
-		    << U(", ") << _class_info._class_name << U("::enum_") << _property_info._class_memeber_name << U("_excecutor");
+	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
+		    << U(", ") << _class_info._class_name << U("::enum_") << _property_info._class_member_name << U("_excecutor");
 	}
 	else if (_operation_info->_executor_name == U("odata_void_query_executor"))
 	{
-	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name;
 	}
 	else
 	{
-	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name << U("<") << _operation_info->_return_type << U(">");
 	}
 
 	for (auto param_iter = _operation_info->vec_params.cbegin(); param_iter != _operation_info->vec_params.cend(); param_iter++)
 	{
-		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_memeber_strong_type_name << U(", ") <<  param_iter->_memeber_name;
+		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_member_strong_type_name << U(", ") <<  param_iter->_member_name;
 	}
 
 	out << U(");") << std::endl << std::endl;
@@ -782,7 +787,7 @@ void odata_codegen_writer::generate_declare_class_member_in_complex(::utility::o
 		member_macro = U("DECLARE_COLLECTION_ENUM_PROPERTY_IN_COMPLEX_MAPPING(");
 	}
 
-	out << INDENT << member_macro << _property_info._class_memeber_name << U(", ") << _property_info._edm_name << U(", ") << _property_info._strong_type_name << U(");") << std::endl;
+	out << INDENT << member_macro << _property_info._class_member_name << U(", ") << _property_info._edm_name << U(", ") << _property_info._strong_type_name << U(");") << std::endl;
 }
 
 //BEGIN_COMPLEX_CONSTRUCTOR(AccountInfo, type_base)
@@ -795,7 +800,7 @@ void odata_codegen_writer::generate_implement_begin_constructor_in_complex(::uti
 
 void odata_codegen_writer::generate_implement_on_constructor_in_complex(::utility::ofstream_t& out, const property_info& _property_info)
 {
-	out << INDENT << U("ON_PROPERTY_IN_COMPLEX_CONSTRUCTOR(") << _property_info._class_memeber_name << U(", ") << _property_info._default_value << U(")") << std::endl;
+	out << INDENT << U("ON_PROPERTY_IN_COMPLEX_CONSTRUCTOR(") << _property_info._class_member_name << U(", ") << _property_info._default_value << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_end_constructor_in_complex(::utility::ofstream_t& out, const class_info& _class_info)
@@ -810,7 +815,7 @@ void odata_codegen_writer::generate_implement_begin_destructor_in_complex(::util
 
 void odata_codegen_writer::generate_implement_on_destructor_in_complex(::utility::ofstream_t& out, const property_info& _property_info)
 {
-	out << INDENT << U("ON_PROPERTY_IN_COMPLEX_DESTRUCTOR(") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_PROPERTY_IN_COMPLEX_DESTRUCTOR(") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_end_destructor_in_complex(::utility::ofstream_t& out, const class_info& _class_info)
@@ -872,7 +877,7 @@ void odata_codegen_writer::generate_implement_class_member_in_complex(::utility:
 		member_macro = U("IMPLEMENT_COLLECTION_ENUM_PROPERTY_IN_COMPLEX_MAPPING(");
 	}
 
-	out << member_macro << _class_info._class_name << U(", ") << _property_info._class_memeber_name << U(", ") << _property_info._edm_name << U(", ") <<_property_info._strong_type_name  << U(");") << std::endl;
+	out << member_macro << _class_info._class_name << U(", ") << _property_info._class_member_name << U(", ") << _property_info._edm_name << U(", ") <<_property_info._strong_type_name  << U(");") << std::endl;
 }
 
 //BEGIN_PROPERTY_IN_COMPLEX_MAPPING(Address)
@@ -903,7 +908,7 @@ void odata_codegen_writer::generate_implement_on_materialize_in_complex(::utilit
 		return ;
 	}
 
-	out << INDENT << U("ON_PROPERTY_IN_COMPLEX_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_PROPERTY_IN_COMPLEX_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_end_materialize_in_complex(::utility::ofstream_t& out, const class_info& _class_info)
@@ -935,7 +940,7 @@ void odata_codegen_writer::generate_implement_on_serialize_in_complex(::utility:
 		return ;
 	}
 
-	out << INDENT << U("ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_end_serialize_in_complex(::utility::ofstream_t& out, const class_info& _class_info)
@@ -990,7 +995,7 @@ void odata_codegen_writer::generate_declare_class_keys_in_entity(::utility::ofst
 
 	for (auto iter_keys = keys.cbegin(); iter_keys != keys.cend(); iter_keys++)
 	{
-		out << U(", ") << iter_keys->_edm_name << U(", ") << iter_keys->_class_memeber_name;
+		out << U(", ") << iter_keys->_edm_name << U(", ") << iter_keys->_class_member_name;
 	}
 
 	out << U(");") << std::endl;
@@ -1061,7 +1066,7 @@ void odata_codegen_writer::generate_declare_class_member_in_entity(::utility::of
 		member_macro = U("DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(");
 	}
 
-	out << INDENT << member_macro << _property_info._class_memeber_name << U(", ") << _property_info._edm_name << U(", ") << _property_info._strong_type_name << U(");") << std::endl;
+	out << INDENT << member_macro << _property_info._class_member_name << U(", ") << _property_info._edm_name << U(", ") << _property_info._strong_type_name << U(");") << std::endl;
 }
 
 //DECLARE_FUNCTION_P1(Product, GetProductDetails, odata_entityset_query_executor<ProductDetail>, count, int, count);
@@ -1089,25 +1094,25 @@ void odata_codegen_writer::generate_declare_operation_in_entity(::utility::ofstr
 	{
 		// DECLARE_FUNCTION_IMPORT_P0(InMemoryEntities, GetDefaultColor, enum_GetDefaultColor_excecutor);
 		out << INDENT << U("typedef odata_enum_query_executor<") << _operation_info->_return_type << U(", enum_type_resolver> ")
-			<< U("enum_") << _property_info._class_memeber_name << U("_excecutor;") << std::endl;
+			<< U("enum_") << _property_info._class_member_name << U("_excecutor;") << std::endl;
 
-	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
-		    << U(", ") << U("enum_") << _property_info._class_memeber_name << U("_excecutor");
+	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
+		    << U(", ") << U("enum_") << _property_info._class_member_name << U("_excecutor");
 	}
 	else if (_operation_info->_executor_name == U("odata_void_query_executor"))
 	{
-	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name;
 	}
 	else
 	{
-	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << INDENT << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name << U("<") << _operation_info->_return_type << U(">");
 	}
 
 	for (auto param_iter = _operation_info->vec_params.cbegin(); param_iter != _operation_info->vec_params.cend(); param_iter++)
 	{
-		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_memeber_strong_type_name << U(", ") <<  param_iter->_memeber_name;
+		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_member_strong_type_name << U(", ") <<  param_iter->_member_name;
 	}
 
 	out << U(");") << std::endl;
@@ -1184,7 +1189,7 @@ void odata_codegen_writer::generate_implement_class_member_in_entity(::utility::
 		member_macro = U("IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(");
 	}
 
-	out << member_macro << _class_info._class_name << U(", ") << _property_info._class_memeber_name << U(", ") << _property_info._edm_name << U(", ") <<_property_info._strong_type_name  << U(");") << std::endl;
+	out << member_macro << _class_info._class_name << U(", ") << _property_info._class_member_name << U(", ") << _property_info._edm_name << U(", ") <<_property_info._strong_type_name  << U(");") << std::endl;
 }
 
 //IMPLEMENT_FUNCTION_P1(Product, GetProductDetails, odata_entityset_query_executor<ProductDetail>, count, int, count);
@@ -1209,23 +1214,23 @@ void odata_codegen_writer::generate_implement_operation_in_entity(::utility::ofs
 
 	if (_operation_info->_executor_name == U("odata_enum_query_executor"))
 	{
-	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
-		    << U(", ") << _class_info._class_name << U("::enum_") << _property_info._class_memeber_name << U("_excecutor");
+	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
+		    << U(", ") << _class_info._class_name << U("::enum_") << _property_info._class_member_name << U("_excecutor");
 	}
 	else if (_operation_info->_executor_name == U("odata_void_query_executor"))
 	{
-	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name;
 	}
 	else
 	{
-	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name 
+	    out << _declare_name << _operation_info->vec_params.size() << U("(") << _class_info._class_name << U(", ") << _property_info._class_member_name 
 		    << U(", ") << _operation_info->_executor_name << U("<") << _operation_info->_return_type << U(">");
 	}
 
 	for (auto param_iter = _operation_info->vec_params.cbegin(); param_iter != _operation_info->vec_params.cend(); param_iter++)
 	{
-		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_memeber_strong_type_name << U(", ") <<  param_iter->_memeber_name;
+		out << U(", ") << param_iter->_edm_name << U(", ") << param_iter->_member_strong_type_name << U(", ") <<  param_iter->_member_name;
 	}
 
 	out << U(");") << std::endl;
@@ -1242,7 +1247,7 @@ void odata_codegen_writer::generate_implement_begin_constructor_in_entity(::util
 
 void odata_codegen_writer::generate_implement_on_constructor_in_entity(::utility::ofstream_t& out, const property_info& _property_info)
 {
-	out << INDENT << U("ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(") << _property_info._class_memeber_name << U(", ") << _property_info._default_value << U(")") << std::endl;
+	out << INDENT << U("ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(") << _property_info._class_member_name << U(", ") << _property_info._default_value << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_end_constructor_in_entity(::utility::ofstream_t& out, const class_info& _class_info)
@@ -1257,7 +1262,7 @@ void odata_codegen_writer::generate_implement_begin_destructor_in_entity(::utili
 
 void odata_codegen_writer::generate_implement_on_destructor_in_entity(::utility::ofstream_t& out, const property_info& _property_info)
 {
-	out << INDENT << U("ON_PROPERTY_IN_ENTITY_DESTRUCTOR(") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_PROPERTY_IN_ENTITY_DESTRUCTOR(") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_end_destructor_in_entity(::utility::ofstream_t& out, const class_info& _class_info)
@@ -1296,7 +1301,7 @@ void odata_codegen_writer::generate_implement_on_materialize_in_entity(::utility
 		return ;
 	}
 
-	out << INDENT << U("ON_PROPERTY_IN_ENTITY_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_PROPERTY_IN_ENTITY_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 
@@ -1332,7 +1337,7 @@ void odata_codegen_writer::generate_implement_on_serialize_in_entity(::utility::
 		return ;
 	}
 
-	out << INDENT << U("ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(") << _class_info._class_name << U(", ") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_end_serialize_in_entity(::utility::ofstream_t& out, const class_info& _class_info)
@@ -1348,7 +1353,7 @@ void odata_codegen_writer::generate_declare_enum_begin(::utility::ofstream_t& ou
 
 void odata_codegen_writer::generate_declare_enum_member(::utility::ofstream_t& out, const property_info& _property_info)
 {
-	out << INDENT << _property_info._class_memeber_name << U(" = ") << _property_info._default_value << U(",") << std::endl;
+	out << INDENT << _property_info._class_member_name << U(" = ") << _property_info._default_value << U(",") << std::endl;
 }
 
 void odata_codegen_writer::generate_declare_enum_end(::utility::ofstream_t& out)
@@ -1388,7 +1393,7 @@ void odata_codegen_writer::generate_implement_enum_type_to_string_begin(::utilit
 
 void odata_codegen_writer::generate_implement_enum_type_to_string_member(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info)
 {
-	out << INDENT << U("ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(") << _property_info._class_memeber_name << U(", ") << _class_info._class_name << U("::") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(") << _property_info._class_member_name << U(", ") << _class_info._class_name << U("::") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_enum_type_to_string_end(::utility::ofstream_t& out, const class_info& _class_info)
@@ -1409,7 +1414,7 @@ void odata_codegen_writer::generate_implement_string_to_enum_type_begin(::utilit
 void odata_codegen_writer::generate_implement_string_to_enum_type_member(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info)
 {
 	
-	out << INDENT << U("ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(") << _class_info._class_name << U("::") << _property_info._class_memeber_name << U(", ") << _property_info._class_memeber_name << U(")") << std::endl;
+	out << INDENT << U("ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(") << _class_info._class_name << U("::") << _property_info._class_member_name << U(", ") << _property_info._class_member_name << U(")") << std::endl;
 }
 
 void odata_codegen_writer::generate_implement_string_to_enum_type_end(::utility::ofstream_t& out, const class_info& _class_info)

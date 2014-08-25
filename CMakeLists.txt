@@ -6,29 +6,21 @@ enable_testing()
 
 set(WARNINGS)
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
-
 # Platform (not compiler) specific settings
 if(IOS)
-  # Uncomment the following when IOS is supported
-  # set(IOS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/../Build_iOS")
-  # set(Boost_FRAMEWORK "-F ${IOS_SOURCE_DIR} -framework boost")
-  # set(Boost_INCLUDE_DIR "${IOS_SOURCE_DIR}/boost.framework/Headers")
-  # 
-  # set(OPENSSL_FOUND 1)
-  # set(OPENSSL_INCLUDE_DIR "${IOS_SOURCE_DIR}/openssl/include")
-  # set(OPENSSL_LIBRARIES
-  #   "${IOS_SOURCE_DIR}/openssl/lib/libcrypto.a"
-  #   "${IOS_SOURCE_DIR}/openssl/lib/libssl.a"
-  #   )
-  # 
+  set(IOS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/ios")
+  set(Boost_FRAMEWORK "-F ${IOS_SOURCE_DIR} -framework boost")
+  set(Boost_INCLUDE_DIR "${IOS_SOURCE_DIR}/boost.framework/Headers")
+
+  set(LIBXML2_INCLUDE_DIR "/usr/include/libxml2")
+  
   # The cxx_flags must be set here, because the ios-cmake toolchain file unfortunately sets "-headerpad_max_install_names" which is not a valid clang flag.
-  # set(CMAKE_CXX_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
-  # 
-  # set(BUILD_SHARED_LIBS OFF)
+  set(CMAKE_CXX_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
+   
+  set(BUILD_SHARED_LIBS OFF)
 elseif(UNIX) # This includes OSX
   find_package(Boost REQUIRED COMPONENTS locale filesystem system thread)
-  find_package(LibXml++ REQUIRED)
+  find_package(LibXml2 REQUIRED)
 
   option(BUILD_SHARED_LIBS "Build shared Libraries." ON)
 # elseif(WIN32)
@@ -88,7 +80,7 @@ set(ODATACPP_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(Casablanca_LIBRARIES ${ODATACPP_LIB_DIR}/casablanca/build.release/Binaries/libcpprest.dylib)
 set(Casablanca_INCLUDE_DIR ${ODATACPP_LIB_DIR}/casablanca/Release/include)
 set(ODATACPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(ODATACPP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include ${Casablanca_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${LibXML++_INCLUDE_DIRS})
+set(ODATACPP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include ${Casablanca_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${LIBXML2_INCLUDE_DIR})
 set(ODATACPP_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 # OData library targets

@@ -68,13 +68,6 @@ public:
 	}
 
     /// <summary>
-    /// Looks up an type of an entity set by name.
-    /// </summary>
-    /// <param name="name">The qualified or unqualified name of the entity set.</param>
-    /// <returns>A pointer to the type if found, an empty pointer otherwise.</returns>
-    ODATACPP_API std::shared_ptr<edm_entity_type> find_entity_set_type(::utility::string_t name) const;
-
-    /// <summary>
     /// Looks up an entity type of the schema by name.
     /// </summary>
     /// <param name="name">The qualified or unqualified name of the entity type.</param>

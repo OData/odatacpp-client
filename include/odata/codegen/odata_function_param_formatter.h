@@ -55,7 +55,7 @@ std::shared_ptr<::odata::core::odata_value> format_function_enum_parameter(const
 
 	ostr << enum_type_resolver::get_string_from_enum_type(t);
 
-	return std::make_shared<::odata::core::odata_enum_value>(std::make_shared<edm_enum_type>(U(""), U(""), U(""), false), ostr.str());
+	return std::make_shared<::odata::core::odata_enum_value>(std::make_shared<::odata::edm::edm_enum_type>(U(""), U(""), U(""), false), ostr.str());
 }
 
 template<typename T>
@@ -82,7 +82,7 @@ std::shared_ptr<::odata::core::odata_value> format_function_parameter(const std:
 template<typename T>
 std::shared_ptr<::odata::core::odata_value> format_function_parameter(const std::vector<T>& t)
 {
-	auto collection = std::make_shared<::odata::core::odata_collection_value>(std::make_shared<edm_collection_type>(U("action parameter")));
+	auto collection = std::make_shared<::odata::core::odata_collection_value>(std::make_shared<::odata::edm::edm_collection_type>(U("action parameter")));
 
 	for (auto iter = t.cbegin(); iter != t.cend(); ++iter)
 	{

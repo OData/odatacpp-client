@@ -30,7 +30,7 @@
     <ClCompile Include="$(ODataCppFunctionalTest)\client_test\odata_query_builder_test.cpp" />
     <ClCompile Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test.cpp" />
     <ClCompile Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test_service.cpp" />
-    <ClCompile Include="$(ODataCppFunctionalTest)\common_utility_test\common_utility_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\common_test\common_utility_test.cpp" />
     <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_collection_value_test.cpp" />
     <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_context_url_parser_test.cpp" />
     <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_json_reader_test.cpp" />
@@ -93,9 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_USRDLL;COMMONTESTS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Zm200</AdditionalOptions>
-      <MinimalRebuild />
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -110,9 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_USRDLL;COMMONTESTS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Zm200</AdditionalOptions>
-      <MinimalRebuild />
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <ProgramDataBaseFileName>$(IntDir)$(TargetName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -286,9 +286,9 @@ void odata_codegen_initializer::initialize_property_info_of_class(const std::sha
 			property_info property_info;
 
 			property_info._edm_name = property_type->get_name();
-			property_info._class_memeber_name = property_type->get_name();
+			property_info._class_member_name = property_type->get_name();
 			property_info._is_nullable = property_type->is_nullable();
-			std::transform(property_info._class_memeber_name.begin(), property_info._class_memeber_name.end(), property_info._class_memeber_name.begin(), ::tolower);
+			std::transform(property_info._class_member_name.begin(), property_info._class_member_name.end(), property_info._class_member_name.begin(), ::tolower);
 
 			auto find_iter = std::find(entity_type->key().begin(), entity_type->key().end(), property_info._edm_name);
 			property_info._is_key = find_iter == entity_type->key().end() ? false : true;
@@ -389,10 +389,10 @@ void odata_codegen_initializer::initialize_property_info_of_class(const std::sha
 			property_info property_info;
 
 			property_info._edm_name = property_type->get_name();
-			property_info._class_memeber_name = property_type->get_name();
+			property_info._class_member_name = property_type->get_name();
 			property_info._is_nullable = property_type->is_nullable();
 			property_info._default_value = property_type->default_value();
-			std::transform(property_info._class_memeber_name.begin(), property_info._class_memeber_name.end(), property_info._class_memeber_name.begin(), ::tolower);
+			std::transform(property_info._class_member_name.begin(), property_info._class_member_name.end(), property_info._class_member_name.begin(), ::tolower);
 
 			if (property_type->get_property_type()->get_type_kind() == edm_type_kind_t::Primitive)
 			{
@@ -485,7 +485,7 @@ void odata_codegen_initializer::initialize_property_info_of_class(const std::sha
 			property_info function_property_info;
 
 			function_property_info._edm_name = operation_type->get_name();
-			function_property_info._class_memeber_name = operation_type->get_name();
+			function_property_info._class_member_name = operation_type->get_name();
 			set_operation_info(function_property_info, operation_type, _schema_info);
 
 			class_property_map[operation_type->get_name()] = function_property_info;
@@ -502,23 +502,23 @@ void odata_codegen_initializer::initialize_property_info_of_class(const std::sha
 
 		auto enum_type = std::dynamic_pointer_cast<edm_enum_type>(enum_type_iter->second);
 		auto enum_members = enum_type->get_enum_members();
-		for (auto enum_memeber_iter = enum_members.cbegin(); enum_memeber_iter != enum_members.cend(); enum_memeber_iter++)
+		for (auto enum_member_iter = enum_members.cbegin(); enum_member_iter != enum_members.cend(); enum_member_iter++)
 		{
-			auto enum_member = *enum_memeber_iter;
+			auto enum_member = *enum_member_iter;
 		    property_info property_info;
 
 			property_info._edm_name = enum_member->get_enum_member_name();
 
 			if (enum_member_name.find(enum_member->get_enum_member_name()) == enum_member_name.end())
 			{
-				property_info._class_memeber_name = enum_member->get_enum_member_name();
+				property_info._class_member_name = enum_member->get_enum_member_name();
 			}
 			else
 			{
-				property_info._class_memeber_name = enum_type->get_name() + U("_") + enum_member->get_enum_member_name();
+				property_info._class_member_name = enum_type->get_name() + U("_") + enum_member->get_enum_member_name();
 			}
 			
-			enum_member_name[property_info._class_memeber_name] = property_info._class_memeber_name;
+			enum_member_name[property_info._class_member_name] = property_info._class_member_name;
 			property_info._default_value = ::utility::conversions::print_string(enum_member->get_enum_member_value());
 
 			class_property_map[enum_member->get_enum_member_name()] = property_info;
@@ -541,12 +541,12 @@ void odata_codegen_initializer::initialize_property_info_of_class(const std::sha
 
 			property_info._edm_name = entity_set->get_name();
 			property_info._strong_type_name = entity_set->get_entity_type()->get_name();
-			property_info._class_memeber_name = entity_set->get_name();
-			std::transform(property_info._class_memeber_name.begin(), property_info._class_memeber_name.end(), property_info._class_memeber_name.begin(), ::tolower);
-			property_info._class_memeber_name = U("create_") + property_info._class_memeber_name + U("_query()");
+			property_info._class_member_name = entity_set->get_name();
+			std::transform(property_info._class_member_name.begin(), property_info._class_member_name.end(), property_info._class_member_name.begin(), ::tolower);
+			property_info._class_member_name = U("create_") + property_info._class_member_name + U("_query()");
 			property_info._type = PROPERTY_TYPE::E_CONTAINER_ENTITY_SET;
 
-			class_property_map[property_info._class_memeber_name] = property_info;
+			class_property_map[property_info._class_member_name] = property_info;
 		}
 
 		for (auto singleton_iter = entity_container->get_singletons().cbegin(); singleton_iter != entity_container->get_singletons().cend(); singleton_iter++)
@@ -557,12 +557,12 @@ void odata_codegen_initializer::initialize_property_info_of_class(const std::sha
 
 			property_info._edm_name = singleton->get_name();
 			property_info._strong_type_name = singleton->get_entity_type()->get_name();
-			property_info._class_memeber_name = singleton->get_name();
-			std::transform(property_info._class_memeber_name.begin(), property_info._class_memeber_name.end(), property_info._class_memeber_name.begin(), ::tolower);
-			property_info._class_memeber_name = U("create_") + property_info._class_memeber_name + U("_query()");
+			property_info._class_member_name = singleton->get_name();
+			std::transform(property_info._class_member_name.begin(), property_info._class_member_name.end(), property_info._class_member_name.begin(), ::tolower);
+			property_info._class_member_name = U("create_") + property_info._class_member_name + U("_query()");
 			property_info._type = PROPERTY_TYPE::E_CONTAINER_SINGLETON;
 
-			class_property_map[property_info._class_memeber_name] = property_info;
+			class_property_map[property_info._class_member_name] = property_info;
 		}
 
 		for (auto operation_imports_iter = entity_container->get_operation_imports().cbegin(); operation_imports_iter != entity_container->get_operation_imports().cend(); operation_imports_iter++)
@@ -584,7 +584,7 @@ void odata_codegen_initializer::initialize_property_info_of_class(const std::sha
 			property_info function_property_info;
 
 			function_property_info._edm_name = operation_type->get_name(); 
-			function_property_info._class_memeber_name = operation_type->get_name();
+			function_property_info._class_member_name = operation_type->get_name();
 			set_operation_info(function_property_info, operation_type, _schema_info);
 
 			class_property_map[operation_import->get_name()] = function_property_info;
@@ -687,19 +687,19 @@ void odata_codegen_initializer::set_operation_info(property_info& _info, const s
 		param._edm_name = (*param_iter)->get_param_name();
 		if (param_type->get_type_kind() == edm_type_kind_t::Primitive)
 		{
-			param._memeber_strong_type_name = edm_model_utility::get_strong_type_name_from_edm_type_name(std::dynamic_pointer_cast<edm_primitive_type>(param_type));
+			param._member_strong_type_name = edm_model_utility::get_strong_type_name_from_edm_type_name(std::dynamic_pointer_cast<edm_primitive_type>(param_type));
 		}
 		else if (param_type->get_type_kind() == edm_type_kind_t::Complex)
 		{
-			param._memeber_strong_type_name = _schema_info.m_class_map[param_type->get_name()]._class_name;
+			param._member_strong_type_name = _schema_info.m_class_map[param_type->get_name()]._class_name;
 		}
 		else if (param_type->get_type_kind() == edm_type_kind_t::Entity)
 		{
-			param._memeber_strong_type_name = _schema_info.m_class_map[param_type->get_name()]._class_name;
+			param._member_strong_type_name = _schema_info.m_class_map[param_type->get_name()]._class_name;
 		}
 		else if (param_type->get_type_kind() == edm_type_kind_t::Enum)
 		{
-			param._memeber_strong_type_name = _schema_info.m_class_map[param_type->get_name()]._class_name;
+			param._member_strong_type_name = _schema_info.m_class_map[param_type->get_name()]._class_name;
 		}
 		else if (param_type->get_type_kind() == edm_type_kind_t::Collection)
 		{		
@@ -708,22 +708,22 @@ void odata_codegen_initializer::set_operation_info(property_info& _info, const s
 
 			if (element_type->get_type_kind() == edm_type_kind_t::Complex)
 			{
-				param._memeber_strong_type_name = _schema_info.m_class_map[element_type->get_name()]._class_name;
+				param._member_strong_type_name = _schema_info.m_class_map[element_type->get_name()]._class_name;
 			}
 			else if (element_type->get_type_kind() == edm_type_kind_t::Primitive)
 			{
-				param._memeber_strong_type_name = edm_model_utility::get_strong_type_name_from_edm_type_name(std::dynamic_pointer_cast<edm_primitive_type>(element_type));
+				param._member_strong_type_name = edm_model_utility::get_strong_type_name_from_edm_type_name(std::dynamic_pointer_cast<edm_primitive_type>(element_type));
 			}
 			else if (element_type->get_type_kind() == edm_type_kind_t::Enum)
 			{
-				param._memeber_strong_type_name = _schema_info.m_class_map[element_type->get_name()]._class_name;
+				param._member_strong_type_name = _schema_info.m_class_map[element_type->get_name()]._class_name;
 			}
 
-			param._memeber_strong_type_name = U("std::vector<") + param._memeber_strong_type_name;
-			param._memeber_strong_type_name += U(">");
+			param._member_strong_type_name = U("std::vector<") + param._member_strong_type_name;
+			param._member_strong_type_name += U(">");
 		}
 
-		param._memeber_name = (*param_iter)->get_param_name();
+		param._member_name = (*param_iter)->get_param_name();
 
 		_operation_info->vec_params.push_back(param);
 	}
@@ -810,27 +810,27 @@ void odata_codegen_initializer::set_default_value(property_info& _property_info,
 
 void odata_codegen_initializer::set_strong_type_name(property_info& _property_info)
 {
-	_property_info._class_memeber_type = _property_info._strong_type_name;
+	_property_info._class_member_type = _property_info._strong_type_name;
 
 	if (_property_info._type == PROPERTY_TYPE::E_COLLECTION_PRIMITIVE 
 		|| _property_info._type == PROPERTY_TYPE::E_COLLECTION_COMPLEX
 		|| _property_info._type == PROPERTY_TYPE::E_COLLECTION_ENTITY
 		|| _property_info._type == PROPERTY_TYPE::E_COLLECTION_ENUM)
 	{
-		_property_info._class_memeber_type = U("std::vector<") + _property_info._strong_type_name + U(">");
+		_property_info._class_member_type = U("std::vector<") + _property_info._strong_type_name + U(">");
 	}
 	else if (_property_info._type == PROPERTY_TYPE::E_ENTITY || _property_info._type == PROPERTY_TYPE::E_COMPLEX)
 	{
 		if (_property_info._is_nullable == true)
 		{
-			_property_info._class_memeber_type = U("std::shared_ptr<") + _property_info._strong_type_name + U(">");
+			_property_info._class_member_type = U("std::shared_ptr<") + _property_info._strong_type_name + U(">");
 		}
 	}
 	else if (_property_info._type == PROPERTY_TYPE::E_PRIMITIVE || _property_info._type == PROPERTY_TYPE::E_ENUM)
 	{
 		if (_property_info._is_nullable == true)
 		{
-			_property_info._class_memeber_type = _property_info._strong_type_name;
+			_property_info._class_member_type = _property_info._strong_type_name;
 		}
 	}
 }

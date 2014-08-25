@@ -11,7 +11,7 @@ set(ODATACPP_TESTS_FUNCTIONAL_SOURCES
   client_test/odata_query_builder_test.cpp
   codegen_test/codegen_test.cpp
   codegen_test/codegen_test_service.cpp
-  common_utility_test/common_utility_test.cpp
+  common_test/common_utility_test.cpp
   core_test/odata_collection_value_test.cpp
   core_test/odata_json_writer_test.cpp
   core_test/odata_context_url_parser_test.cpp

@@ -1,5 +1,5 @@
 #!/bin/bash  
-for f in $(find ../ -name '*.cpp' -or -name '*.h')
+for f in $(find ../ -name '*.cpp' -or -name '*.h' -or -name '*.m' -or -name '*.mm')
 do
   echo "Processing $f" 
   if ! grep -q Copyright $f

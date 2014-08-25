@@ -252,6 +252,16 @@ public:
 	{
 	}
 
+    edm_property_type(const ::utility::string_t& name, bool is_nullable, unsigned int max_length, bool is_unicode, unsigned int scale) : 
+        m_name(name), m_is_nullable(is_nullable), m_is_unicode(is_unicode), m_maxLength(max_length), m_scale(scale), m_precision(undefined_value)
+    {
+    }
+
+    edm_property_type(const ::utility::string_t& name, bool is_nullable, std::shared_ptr<edm_named_type> type) : 
+        m_name(name), m_is_nullable(is_nullable), m_type(type), m_is_unicode(false), m_maxLength(undefined_value), m_scale(0), m_precision(undefined_value)
+    {
+    }
+
 
     /// <summary>
     /// Gets the (unqualified) name of the property.
@@ -281,6 +291,11 @@ public:
 		m_type = type;
 	}
 
+    void set_precision(unsigned int precision)
+	{
+		m_precision = precision;
+	}
+
     /// <summary>
     /// Gets the default value of the property, as represented in the CSDL.
     /// </summary>
@@ -292,7 +307,6 @@ public:
 
 private:
     friend class edm_structured_type;
-	friend class edm_model_reader;
 
     bool m_is_nullable;
 	bool m_is_unicode;
@@ -405,7 +419,6 @@ public:
 
 protected:
     friend class edm_schema;
-	friend class edm_model_reader;
 
 	::utility::string_t m_baseTypeName;	
 	std::shared_ptr<edm_structured_type> m_base_type;
@@ -423,6 +436,11 @@ public:
     /// Constructor
     /// </summary>
 	edm_enum_member()
+	{
+	}
+
+
+    edm_enum_member(::utility::string_t name, unsigned long value) : m_name(name), m_value(value)
 	{
 	}
 	
@@ -447,7 +465,6 @@ public:
 
 private:
 	friend class edm_enum_type;
-	friend class edm_model_reader;
 
 	::utility::string_t m_name;
 	unsigned long m_value;
@@ -586,6 +603,12 @@ public:
 		
 	}
 
+    edm_operation_parameter(::utility::string_t param_name, std::shared_ptr<edm_named_type> param_type) :
+        m_param_name(param_name), m_param_type(param_type)
+	{
+		
+	}
+
 	const std::shared_ptr<edm_named_type>& get_param_type() const
 	{
 		return m_param_type;
@@ -603,7 +626,6 @@ public:
 
 private:
 	friend class edm_operation_type;
-	friend class edm_model_reader;
 
 	::utility::string_t m_param_name;
 	std::shared_ptr<edm_named_type> m_param_type;

@@ -30,8 +30,25 @@ namespace tests { namespace e2e { namespace odata {
 
 using namespace exchange_service;
 
+class exchange_test_case
+{
+public:
+	std::shared_ptr<EntityContainer> service_context;
+
+    exchange_test_case() {
+		service_context = std::make_shared<EntityContainer>(U("http://odatae2etest.azurewebsites.net/cpptemp/DefaultService/"));
+	}
+};
+
 SUITE(exchange_tests)
 {
+
+TEST_FIXTURE(exchange_test_case, query_users)
+{
+	//auto users = service_context->create_users_query()->execute_query().get();
+
+	//VERIFY_IS_TRUE(users.size() > 0);
+}
 
 
 }

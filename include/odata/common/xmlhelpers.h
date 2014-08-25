@@ -47,8 +47,8 @@
 #include <atlbase.h>
 #include <xmllite.h>
 #else
-#include <libxml++/parsers/textreader.h>
-#include <libxml++/document.h>
+#include <libxml/xmlreader.h>
+#include <libxml/xmlwriter.h>
 #include <stack>
 #endif 
 
@@ -62,7 +62,7 @@
 namespace odata { namespace edm {
 
 /// <summary>
-/// XML reader based on xmlllite
+/// XML reader based on xmlllite in Windows and libxml2 in other platform.
 /// </summary>
 class xml_reader
 {
@@ -176,7 +176,7 @@ protected:
 #ifdef WIN32
     CComPtr<IXmlReader> m_reader;
 #else
-    std::shared_ptr<xmlpp::TextReader> m_reader;
+    xmlTextReaderPtr m_reader;
     std::string m_data;
 #endif 
 
@@ -186,7 +186,7 @@ protected:
 };
 
 /// <summary>
-/// XML writer based on xmlllite
+/// XML writer based on xmlllite in Windows and libxml2 in non-Windows
 /// </summary>
 class xml_writer
 {
@@ -278,8 +278,8 @@ private:
 #ifdef WIN32
     CComPtr<IXmlWriter> m_writer;
 #else // LINUX
-    std::shared_ptr<xmlpp::Document> m_document;
-    std::stack<xmlpp::Element*> m_elementStack;
+    xmlTextWriterPtr m_writer;
+    xmlDocPtr m_doc;
     std::ostream * m_stream;
 #endif
 };

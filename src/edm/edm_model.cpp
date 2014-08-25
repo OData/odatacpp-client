@@ -114,19 +114,4 @@ std::shared_ptr<edm_entity_container> edm_model::find_container(::utility::strin
 
     return nullptr;
 }
-
-std::shared_ptr<edm_entity_type> edm_model::find_entity_set_type(::utility::string_t name) const
-{
-	auto container = find_container();
-
-	if (container)
-	{
-		auto edm_entity_set = container->find_entity_set(name);
-
-		return find_entity_type(edm_entity_set->get_entity_type_name());
-	}
-
-	return nullptr;
-}
-
 }}

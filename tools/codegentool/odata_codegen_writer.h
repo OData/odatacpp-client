@@ -36,6 +36,7 @@ public:
 
 private:
 	void generate_declare_include_files(::utility::ofstream_t& out);
+    void generate_declare_include_files_end(::utility::ofstream_t& out);
 	void generate_implement_include_files(::utility::ofstream_t& out);
 	void generate_declare_namespace_begin(::utility::ofstream_t& out, const ::utility::string_t& _namespace);
 	void generate_implement_namespace_begin(::utility::ofstream_t& out, const ::utility::string_t& _namespace);

@@ -38,16 +38,10 @@ static std::shared_ptr<odata_json_writer_minimal> get_json_writer()
 typedef std::unordered_map<::utility::string_t, ::utility::string_t> map_type;
 const map_type::value_type init_test_values[] = 
 {
-#ifdef __APPLE__
-	map_type::value_type(U("single_entity"), U("{\"AccountInfo\":{\"LastName\":\"Hu\",\"FirstName\":\"Leo\"},\"Country\":\"China\",\"AccountID\":100}")),
-#else
 	map_type::value_type(U("single_entity"), U("{\"AccountID\":100,\"AccountInfo\":{\"FirstName\":\"Leo\",\"LastName\":\"Hu\"},\"Country\":\"China\"}")),
-#endif
-#ifdef __APPLE__
-    map_type::value_type(U("collection_of_entity"), U("[{\"Country\":\"China\",\"AccountID\":100},{\"Country\":\"USA\",\"AccountID\":200},{\"Country\":\"JP\",\"AccountID\":300}]")),
-#else
+
 	map_type::value_type(U("collection_of_entity"), U("[{\"AccountID\":100,\"Country\":\"China\"},{\"AccountID\":200,\"Country\":\"USA\"},{\"AccountID\":300,\"Country\":\"JP\"}]")),
-#endif
+    
 #ifdef __APPLE__
 	map_type::value_type(U("escaped_data_in_entity"), U("\"Country\":\"%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD\",\"AccountID\":100}")),
 #else

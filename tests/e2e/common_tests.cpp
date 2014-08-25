@@ -150,7 +150,7 @@ TEST_FIXTURE(e2e_raw_client, create_entity)
 	auto model = client.get_model().get();
 
 	::utility::string_t entity_set_name = U("Accounts");
-	std::shared_ptr<odata_entity_value> entity = std::make_shared<odata_entity_value>(model->find_entity_set_type(entity_set_name));
+	std::shared_ptr<odata_entity_value> entity = std::make_shared<odata_entity_value>(model->find_container()->find_entity_set(entity_set_name)->get_entity_type());
 
 	entity->set_value(U("AccountID"), 130);
 	entity->set_value(U("Country"), U("CN"));

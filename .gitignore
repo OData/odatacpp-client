@@ -15,9 +15,12 @@ msvc/Release
 CMakeCache.txt
 Testing/
 CMakeFiles/
+*CMakeScripts/
 *.cmake
 !cmake/modules/*.cmake
 Makefile
+*odatacpp.build/
+odatacpp.xcodeproj/
 
 # Casablanca
 casablanca/
@@ -32,7 +35,6 @@ casablanca/
 *.meta
 *.dylib
 *.obj
-*.pch
 *.pdb
 *.pgc
 *.pgd
@@ -169,3 +171,8 @@ test_runner
 
 # Visual studio
 *.i
+
+# iOS build files
+ios/*
+~ios/CMakeLists.txt
+~ios/configure.sh

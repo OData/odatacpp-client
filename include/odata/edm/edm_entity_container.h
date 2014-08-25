@@ -72,6 +72,7 @@ public:
 		if (et)
 		{
 		    m_entity_sets[et->get_name()] = et;
+            m_entity_set_vector.push_back(et);
 		}
     }
 
@@ -83,6 +84,7 @@ public:
 		if (sg)
 		{
 			m_singletons[sg->get_name()] = sg;
+            m_singleton_vector.push_back(sg);
 		}
 	}
 
@@ -92,12 +94,26 @@ public:
 	const std::unordered_map<::utility::string_t, std::shared_ptr<edm_operation_import>>& get_operation_imports() const
 	{
 		return m_operation_imports;
-
 	}
 
 	const std::unordered_map<::utility::string_t, std::shared_ptr<edm_singleton>>& get_singletons() const
 	{
 		return m_singletons;
+	}
+
+    const std::vector<std::shared_ptr<edm_operation_import>>& get_operation_import_vector() const
+	{
+		return m_operation_import_vector;
+	}
+
+	const std::vector<std::shared_ptr<edm_singleton>>& get_singleton_vector() const
+	{
+		return m_singleton_vector;
+	}
+
+    const std::vector<std::shared_ptr<edm_entity_set>>& get_entity_set_vector() const
+	{
+		return m_entity_set_vector;
 	}
 
     /// <summary>
@@ -108,6 +124,7 @@ public:
 		if (op)
 		{
 		    m_operation_imports[op->get_name()] = op;
+            m_operation_import_vector.push_back(op);
 		}
 	}
 
@@ -157,6 +174,9 @@ private:
 	std::unordered_map<::utility::string_t, std::shared_ptr<edm_entity_set>> m_entity_sets;
 	std::unordered_map<::utility::string_t, std::shared_ptr<edm_singleton>> m_singletons;
 	std::unordered_map<::utility::string_t, std::shared_ptr<edm_operation_import>> m_operation_imports;
+    std::vector<std::shared_ptr<edm_entity_set>> m_entity_set_vector;
+	std::vector<std::shared_ptr<edm_singleton>> m_singleton_vector;
+	std::vector<std::shared_ptr<edm_operation_import>> m_operation_import_vector;
 
 };
 

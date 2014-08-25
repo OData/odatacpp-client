@@ -259,21 +259,21 @@ TEST(print_double_minus_zero_input_2)
 TEST(print_double_valid_input)
 {
 	double zero = 212.1234;
-	::utility::string_t ret = print_double(zero);
+	::utility::string_t ret = print_double(zero, 4);
 	VERIFY_ARE_EQUAL(ret, U("212.1234"));
 }
 
 TEST(print_double_right_exceed_precision_input)
 {
 	double zero = 123123123.1111222323;
-	::utility::string_t ret = print_double(zero);
+	::utility::string_t ret = print_double(zero, 8);
 	VERIFY_ARE_EQUAL(ret, U("123123123.11112224"));
 }
 
 TEST(print_double_set_right_precision_input)
 {
 	double zero = -4212.1111222323;
-	::utility::string_t ret = print_double(zero);
+	::utility::string_t ret = print_double(zero, 13);
 	VERIFY_ARE_EQUAL(ret, U("-4212.1111222322997"));
 }
 
@@ -294,21 +294,29 @@ TEST(print_double_minux_precision_input)
 TEST(print_double_large_double_input)
 {
 	double zero = -12123123123213124212.11;
-	::utility::string_t ret = print_double(zero);
+	::utility::string_t ret = print_double(zero, 1);
+#ifdef WIN32
 	VERIFY_ARE_EQUAL(ret, U("-12123123123213124000.0"));
+#else
+    VERIFY_ARE_EQUAL(ret, U("-12123123123213123584.0"));
+#endif
 }
 
 TEST(print_double_large_double_input_2)
 {
 	double zero = 1234567891234567.7674567611117999;
-	::utility::string_t ret = print_double(zero);
+	::utility::string_t ret = print_double(zero, 1);
+#ifdef WIN32
 	VERIFY_ARE_EQUAL(ret, U("1234567891234567.7"));
+#else
+    VERIFY_ARE_EQUAL(ret, U("1234567891234567.8"));
+#endif
 }
 
 TEST(print_double_large_double_input_3)
 {
 	double zero = -12345.7674567611117999;
-	::utility::string_t ret = print_double(zero);
+	::utility::string_t ret = print_double(zero, 12);
 	VERIFY_ARE_EQUAL(ret, U("-12345.767456761112"));
 }
 

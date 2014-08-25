@@ -32,7 +32,7 @@ std::shared_ptr<edm_named_type> odata_contex_url_parser::get_payload_content_typ
 	::utility::string_t path = context_url;
 	::utility::string_t root = m_service_root_url + U("/$metadata#");
 
-	path = context_url.substr(root.length(), path.length() - root.length());
+	path = context_url.substr(context_url.find(U("$metadata#")) + 10);
 
 	std::list<::utility::string_t> paths;
 	::odata::utility::split_string(path, U("/"), paths);

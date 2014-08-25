@@ -53,8 +53,7 @@ public:
 		service_context = std::make_shared<InMemoryEntities>(U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService"));
 
 		//Reset data source first.
-		service_context->get_client()->send_data_to_server(U("ResetDataSource")).get(); //TODO: [tiano] use API instead of odata_client
+		service_context->ResetDataSource().get();
 	}
 };
-
 }}}
