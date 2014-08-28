@@ -87,13 +87,14 @@ Currently the following target platforms are supported:
 
     brew install cmake git boost pkg-config
 
-4.Clone (do not change the location below) and build the dependency library Casablanca (http://casablanca.codeplex.com).
+4.Clone (do not change the location below) and build the dependency library Casablanca v2.1.0 (http://casablanca.codeplex.com).
 
     cd odatacpp
     mkdir lib
     cd lib
     git clone https://git01.codeplex.com/casablanca
     cd casablanca
+    git checkout v2.1.0
     mkdir build.release
     cd build.release
     cmake ../Release -DCMAKE_BUILD_TYPE=Release
@@ -120,7 +121,7 @@ Please ignore the failed tests as they are already known to us and will be fixed
 
 ### Building for iOS
 
-Complete on Building on OS X. Return to the root folder of odatacpp
+Complete on Building on OS X. Return to the root folder of odatacpp, run following commands.
 
     cd lib/casablanca/Build_iOS
     ./configure.sh

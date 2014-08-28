@@ -174,5 +174,5 @@ test_runner
 
 # iOS build files
 ios/*
-~ios/CMakeLists.txt
-~ios/configure.sh
+!ios/CMakeLists.txt
+!ios/configure.sh
