@@ -23,9 +23,9 @@ Currently the following target platforms are supported:
   Please restore this NuGet package before you open any solution:
 
     cd odatacpp\msvc
-    .nuget\nuget.exe restore odatacpp_tests.sln
+    .nuget\nuget.exe restore odatacpp.sln
 
-3.Open 'odatacpp_tests.sln' under 'odatacpp\msvc' with VS2012 and click 'Build Solution' in the 'BUILD' menu.
+3.Open 'odatacpp.sln' under 'odatacpp\msvc' with VS2012 and click 'Build Solution' in the 'BUILD' menu.
 
 4.Built libraries are placed under 'odatacpp\output\\\<Configuration\>' where '\<Configuration\>' could be either 'Debug' or 'Release' according to your build configuration in VS2012.
 
