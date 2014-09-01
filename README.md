@@ -135,8 +135,8 @@ The libraries (libodata-client.a and libodata-library.a) will be built in /ios/b
 Please refer to our [wiki](https://github.com/OData/odatacpp/wiki) for documentation.
 
 # Community
-## Issue tracker
-To report bugs and require features, please use our [issue tracker](https://github.com/OData/odatacpp/issues?state=open).
+## Contribution
+Please refer to the [CONTRIBUTION.md](https://github.com/OData/odatacpp/blob/master/CONTRIBUTING.md).
 
 ## Team blog
 Please visit http://blogs.msdn.com/b/odatateam/.
