@@ -1,5 +1,5 @@
 #How to contribute?
-There are many ways for you to contribute to ODataCpp. The easiest way is to participate in discussion of features and issues. You can also contribute by sending pull requests of features or bug fixes to us. Contribution to the documentations at our [Wiki](https://github.com/aspnet/Home/wiki) is also highly welcomed. 
+There are many ways for you to contribute to ODataCpp. The easiest way is to participate in discussion of features and issues. You can also contribute by sending pull requests of features or bug fixes to us. Contribution to the documentations at our [Wiki](https://github.com/OData/odatacpp/wiki) is also highly welcomed. 
 ##Discussion
 You can participate into discussions and ask questions about ODataCpp at our [Github issues](https://github.com/OData/odatacpp/issues). 
 ###Bug reports
