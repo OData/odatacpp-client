@@ -14,8 +14,8 @@
  * limitations under the License.
  */
  
- #include "codegen_test_service.h"
-#include "odata/core/odata_json_writer_minimal.h"
+#include "codegen_test_service.h"
+#include "odata/core/odata_json_writer.h"
 
 namespace tests { namespace functional { namespace _odata { 
 
@@ -43,7 +43,7 @@ IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber, CardNum
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv, CVV, ::utility::string_t);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, accountid, AccountID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, country, Country, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion, CountryRegion, ::utility::string_t);
 IMPLEMENT_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo, AccountInfo, AccountInfo);
 IMPLEMENT_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Account, vipinfo, VIPAccountInfo, VipAccountInfo);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, giftcard, MyGiftCard, GiftCard);
@@ -199,7 +199,7 @@ IMPLEMENT_EDM_INFO(GiftCard, Microsoft.Test.OData.Services.ODataWCFService, Gift
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(Account)
     ON_PROPERTY_IN_ENTITY_MAPPING(Account, accountid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Account, country)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion)
 	ON_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo)
 	ON_PROPERTY_IN_ENTITY_MAPPING(Account, giftcard)
 	ON_PROPERTY_IN_ENTITY_MAPPING(Account, mypaymentinstruments)
@@ -215,7 +215,7 @@ END_ENTITY_CONSTRUCTOR(Account, type_base)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, accountid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, country)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion)
 	ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo)
 	ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, vipinfo)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account)

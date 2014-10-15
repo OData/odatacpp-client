@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/edm/odata_edm.h"
 #include "odata/common/xmlhelpers.h"
@@ -23,7 +23,7 @@
 namespace odata { namespace edm
 {
 
-class edm_model_reader : public ::odata::edm::xml_reader
+class edm_model_reader : public ::odata::common::xml_reader
 {
 public:
     edm_model_reader(concurrency::streams::istream stream) : 
@@ -32,24 +32,17 @@ public:
     {
     }
 
-	/*edm_model_reader(const char* content, unsigned int size) :
-		xml_reader(content, size), m_parsing_key(false), m_model(std::make_shared<edm_model>()), 
-		m_current_st(nullptr), m_current_enum(nullptr), m_current_operation(nullptr)
-	{
-
-	}*/
-
     std::shared_ptr<edm_model> get_model()
     {
         return m_model;
     }
 
-	ODATACPP_API bool parse();
+	ODATACPP_CLIENT_API bool parse();
 
 protected:
-    ODATACPP_API virtual void handle_begin_element(const ::utility::string_t& elementName);
-    ODATACPP_API virtual void handle_end_element(const ::utility::string_t& elementName);
-    ODATACPP_API virtual void handle_element(const ::utility::string_t& elementName);
+    ODATACPP_CLIENT_API virtual void handle_begin_element(const ::utility::string_t& elementName);
+    ODATACPP_CLIENT_API virtual void handle_end_element(const ::utility::string_t& elementName);
+    ODATACPP_CLIENT_API virtual void handle_element(const ::utility::string_t& elementName);
 
 
 private:

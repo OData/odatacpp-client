@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/edm/odata_edm.h"
 
@@ -24,17 +24,17 @@ namespace odata { namespace edm
 class edm_model_utility
 {
 public:
-	ODATACPP_API static std::shared_ptr<edm_named_type> get_edm_type_from_name(const ::utility::string_t& type_name);
-	ODATACPP_API static ::utility::string_t get_strong_type_name_from_edm_type_name(const std::shared_ptr<edm_primitive_type>& primitive_type);
-	ODATACPP_API static ::utility::string_t get_strong_type_default_value_from_edm_type_name(const std::shared_ptr<edm_primitive_type>& primitive_type);
-	ODATACPP_API static std::shared_ptr<edm_named_type> get_edm_primitive_type_from_name(const ::utility::string_t& type_name);
-    ODATACPP_API static ::utility::string_t get_type_kind_name_from_edm_type(const std::shared_ptr<edm_named_type>& ptype);
-    ODATACPP_API static bool get_primitive_kind_from_edm_type(const std::shared_ptr<edm_named_type>& edm_type, edm_primitive_type_kind_t& primitive_kind);
-	ODATACPP_API static void resolve_edm_types_after_parsing(const std::shared_ptr<edm_model>& model);
-	ODATACPP_API static std::shared_ptr<::odata::edm::edm_named_type> get_property_type_from_name(const std::shared_ptr<::odata::edm::edm_entity_type>& entity_type, const ::utility::string_t& property_name);
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_named_type> get_edm_type_from_name(const ::utility::string_t& type_name);
+	ODATACPP_CLIENT_API static ::utility::string_t get_strong_type_name_from_edm_type_name(const std::shared_ptr<edm_primitive_type>& primitive_type);
+	ODATACPP_CLIENT_API static ::utility::string_t get_strong_type_default_value_from_edm_type_name(const std::shared_ptr<edm_primitive_type>& primitive_type);
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_named_type> get_edm_primitive_type_from_name(const ::utility::string_t& type_name);
+    ODATACPP_CLIENT_API static ::utility::string_t get_type_kind_name_from_edm_type(const std::shared_ptr<edm_named_type>& ptype);
+    ODATACPP_CLIENT_API static bool get_primitive_kind_from_edm_type(const std::shared_ptr<edm_named_type>& edm_type, edm_primitive_type_kind_t& primitive_kind);
+	ODATACPP_CLIENT_API static void resolve_edm_types_after_parsing(const std::shared_ptr<edm_model>& model);
+	ODATACPP_CLIENT_API static std::shared_ptr<::odata::edm::edm_named_type> get_property_type_from_name(const std::shared_ptr<::odata::edm::edm_entity_type>& entity_type, const ::utility::string_t& property_name);
 
-	ODATACPP_API static std::shared_ptr<edm_named_type> get_collection_element_type(const std::shared_ptr<edm_named_type>& input_type);
-	ODATACPP_API static std::shared_ptr<edm_named_type> get_navigation_element_type(const std::shared_ptr<edm_named_type>& input_type);
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_named_type> get_collection_element_type(const std::shared_ptr<edm_named_type>& input_type);
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_named_type> get_navigation_element_type(const std::shared_ptr<edm_named_type>& input_type);
 
 private:
 	static std::shared_ptr<edm_named_type> resolve_type_from_name(const std::shared_ptr<edm_model>& model, ::utility::string_t qualified_name);

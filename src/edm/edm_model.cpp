@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/edm/odata_edm.h"
+#include "odata/edm/odata_edm.h"
 
 namespace odata { namespace edm
 {

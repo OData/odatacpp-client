@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/core/odata_entity_value.h"
+#include "odata/core/odata_entity_value.h"
 #include "odata/edm/edm_model_utility.h"
 
 using namespace ::odata::edm;
@@ -53,11 +53,11 @@ namespace odata { namespace core
 					{				   
 						if (key_property_names.size() == 1)
 						{
-							key += primitive_property_value->to_string(); 
+                            key += to_key(primitive_property_value);
 						}
 						else
 						{
-							key += key_property_names[i] + U("=") + primitive_property_value->to_string();
+                            key += key_property_names[i] + U("=") + to_key(primitive_property_value);
 						}
 					}
 				}
@@ -72,6 +72,18 @@ namespace odata { namespace core
 	}
 
 	return key;
+}
+
+::utility::string_t odata_entity_value::to_key(std::shared_ptr<odata_primitive_value> value)
+{
+    if (value->get_primitive_type()->get_primitive_kind() == edm_primitive_type_kind_t::String)
+    {
+        return U("'") + value->to_string() + U("'"); 
+    }
+    else
+    {
+        return value->to_string(); 
+    }
 }
 
 }}

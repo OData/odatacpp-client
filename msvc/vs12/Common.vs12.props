@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Global Directory Tree Settings -->
+  <PropertyGroup>
+    <ODataCppBase>$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.root))</ODataCppBase>
+	<ODataCppPackage>$(ODataCppBase)\msvc\vs12\packages</ODataCppPackage>
+	<ODataCppOut>$(ODataCppBase)\output</ODataCppOut>
+	<ODataCppInc>$(ODataCppBase)\include</ODataCppInc>
+	<ODataCppSrc>$(ODataCppBase)\src</ODataCppSrc>
+	<ODataCppLib>$(ODataCppBase)\lib</ODataCppLib>
+	<ODataCppTool>$(ODataCppBase)\tools</ODataCppTool>
+	<ODataCppTest>$(ODataCppBase)\tests</ODataCppTest>
+	<ODataCppFunctionalTest>$(ODataCppTest)\functional</ODataCppFunctionalTest>
+	<ODataCppE2eTest>$(ODataCppTest)\e2e</ODataCppE2eTest>
+	<ODataCppServiceTest>$(ODataCppTest)\service</ODataCppServiceTest>
+	<ODataCppSample>$(ODataCppBase)\samples</ODataCppSample>
+  </PropertyGroup>
+  
+  <!-- Casablanca Settings -->
+  <PropertyGroup>
+	<CasablancaVersion>2.1.0</CasablancaVersion>
+	<CasablancaBase>$(ODataCppPackage)\cpprestsdk.$(CasablancaVersion)\build\native</CasablancaBase>
+	<CasablancaProps>$(CasablancaBase)\cpprestsdk.props</CasablancaProps>
+	<CasablancaTargets>$(CasablancaBase)\cpprestsdk.targets</CasablancaTargets>
+	<NuGet-NativeExtensionPath>$(CasablancaBase)\private</NuGet-NativeExtensionPath>
+  </PropertyGroup>
+  
+  <!-- Test Framework Settings -->
+  <PropertyGroup>
+	<TestFrameworkBase>$(ODataCppTest)\framework</TestFrameworkBase>
+	<UnitTestppBase>$(TestFrameworkBase)\UnitTestpp</UnitTestppBase>
+	<UnitTestppSrc>$(UnitTestppBase)\src</UnitTestppSrc>
+	<TestRunnerBase>$(TestFrameworkBase)\TestRunner</TestRunnerBase>
+	<UtilitiesBase>$(TestFrameworkBase)\utilities</UtilitiesBase>
+	<UtilitiesInc>$(UtilitiesBase)\include</UtilitiesInc>
+  </PropertyGroup>
+</Project>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/edm/edm_model_utility.h"
+#include "odata/edm/edm_model_utility.h"
 
 namespace odata { namespace edm
 {
@@ -559,7 +559,7 @@ std::shared_ptr<edm_navigation_type> edm_model_utility::get_navigation_property_
 
 	std::list<::utility::string_t> paths;
 	::utility::string_t path = navigation_path;
-	::odata::utility::split_string(path, U("/"), paths);
+	::odata::common::split_string(path, U("/"), paths);
 
 	if (paths.size() == 1)
 	{

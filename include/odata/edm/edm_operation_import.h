@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 #include "odata/edm/edm_type.h"
@@ -40,7 +40,7 @@ class edm_operation_import
 {
 public:
 	edm_operation_import(::utility::string_t name, ::utility::string_t operation_name, ::utility::string_t entity_set_path, bool is_in_service_document, OperationImportKind operation_import_kind) :
-		m_name(name), m_operation_name(operation_name), m_entity_set_path(entity_set_path), m_is_in_service_document(is_in_service_document), m_operation_import_kind(operation_import_kind)
+		m_name(std::move(name)), m_operation_name(std::move(operation_name)), m_entity_set_path(std::move(entity_set_path)), m_is_in_service_document(is_in_service_document), m_operation_import_kind(operation_import_kind)
 	{
 		m_operation_type = nullptr;
 	}

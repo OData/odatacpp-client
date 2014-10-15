@@ -252,7 +252,7 @@ const char* test_model_string =
 	    <PropertyRef Name=\"AccountID\"/> \
 	  </Key> \
 	  <Property Name=\"AccountID\" Type=\"Edm.Int32\" Nullable=\"false\"/> \
-	  <Property Name=\"Country\" Type=\"Edm.String\" Nullable=\"false\"/> \
+	  <Property Name=\"CountryRegion\" Type=\"Edm.String\" Nullable=\"false\"/> \
 	  <Property Name=\"AccountInfo\" Type=\"Microsoft.Test.OData.Services.ODataWCFService.AccountInfo\"/> \
 	  <Property Name=\"VIPAccountInfo\" Type=\"Microsoft.Test.OData.Services.ODataWCFService.VIPAccountInfo\"/> \
 	  <NavigationProperty Name=\"MyGiftCard\" Type=\"Microsoft.Test.OData.Services.ODataWCFService.GiftCard\" ContainsTarget=\"true\"/> \

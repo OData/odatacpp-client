@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "exchange_service.h"
+#include "exchange_service.h"
 
 namespace tests { namespace e2e { namespace odata { namespace exchange_service {
 #include "odata/codegen/odata_function_param_formatter.h"

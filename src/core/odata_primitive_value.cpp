@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/core/odata_core.h"
+#include "odata/core/odata_core.h"
 #include "odata/edm/edm_model_utility.h"
 #include "cpprest/http_msg.h"
 #include "cpprest/http_helpers.h"

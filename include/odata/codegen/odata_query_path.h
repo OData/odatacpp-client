@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 #include "odata/codegen/odata_query_option.h"
@@ -25,8 +25,8 @@ namespace odata { namespace codegen {
 class odata_query_path
 {
 private:
-    odata_query_path(const ::utility::string_t& path, bool is_root = false) 
-		: m_resource_path(path), m_is_root(is_root), l_child_item(nullptr), l_sibling_item(nullptr)
+    odata_query_path(::utility::string_t path, bool is_root = false) 
+		: m_resource_path(std::move(path)), m_is_root(is_root), l_child_item(nullptr), l_sibling_item(nullptr)
 	{
 	}
 
@@ -71,7 +71,7 @@ public:
 	{
 		::utility::string_t query_clause = U("$top=");
 		::utility::string_t string_count;
-		::odata::utility::to_string(count, string_count);
+		::odata::common::to_string(count, string_count);
 		query_clause += string_count;
 
 		m_query_options.push_back(odata_query_option(ODATA_QUERY_OPTION_TYPE::TOP_QUERY, query_clause));
@@ -83,7 +83,7 @@ public:
 	{
 		::utility::string_t query_clause = U("$skip=");
 		::utility::string_t string_count;
-		::odata::utility::to_string(count, string_count);
+		::odata::common::to_string(count, string_count);
 		query_clause += string_count;
 
 		m_query_options.push_back(odata_query_option(ODATA_QUERY_OPTION_TYPE::SKIP_QUERY, query_clause));

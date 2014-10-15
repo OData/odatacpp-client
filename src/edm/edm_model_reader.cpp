@@ -14,14 +14,14 @@
  * limitations under the License.
  */
  
- #include "odata/edm/edm_model_reader.h"
+#include "odata/edm/edm_model_reader.h"
 #include "odata/edm/edm_model_utility.h"
 
 namespace odata { namespace edm
 {
 bool edm_model_reader::parse()
 {
-	bool ret = ::odata::edm::xml_reader::parse();
+	bool ret = ::odata::common::xml_reader::parse();
 
 	edm_model_utility::resolve_edm_types_after_parsing(m_model);
 

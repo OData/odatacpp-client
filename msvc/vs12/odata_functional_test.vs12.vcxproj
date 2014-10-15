@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(CasablancaProps)" Condition="Exists('$(CasablancaProps)')" />
+  <Import Project="Common.vs12.props" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="odata_client.vs12.vcxproj">
+      <Project>{19ef328c-a68d-4036-8717-3b1b6d1e261e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="odata_codegen_tool.vs12.vcxproj">
+      <Project>{bbce5ad4-dbb6-49b2-9b53-e0d7b5cd0571}</Project>
+    </ProjectReference>
+    <ProjectReference Include="UnitTestpp.vs12.vcxproj">
+      <Project>{3eb86c0d-432c-4ffc-bad4-8df4efc7d0ff}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(ODataCppFunctionalTest)\client_test\odata_query_builder_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test_service.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\common_test\common_utility_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_collection_value_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_context_url_parser_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_json_reader_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_json_writer_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_value_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\edm_test\edm_model_reader_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\edm_test\edm_model_utility_test.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\odata_tests.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\codegen_tool_test\codegen_basic_test.cpp" />
+    <ClCompile Include="..\..\tests\functional\core_test\odata_entity_value_test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test_service.h" />
+    <ClInclude Include="$(ODataCppFunctionalTest)\odata_tests.h" />
+    <ClInclude Include="$(ODataCppFunctionalTest)\codegen_tool_test\codegen_tool_test_case.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <BaselineFiles Include="$(ODataCppFunctionalTest)\codegen_tool_test\baseline\*.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(ODataCppFunctionalTest)\codegen_tool_test\baseline\SimpleModel.xml" />
+    <Xml Include="$(ODataCppFunctionalTest)\codegen_tool_test\baseline\DefaultServiceModel.xml" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2D803F68-D527-44A4-AD67-49D2A1E2FCDC}</ProjectGuid>
+    <RootNamespace>odatacpp_full</RootNamespace>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <ProjectName>odata_functional_test.vs12</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(UtilitiesInc);$(UnitTestppBase);$(ODataCppInc);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ODataCppLib);$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName)d</TargetName>
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(UtilitiesInc);$(UnitTestppBase);$(ODataCppInc);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ODataCppLib);$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName)d</TargetName>
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(UtilitiesInc);$(UnitTestppBase);$(ODataCppInc);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ODataCppLib);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(UtilitiesInc);$(UnitTestppBase);$(ODataCppInc);$(IncludePath)</IncludePath>
+    <LibraryPath>$(ODataCppLib);$(LibraryPath)</LibraryPath>
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_USRDLL;COMMONTESTS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Zm200</AdditionalOptions>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_USRDLL;COMMONTESTS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Zm200</AdditionalOptions>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_USRDLL;COMMONTESTS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Zm200</AdditionalOptions>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_USRDLL;COMMONTESTS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Zm200</AdditionalOptions>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+    <Import Project="$(CasablancaBase)\cpprestsdk.targets" Condition="Exists('$(CasablancaBase)\cpprestsdk.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('$(CasablancaProps)')" Text="$([System.String]::Format('$(ErrorText)', '$(CasablancaProps)'))" />
+    <Error Condition="!Exists('$(CasablancaTargets)')" Text="$([System.String]::Format('$(ErrorText)', '$(CasablancaTargets)'))" />
+  </Target>
+  <Target Name="CopyBaselineFiles" AfterTargets="Build">
+    <Copy SourceFiles="@(BaselineFiles)" DestinationFolder="$(OutDir)\baseline\" />
+  </Target>
+</Project>

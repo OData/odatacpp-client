@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 #include "odata/edm/edm_type.h"
@@ -35,11 +35,11 @@ public:
     /// </summary>
     /// <param name="name">The name of the entity set.</param>
     edm_singleton(::utility::string_t name, ::utility::string_t type) 
-		: m_type_name(type), edm_navigation_source(name, container_resource_type::E_RESOURCE_SINGLETON)
+		: m_type_name(std::move(type)), edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_SINGLETON)
     {}
 
 	edm_singleton(::utility::string_t name, std::shared_ptr<edm_entity_type> type) 
-		: m_entity_type(type), edm_navigation_source(name, container_resource_type::E_RESOURCE_SINGLETON)
+		: m_entity_type(std::move(type)), edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_SINGLETON)
     {}
 
     /// <summary>

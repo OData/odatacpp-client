@@ -1,27 +1,18 @@
-/***
-* ==++==
-*
-* Copyright (c) Microsoft Corporation. All rights reserved. 
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* http://www.apache.org/licenses/LICENSE-2.0
-* 
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* ==--==
-* =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-*
-* function_action_tests.cpp
-*
-*
-*
-* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-****/
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "e2e_tests.h"
 
@@ -124,7 +115,7 @@ TEST_FIXTURE(e2e_raw_client, action_of_complex_value)
 	auto home_address_value = std::dynamic_pointer_cast<odata_complex_value>(client.get_data_from_server(home_address).get()[0]);
 	std::shared_ptr<odata_value> property_value;
 	home_address_value->get_property_value(U("City"), property_value);
-	VERIFY_ARE_EQUAL(U("London"), std::dynamic_pointer_cast<odata_primitive_value>(property_value)->as<::utility::string_t>());
+	VERIFY_ARE_EQUAL(U("Tokyo"), std::dynamic_pointer_cast<odata_primitive_value>(property_value)->as<::utility::string_t>());
 
 	auto model = client.get_model().get();
 	auto address_type = model->find_complex_type(U("Address"));
@@ -211,7 +202,7 @@ TEST_FIXTURE(e2e_test_case, function_no_param_return_complex)
 	VERIFY_ARE_EQUAL(home_address_obj.size(), 1);
 
 	VERIFY_ARE_EQUAL(*(home_address_obj[0]->get_familyname()), U("Cats"));
-	VERIFY_ARE_EQUAL(home_address_obj[0]->get_city(), U("London"));
+	VERIFY_ARE_EQUAL(home_address_obj[0]->get_city(), U("Tokyo"));
 	VERIFY_ARE_EQUAL(home_address_obj[0]->get_postalcode(), U("98052"));
 	VERIFY_ARE_EQUAL(home_address_obj[0]->get_street(), U("1 Microsoft Way"));
 }
@@ -253,7 +244,7 @@ TEST_FIXTURE(e2e_test_case, action_function_import_two_param_return_collection_p
 
 TEST_FIXTURE(e2e_test_case, function_import_one_param_return_entity)
 {
-	auto ret = service_context->GetPerson2(U("London")).get();
+	auto ret = service_context->GetPerson2(U("Tokyo")).get();
 
 	VERIFY_ARE_EQUAL(ret.size(), 1);
 

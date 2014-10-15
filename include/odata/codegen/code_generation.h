@@ -14,7 +14,8 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
+
 #include "odata/common/utility.h"
 #include "odata/codegen/code_generation_base.h"
 #include "odata/codegen/code_generation_helper.h"
@@ -22,7 +23,7 @@
 #include "odata/codegen/odata_singleton_query_executor.h"
 #include "odata/codegen/odata_service_context.h"
 #include "odata/core/odata_core.h"
-#include "odata/core/odata_json_writer_minimal.h"
+#include "odata/core/odata_json_writer.h"
 
 namespace odata { namespace codegen { 
 
@@ -57,37 +58,6 @@ protected: \
         } \
 		pentity->set_value(U(#edm_name), property_name); \
 	}
-
-//#define DECLARE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(property_name, edm_name, type) \
-//public: \
-//	const type& get_##property_name() { return property_name; } const \
-//	void set_##property_name(type property_value) { property_name = property_value; } \
-//protected: \
-//    type property_name;  \
-//    void get_##property_name##_from_entity(const shared_ptr<::odata::core::odata_entity_value>& pentity); \
-//	void set_##property_name##_to_entity(const shared_ptr<::odata::core::odata_entity_value>& pentity);
-//
-//#define IMPLEMENT_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(myclass, property_name, edm_name, type) \
-//    void myclass::get_##property_name##_from_entity(const shared_ptr<::odata::core::odata_entity_value>& pentity) \
-//	{ \
-//        std::shared_ptr<::odata::core::odata_value> property_value; \
-//        if (!pentity->get_property_value(U(#edm_name), property_value) || !property_value) \
-//	    { \
-//			return ; \
-//		} \
-//	    if (property_value->get_value_type()->get_type_kind() == ::odata::edm::edm_type_kind_t::Complex) \
-//	    { \
-//		    property_name.from_value(std::dynamic_pointer_cast<::odata::core::odata_complex_value>(property_value)); \
-//        } \
-//    } \
-//	void myclass::set_##property_name##_to_entity(const shared_ptr<::odata::core::odata_entity_value>& pentity) \
-//	{ \
-//	    if (!pentity) \
-//	    { \
-//		    return ; \
-//        } \
-//		pentity->set_value(U(#edm_name), property_name.to_value()); \
-//	}
 
 // because we have to support derived complex type, so complex object in entity are all set with pointer type
 #define DECLARE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(property_name, edm_name, type) \
@@ -216,7 +186,7 @@ protected: \
 		map_class_member_to_entity_value(entity_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-		    entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+		    entity_value->set_value(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return entity_value; \
 	} \
@@ -237,7 +207,7 @@ protected: \
 		map_class_member_to_entity_value(entity_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+entity_value->set_value(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return entity_value; \
 	} \
@@ -282,7 +252,7 @@ entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitiv
 		map_class_member_to_complex_value(complex_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-		    complex_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+		    complex_value->set_value(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return complex_value; \
 	} \
@@ -303,7 +273,7 @@ entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitiv
 		map_class_member_to_complex_value(complex_value); \
 		if (!m_namespace.empty() && !m_typename.empty()) \
         { \
-		    complex_value->set_value(PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
+		    complex_value->set_value(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE, std::make_shared<odata_primitive_value>(std::make_shared<::odata::edm::edm_payload_annotation_type>(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE), U("#") + m_namespace + U(".") + m_typename)); \
 	    } \
 		return complex_value; \
 	} \

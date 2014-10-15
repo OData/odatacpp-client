@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/client/odata_client.h"
 #include "odata/common/utility.h"
@@ -107,10 +107,7 @@ struct property_info
 
 struct code_gen_configuration
 {
-	::utility::string_t _metadata_url;
 	::utility::string_t _namespace;
-	::utility::string_t _user_name;
-	::utility::string_t _pass_word;
 	::utility::string_t _file_name;
 
 	code_gen_configuration()
@@ -148,8 +145,9 @@ typedef std::unordered_map<::utility::string_t, schema_info> code_gen_map;
 class odata_codegen_initializer
 {
 public:
-	::pplx::task<int> begin_initialize(const ::utility::string_t metadata_url, const ::utility::string_t file_name, const ::utility::string_t user_name, const ::utility::string_t  password);
-	::pplx::task<int> begin_initialize_code_gen_info(const ::utility::string_t& metadata_url, const ::utility::string_t& _user_name = U(""), const ::utility::string_t& _pass_word = U(""));
+	::pplx::task<int> initialize_from_metadata_file(const ::utility::string_t metadata_file, const ::utility::string_t output_file_name);
+	::pplx::task<int> initialize_from_service_metadata(const ::utility::string_t metadata_url, const ::utility::string_t output_file_name, const ::utility::string_t user_name = U(""), const ::utility::string_t  password = U(""));
+	::pplx::task<int> begin_initialize_code_gen_info(::std::shared_ptr<::odata::edm::edm_model> model);
 
 	const code_gen_configuration& get_config() const
 	{

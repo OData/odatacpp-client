@@ -14,39 +14,38 @@
  * limitations under the License.
  */
  
- #include "odata_wcf_service.h"
+#include "odata_wcf_service.h"
 
 namespace tests { namespace e2e { namespace odata { namespace odata_wcf_service {
 
-#include "odata/codegen/odata_function_param_formatter.h"
 
 IMPLEMENT_GET_ENUM_TYPE_NAMESPACE(AccessLevel, Microsoft.Test.OData.Services.ODataWCFService);
 BGEIN_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(AccessLevel)
-    ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(None, AccessLevel::None)
     ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Read, AccessLevel::Read)
+    ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(None, AccessLevel::None)
     ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Write, AccessLevel::Write)
-    ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Execute, AccessLevel::Execute)
     ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(ReadWrite, AccessLevel::ReadWrite)
+    ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Execute, AccessLevel::Execute)
 END_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(AccessLevel)
 
 BGEIN_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel)
-    ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel::None, None)
     ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel::Read, Read)
+    ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel::None, None)
     ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel::Write, Write)
-    ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel::Execute, Execute)
     ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel::ReadWrite, ReadWrite)
+    ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel::Execute, Execute)
 END_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(AccessLevel)
 
 IMPLEMENT_GET_ENUM_TYPE_NAMESPACE(Color, Microsoft.Test.OData.Services.ODataWCFService);
 BGEIN_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Color)
-    ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Red, Color::Red)
     ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Green, Color::Green)
+    ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Red, Color::Red)
     ON_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Blue, Color::Blue)
 END_IMPLEMENT_FUNCTION_ENUM_TYPE_FROM_STRING(Color)
 
 BGEIN_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(Color)
-    ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(Color::Red, Red)
     ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(Color::Green, Green)
+    ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(Color::Red, Red)
     ON_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(Color::Blue, Blue)
 END_IMPLEMENT_FUNCTION_STRING_FROM_ENUM_TYPE(Color)
 
@@ -71,19 +70,19 @@ END_COMPLEX_CONSTRUCTOR(AccountInfo, type_base)
 BEGIN_COMPLEX_DESTRUCTOR(AccountInfo)
 END_COMPLEX_DESTRUCTOR(AccountInfo)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname, LastName, ::utility::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, firstname, FirstName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname, LastName, ::utility::string_t);
 
 IMPLEMENT_EDM_INFO(AccountInfo, Microsoft.Test.OData.Services.ODataWCFService, AccountInfo)
 
 BEGIN_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo)
-    ON_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname)
     ON_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, firstname)
+    ON_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname)
 END_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo)
 
 BEGIN_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo)
-    ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname)
     ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, firstname)
+    ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname)
 END_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo)
 
 BEGIN_COMPLEX_CONSTRUCTOR(Address, type_base)
@@ -111,7 +110,6 @@ BEGIN_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(Address)
 END_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(Address)
 
 BEGIN_COMPLEX_CONSTRUCTOR(HomeAddress, Address)
-    ON_PROPERTY_IN_COMPLEX_CONSTRUCTOR(familyname, nullptr)
 END_COMPLEX_CONSTRUCTOR(HomeAddress, Address)
 
 BEGIN_COMPLEX_DESTRUCTOR(HomeAddress)
@@ -146,10 +144,30 @@ BEGIN_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(CompanyAddress)
     ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(CompanyAddress, companyname)
 END_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(CompanyAddress)
 
+BEGIN_COMPLEX_CONSTRUCTOR(CityInformation, type_base)
+    ON_PROPERTY_IN_COMPLEX_CONSTRUCTOR(iscapital, false)
+END_COMPLEX_CONSTRUCTOR(CityInformation, type_base)
+
+BEGIN_COMPLEX_DESTRUCTOR(CityInformation)
+END_COMPLEX_DESTRUCTOR(CityInformation)
+
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, countryregion, CountryRegion, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, iscapital, IsCapital, bool);
+
+IMPLEMENT_EDM_INFO(CityInformation, Microsoft.Test.OData.Services.ODataWCFService, CityInformation)
+
+BEGIN_PROPERTY_IN_COMPLEX_MAPPING(CityInformation)
+    ON_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, countryregion)
+    ON_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, iscapital)
+END_PROPERTY_IN_COMPLEX_MAPPING(CityInformation)
+
+BEGIN_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation)
+    ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, countryregion)
+    ON_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, iscapital)
+END_SERIALIZE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation)
+
 BEGIN_ENTITY_CONSTRUCTOR(Person, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(personid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(middlename, nullptr)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(homeaddress, nullptr)
 END_ENTITY_CONSTRUCTOR(Person, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Person)
@@ -159,8 +177,8 @@ END_ENTITY_DESTRUCTOR(Person)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, personid, PersonID, int32_t);
 IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, numbers, Numbers, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::utility::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname, FirstName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::utility::string_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, middlename, MiddleName, ::utility::string_t);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Person, homeaddress, HomeAddress, Address);
 IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, emails, Emails, ::utility::string_t);
@@ -173,8 +191,8 @@ IMPLEMENT_EDM_INFO(Person, Microsoft.Test.OData.Services.ODataWCFService, Person
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(Person)
     ON_PROPERTY_IN_ENTITY_MAPPING(Person, personid)
     ON_PROPERTY_IN_ENTITY_MAPPING(Person, numbers)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Person, lastname)
     ON_PROPERTY_IN_ENTITY_MAPPING(Person, firstname)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Person, lastname)
     ON_PROPERTY_IN_ENTITY_MAPPING(Person, middlename)
     ON_PROPERTY_IN_ENTITY_MAPPING(Person, homeaddress)
     ON_PROPERTY_IN_ENTITY_MAPPING(Person, emails)
@@ -184,8 +202,8 @@ END_PROPERTY_IN_ENTITY_MAPPING(Person)
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, personid)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, numbers)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, middlename)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, homeaddress)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person, emails)
@@ -200,143 +218,31 @@ BEGIN_ENTITY_DESTRUCTOR(Statement)
 END_ENTITY_DESTRUCTOR(Statement)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, statementid, StatementID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, amount, Amount, double);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiontype, TransactionType, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, amount, Amount, double);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiondescription, TransactionDescription, ::utility::string_t);
 
 IMPLEMENT_EDM_INFO(Statement, Microsoft.Test.OData.Services.ODataWCFService, Statement)
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(Statement)
     ON_PROPERTY_IN_ENTITY_MAPPING(Statement, statementid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Statement, amount)
     ON_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiontype)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Statement, amount)
     ON_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiondescription)
 END_PROPERTY_IN_ENTITY_MAPPING(Statement)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Statement)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Statement, statementid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Statement, amount)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiontype)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Statement, amount)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiondescription)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Statement)
 
-BEGIN_ENTITY_CONSTRUCTOR(Department, type_base)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(departmentid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(departmentno, nullptr)
-END_ENTITY_CONSTRUCTOR(Department, type_base)
-
-BEGIN_ENTITY_DESTRUCTOR(Department)
-    ON_PROPERTY_IN_ENTITY_DESTRUCTOR(departmentno)
-END_ENTITY_DESTRUCTOR(Department)
-
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentid, DepartmentID, int32_t);
-IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Department, company, Company, Company);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, name, Name, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno, DepartmentNO, ::utility::string_t);
-
-IMPLEMENT_EDM_INFO(Department, Microsoft.Test.OData.Services.ODataWCFService, Department)
-
-BEGIN_PROPERTY_IN_ENTITY_MAPPING(Department)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Department, departmentid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Department, company)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Department, name)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno)
-END_PROPERTY_IN_ENTITY_MAPPING(Department)
-
-BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department, name)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno)
-END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department)
-
-BEGIN_ENTITY_CONSTRUCTOR(Customer, Person)
-END_ENTITY_CONSTRUCTOR(Customer, Person)
-
-BEGIN_ENTITY_DESTRUCTOR(Customer)
-END_ENTITY_DESTRUCTOR(Customer)
-
-IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Customer, company, Company, Company);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, city, City, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday, Birthday, ::utility::datetime);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, timebetweenlasttwoorders, TimeBetweenLastTwoOrders, ::utility::seconds);
-IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Customer, orders, Orders, Order);
-
-IMPLEMENT_EDM_INFO(Customer, Microsoft.Test.OData.Services.ODataWCFService, Customer)
-
-BEGIN_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Customer, Person)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, company)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, city)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, timebetweenlasttwoorders)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, orders)
-END_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Customer, Person)
-BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer, city)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer, timebetweenlasttwoorders)
-END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer)
-
-BEGIN_ENTITY_CONSTRUCTOR(ProductDetail, type_base)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productdetailid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(relatedproduct, nullptr)
-END_ENTITY_CONSTRUCTOR(ProductDetail, type_base)
-
-BEGIN_ENTITY_DESTRUCTOR(ProductDetail)
-END_ENTITY_DESTRUCTOR(ProductDetail)
-
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description, Description, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid, ProductID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailid, ProductDetailID, int32_t);
-IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, relatedproduct, RelatedProduct, Product);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname, ProductName, ::utility::string_t);
-IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, reviews, Reviews, ProductReview);
-IMPLEMENT_FUNCTION_P0(ProductDetail, GetRelatedProduct, odata_entityset_query_executor<Product>);
-
-IMPLEMENT_EDM_INFO(ProductDetail, Microsoft.Test.OData.Services.ODataWCFService, ProductDetail)
-
-BEGIN_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
-    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description)
-    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, relatedproduct)
-    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname)
-    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, reviews)
-END_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
-
-BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname)
-END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
-
-BEGIN_ENTITY_CONSTRUCTOR(Employee, Person)
-END_ENTITY_CONSTRUCTOR(Employee, Person)
-
-BEGIN_ENTITY_DESTRUCTOR(Employee)
-END_ENTITY_DESTRUCTOR(Employee)
-
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Employee, datehired, DateHired, ::utility::datetime);
-IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Employee, company, Company, Company);
-
-IMPLEMENT_EDM_INFO(Employee, Microsoft.Test.OData.Services.ODataWCFService, Employee)
-
-BEGIN_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Employee, Person)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Employee, datehired)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Employee, company)
-END_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Employee, Person)
-BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Employee)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Employee, datehired)
-END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Employee)
-
 BEGIN_ENTITY_CONSTRUCTOR(Product, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(skincolor, nullptr)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(unitprice, 0.0)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(discontinued, false)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(quantityinstock, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(useraccess, nullptr)
 END_ENTITY_CONSTRUCTOR(Product, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Product)
@@ -384,17 +290,125 @@ BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Product)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Product, useraccess)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Product)
 
-BEGIN_ENTITY_CONSTRUCTOR(ProductReview, type_base)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(revisionid, 0)
+BEGIN_ENTITY_CONSTRUCTOR(Department, type_base)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(departmentid, 0)
+END_ENTITY_CONSTRUCTOR(Department, type_base)
+
+BEGIN_ENTITY_DESTRUCTOR(Department)
+    ON_PROPERTY_IN_ENTITY_DESTRUCTOR(departmentno)
+END_ENTITY_DESTRUCTOR(Department)
+
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentid, DepartmentID, int32_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, name, Name, ::utility::string_t);
+IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Department, company, Company, Company);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno, DepartmentNO, ::utility::string_t);
+
+IMPLEMENT_EDM_INFO(Department, Microsoft.Test.OData.Services.ODataWCFService, Department)
+
+BEGIN_PROPERTY_IN_ENTITY_MAPPING(Department)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Department, departmentid)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Department, name)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Department, company)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno)
+END_PROPERTY_IN_ENTITY_MAPPING(Department)
+
+BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentid)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department, name)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno)
+END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Department)
+
+BEGIN_ENTITY_CONSTRUCTOR(Customer, Person)
+END_ENTITY_CONSTRUCTOR(Customer, Person)
+
+BEGIN_ENTITY_DESTRUCTOR(Customer)
+END_ENTITY_DESTRUCTOR(Customer)
+
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, city, City, ::utility::string_t);
+IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Customer, company, Company, Company);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday, Birthday, ::utility::datetime);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, timebetweenlasttwoorders, TimeBetweenLastTwoOrders, ::utility::seconds);
+IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Customer, orders, Orders, Order);
+
+IMPLEMENT_EDM_INFO(Customer, Microsoft.Test.OData.Services.ODataWCFService, Customer)
+
+BEGIN_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Customer, Person)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, city)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, company)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, timebetweenlasttwoorders)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Customer, orders)
+END_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Customer, Person)
+BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer, city)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer, timebetweenlasttwoorders)
+END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Customer)
+
+BEGIN_ENTITY_CONSTRUCTOR(ProductDetail, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productid, 0)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productdetailid, 0)
+END_ENTITY_CONSTRUCTOR(ProductDetail, type_base)
+
+BEGIN_ENTITY_DESTRUCTOR(ProductDetail)
+END_ENTITY_DESTRUCTOR(ProductDetail)
+
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid, ProductID, int32_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description, Description, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailid, ProductDetailID, int32_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname, ProductName, ::utility::string_t);
+IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, relatedproduct, RelatedProduct, Product);
+IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, reviews, Reviews, ProductReview);
+IMPLEMENT_FUNCTION_P0(ProductDetail, GetRelatedProduct, odata_entityset_query_executor<Product>);
+
+IMPLEMENT_EDM_INFO(ProductDetail, Microsoft.Test.OData.Services.ODataWCFService, ProductDetail)
+
+BEGIN_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
+    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid)
+    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description)
+    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailid)
+    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname)
+    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, relatedproduct)
+    ON_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, reviews)
+END_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
+
+BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailid)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname)
+END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail)
+
+BEGIN_ENTITY_CONSTRUCTOR(Employee, Person)
+END_ENTITY_CONSTRUCTOR(Employee, Person)
+
+BEGIN_ENTITY_DESTRUCTOR(Employee)
+END_ENTITY_DESTRUCTOR(Employee)
+
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Employee, datehired, DateHired, ::utility::datetime);
+IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Employee, company, Company, Company);
+
+IMPLEMENT_EDM_INFO(Employee, Microsoft.Test.OData.Services.ODataWCFService, Employee)
+
+BEGIN_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Employee, Person)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Employee, datehired)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Employee, company)
+END_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(Employee, Person)
+BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Employee)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Employee, datehired)
+END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Employee)
+
+BEGIN_ENTITY_CONSTRUCTOR(ProductReview, type_base)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productid, 0)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(revisionid, 0)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productdetailid, 0)
 END_ENTITY_CONSTRUCTOR(ProductReview, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(ProductReview)
 END_ENTITY_DESTRUCTOR(ProductReview)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, revisionid, RevisionID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productid, ProductID, int32_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, revisionid, RevisionID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productdetailid, ProductDetailID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, reviewtitle, ReviewTitle, ::utility::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, comment, Comment, ::utility::string_t);
@@ -403,8 +417,8 @@ IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, author, Author, ::
 IMPLEMENT_EDM_INFO(ProductReview, Microsoft.Test.OData.Services.ODataWCFService, ProductReview)
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(ProductReview)
-    ON_PROPERTY_IN_ENTITY_MAPPING(ProductReview, revisionid)
     ON_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productid)
+    ON_PROPERTY_IN_ENTITY_MAPPING(ProductReview, revisionid)
     ON_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productdetailid)
     ON_PROPERTY_IN_ENTITY_MAPPING(ProductReview, reviewtitle)
     ON_PROPERTY_IN_ENTITY_MAPPING(ProductReview, comment)
@@ -412,8 +426,8 @@ BEGIN_PROPERTY_IN_ENTITY_MAPPING(ProductReview)
 END_PROPERTY_IN_ENTITY_MAPPING(ProductReview)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, revisionid)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productid)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, revisionid)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productdetailid)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, reviewtitle)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, comment)
@@ -422,7 +436,6 @@ END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(ProductReview)
 
 BEGIN_ENTITY_CONSTRUCTOR(Order, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(orderid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(shelflife, nullptr)
 END_ENTITY_CONSTRUCTOR(Order, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Order)
@@ -430,10 +443,10 @@ BEGIN_ENTITY_DESTRUCTOR(Order)
 END_ENTITY_DESTRUCTOR(Order)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Order, orderid, OrderID, int32_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Order, shelflife, ShelfLife, ::utility::seconds);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Order, orderdate, OrderDate, ::utility::datetime);
-IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Order, loggedinemployee, LoggedInEmployee, Employee);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Order, shelflife, ShelfLife, ::utility::seconds);
 IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Order, ordershelflifes, OrderShelfLifes, ::utility::seconds);
+IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Order, loggedinemployee, LoggedInEmployee, Employee);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Order, customerfororder, CustomerForOrder, Customer);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Order, orderdetails, OrderDetails, OrderDetail);
 
@@ -441,55 +454,55 @@ IMPLEMENT_EDM_INFO(Order, Microsoft.Test.OData.Services.ODataWCFService, Order)
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(Order)
     ON_PROPERTY_IN_ENTITY_MAPPING(Order, orderid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Order, shelflife)
     ON_PROPERTY_IN_ENTITY_MAPPING(Order, orderdate)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Order, loggedinemployee)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Order, shelflife)
     ON_PROPERTY_IN_ENTITY_MAPPING(Order, ordershelflifes)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Order, loggedinemployee)
     ON_PROPERTY_IN_ENTITY_MAPPING(Order, customerfororder)
     ON_PROPERTY_IN_ENTITY_MAPPING(Order, orderdetails)
 END_PROPERTY_IN_ENTITY_MAPPING(Order)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Order)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Order, orderid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Order, shelflife)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Order, orderdate)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Order, shelflife)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Order, ordershelflifes)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Order)
 
 BEGIN_ENTITY_CONSTRUCTOR(OrderDetail, type_base)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(unitprice, 0.0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(quantity, 0)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(orderid, 0)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(quantity, 0)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(unitprice, 0.0)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productid, 0)
 END_ENTITY_CONSTRUCTOR(OrderDetail, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(OrderDetail)
 END_ENTITY_DESTRUCTOR(OrderDetail)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, unitprice, UnitPrice, float);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, quantity, Quantity, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, orderid, OrderID, int32_t);
-IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, associatedorder, AssociatedOrder, Order);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, quantity, Quantity, int32_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, unitprice, UnitPrice, float);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, productid, ProductID, int32_t);
+IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, associatedorder, AssociatedOrder, Order);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, orderplaced, OrderPlaced, ::utility::datetime);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, productordered, ProductOrdered, Product);
 
 IMPLEMENT_EDM_INFO(OrderDetail, Microsoft.Test.OData.Services.ODataWCFService, OrderDetail)
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(OrderDetail)
-    ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, unitprice)
-    ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, quantity)
     ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, orderid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, associatedorder)
+    ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, quantity)
+    ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, unitprice)
     ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, productid)
+    ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, associatedorder)
     ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, orderplaced)
     ON_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, productordered)
 END_PROPERTY_IN_ENTITY_MAPPING(OrderDetail)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, unitprice)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, quantity)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, orderid)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, quantity)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, unitprice)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, productid)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail, orderplaced)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail)
@@ -497,9 +510,6 @@ END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(OrderDetail)
 BEGIN_ENTITY_CONSTRUCTOR(Company, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(companyid, 0)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(revenue, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(companycategory, nullptr)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(name, nullptr)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(address, nullptr)
 END_ENTITY_CONSTRUCTOR(Company, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Company)
@@ -543,23 +553,22 @@ BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Company)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Company)
 
 BEGIN_ENTITY_CONSTRUCTOR(PublicCompany, Company)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(stockexchange, nullptr)
 END_ENTITY_CONSTRUCTOR(PublicCompany, Company)
 
 BEGIN_ENTITY_DESTRUCTOR(PublicCompany)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(stockexchange)
 END_ENTITY_DESTRUCTOR(PublicCompany)
 
-IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, assets, Assets, Asset);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, stockexchange, StockExchange, ::utility::string_t);
+IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, assets, Assets, Asset);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, club, Club, Club);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, labourunion, LabourUnion, LabourUnion);
 
 IMPLEMENT_EDM_INFO(PublicCompany, Microsoft.Test.OData.Services.ODataWCFService, PublicCompany)
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(PublicCompany, Company)
-    ON_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, assets)
     ON_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, stockexchange)
+    ON_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, assets)
     ON_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, club)
     ON_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, labourunion)
 END_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(PublicCompany, Company)
@@ -569,7 +578,6 @@ END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(PublicCompany)
 
 BEGIN_ENTITY_CONSTRUCTOR(Asset, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(assetid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(name, nullptr)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(number, 0)
 END_ENTITY_CONSTRUCTOR(Asset, type_base)
 
@@ -598,7 +606,6 @@ END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Asset)
 BEGIN_ENTITY_CONSTRUCTOR(GiftCard, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(giftcardid, 0)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(amount, 0.0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(ownername, nullptr)
 END_ENTITY_CONSTRUCTOR(GiftCard, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(GiftCard)
@@ -607,8 +614,8 @@ END_ENTITY_DESTRUCTOR(GiftCard)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardid, GiftCardID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardno, GiftCardNO, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, amount, Amount, double);
 IMPLEMENT_FUNCTION_P1(GiftCard, GetActualAmount, odata_primitive_query_executor<double>, bonusRate, double, bonusRate);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, amount, Amount, double);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, experationdate, ExperationDate, ::utility::datetime);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, ownername, OwnerName, ::utility::string_t);
 
@@ -632,7 +639,6 @@ END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(GiftCard)
 
 BEGIN_ENTITY_CONSTRUCTOR(Club, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(clubid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(name, nullptr)
 END_ENTITY_CONSTRUCTOR(Club, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Club)
@@ -656,7 +662,6 @@ END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Club)
 
 BEGIN_ENTITY_CONSTRUCTOR(LabourUnion, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(labourunionid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(name, nullptr)
 END_ENTITY_CONSTRUCTOR(LabourUnion, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(LabourUnion)
@@ -665,6 +670,7 @@ END_ENTITY_DESTRUCTOR(LabourUnion)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(LabourUnion, labourunionid, LabourUnionID, int32_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(LabourUnion, name, Name, ::utility::string_t);
+IMPLEMENT_ACTION_P1(LabourUnion, ChangeLabourUnionName, odata_void_query_executor, name, ::utility::string_t, name);
 
 IMPLEMENT_EDM_INFO(LabourUnion, Microsoft.Test.OData.Services.ODataWCFService, LabourUnion)
 
@@ -680,8 +686,6 @@ END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(LabourUnion)
 
 BEGIN_ENTITY_CONSTRUCTOR(Account, type_base)
     ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(accountid, 0)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(mygiftcard, nullptr)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(accountinfo, nullptr)
 END_ENTITY_CONSTRUCTOR(Account, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Account)
@@ -692,7 +696,7 @@ IMPLEMENT_FUNCTION_P0(Account, GetDefaultPI, odata_entityset_query_executor<Paym
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, accountid, AccountID, int32_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, mygiftcard, MyGiftCard, GiftCard);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, activesubscriptions, ActiveSubscriptions, Subscription);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, country, Country, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion, CountryRegion, ::utility::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, mypaymentinstruments, MyPaymentInstruments, PaymentInstrument);
 IMPLEMENT_ACTION_P1(Account, RefreshDefaultPI, odata_entityset_query_executor<PaymentInstrument>, newDate, ::utility::datetime, newDate);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo, AccountInfo, AccountInfo);
@@ -705,7 +709,7 @@ BEGIN_PROPERTY_IN_ENTITY_MAPPING(Account)
     ON_PROPERTY_IN_ENTITY_MAPPING(Account, accountid)
     ON_PROPERTY_IN_ENTITY_MAPPING(Account, mygiftcard)
     ON_PROPERTY_IN_ENTITY_MAPPING(Account, activesubscriptions)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Account, country)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion)
     ON_PROPERTY_IN_ENTITY_MAPPING(Account, mypaymentinstruments)
     ON_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo)
     ON_PROPERTY_IN_ENTITY_MAPPING(Account, availablesubscriptiontemplatess)
@@ -713,7 +717,7 @@ END_PROPERTY_IN_ENTITY_MAPPING(Account)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, accountid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, country)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account)
 
@@ -726,8 +730,8 @@ END_ENTITY_DESTRUCTOR(PaymentInstrument)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, paymentinstrumentid, PaymentInstrumentID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, friendlyname, FriendlyName, ::utility::string_t);
-IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, backupstoredpi, BackupStoredPI, StoredPI);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, createddate, CreatedDate, ::utility::datetime);
+IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, backupstoredpi, BackupStoredPI, StoredPI);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, thestoredpi, TheStoredPI, StoredPI);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, billingstatements, BillingStatements, Statement);
 
@@ -736,8 +740,8 @@ IMPLEMENT_EDM_INFO(PaymentInstrument, Microsoft.Test.OData.Services.ODataWCFServ
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument)
     ON_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, paymentinstrumentid)
     ON_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, friendlyname)
-    ON_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, backupstoredpi)
     ON_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, createddate)
+    ON_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, backupstoredpi)
     ON_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, thestoredpi)
     ON_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, billingstatements)
 END_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument)
@@ -758,23 +762,23 @@ END_ENTITY_DESTRUCTOR(CreditRecord)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, creditrecordid, CreditRecordID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, isgood, IsGood, bool);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, createddate, CreatedDate, ::utility::datetime);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, reason, Reason, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, createddate, CreatedDate, ::utility::datetime);
 
 IMPLEMENT_EDM_INFO(CreditRecord, Microsoft.Test.OData.Services.ODataWCFService, CreditRecord)
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(CreditRecord)
     ON_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, creditrecordid)
     ON_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, isgood)
-    ON_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, createddate)
     ON_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, reason)
+    ON_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, createddate)
 END_PROPERTY_IN_ENTITY_MAPPING(CreditRecord)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, creditrecordid)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, isgood)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, createddate)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, reason)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, createddate)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord)
 
 BEGIN_ENTITY_CONSTRUCTOR(CreditCardPI, PaymentInstrument)
@@ -784,28 +788,28 @@ END_ENTITY_CONSTRUCTOR(CreditCardPI, PaymentInstrument)
 BEGIN_ENTITY_DESTRUCTOR(CreditCardPI)
 END_ENTITY_DESTRUCTOR(CreditCardPI)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername, HolderName, ::utility::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber, CardNumber, ::utility::string_t);
-IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, creditrecords, CreditRecords, CreditRecord);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, experationdate, ExperationDate, ::utility::datetime);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername, HolderName, ::utility::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv, CVV, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, experationdate, ExperationDate, ::utility::datetime);
+IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, creditrecords, CreditRecords, CreditRecord);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, balance, Balance, double);
 
 IMPLEMENT_EDM_INFO(CreditCardPI, Microsoft.Test.OData.Services.ODataWCFService, CreditCardPI)
 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(CreditCardPI, PaymentInstrument)
-    ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername)
     ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber)
-    ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, creditrecords)
-    ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, experationdate)
+    ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername)
     ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv)
+    ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, experationdate)
+    ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, creditrecords)
     ON_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, balance)
 END_PROPERTY_IN_ENTITY_MAPPING_WITH_BASE_CLASS(CreditCardPI, PaymentInstrument)
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, experationdate)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, experationdate)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, balance)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI)
 
@@ -846,8 +850,8 @@ END_ENTITY_DESTRUCTOR(Subscription)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, subscriptionid, SubscriptionID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, templateguid, TemplateGuid, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, category, Category, ::utility::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, title, Title, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, category, Category, ::utility::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, createddate, CreatedDate, ::utility::datetime);
 
 IMPLEMENT_EDM_INFO(Subscription, Microsoft.Test.OData.Services.ODataWCFService, Subscription)
@@ -855,22 +859,22 @@ IMPLEMENT_EDM_INFO(Subscription, Microsoft.Test.OData.Services.ODataWCFService, 
 BEGIN_PROPERTY_IN_ENTITY_MAPPING(Subscription)
     ON_PROPERTY_IN_ENTITY_MAPPING(Subscription, subscriptionid)
     ON_PROPERTY_IN_ENTITY_MAPPING(Subscription, templateguid)
-    ON_PROPERTY_IN_ENTITY_MAPPING(Subscription, category)
     ON_PROPERTY_IN_ENTITY_MAPPING(Subscription, title)
+    ON_PROPERTY_IN_ENTITY_MAPPING(Subscription, category)
     ON_PROPERTY_IN_ENTITY_MAPPING(Subscription, createddate)
 END_PROPERTY_IN_ENTITY_MAPPING(Subscription)
 
 BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription, subscriptionid)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription, templateguid)
-    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription, category)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription, title)
+    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription, category)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription, createddate)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription)
 
-IMPLEMENT_ACTION_IMPORT_P1(InMemoryEntities, ResetBossEmail, odata_primitive_query_executor<::utility::string_t>, emails, std::vector<::utility::string_t>, emails);
-
 IMPLEMENT_FUNCTION_IMPORT_P2(InMemoryEntities, GetBossEmails, odata_primitive_query_executor<::utility::string_t>, start, int32_t, start, count, int32_t, count);
+
+IMPLEMENT_ACTION_IMPORT_P1(InMemoryEntities, ResetBossEmail, odata_primitive_query_executor<::utility::string_t>, emails, std::vector<::utility::string_t>, emails);
 
 IMPLEMENT_ACTION_IMPORT_P1(InMemoryEntities, Discount, odata_void_query_executor, percentage, int32_t, percentage);
 
@@ -899,6 +903,7 @@ END_IMPLEMENT_COMPLEX_DERIVED_TYPE_CREATOR_MAP(Address)
 
 IMPLEMENT_COMPLEX_DERIVED_TYPE_CREATOR_MAP(HomeAddress)
 IMPLEMENT_COMPLEX_DERIVED_TYPE_CREATOR_MAP(CompanyAddress)
+IMPLEMENT_COMPLEX_DERIVED_TYPE_CREATOR_MAP(CityInformation)
 
 DECLARE_DERIVED_ENTITY_CREATOR_FUNC(Customer, customer)
 DECLARE_DERIVED_ENTITY_CREATOR_FUNC(Employee, employee)
@@ -911,11 +916,11 @@ BEGIN_IMPLEMENT_ENTITY_DERIVED_TYPE_CREATOR_MAP(Person)
 END_IMPLEMENT_ENTITY_DERIVED_TYPE_CREATOR_MAP(Person)
 
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Statement)
+IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Product)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Department)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Customer)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(ProductDetail)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Employee)
-IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Product)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(ProductReview)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Order)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(OrderDetail)
@@ -939,6 +944,5 @@ IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(CreditRecord)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(CreditCardPI)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(StoredPI)
 IMPLEMENT_EMPTY_DERIVED_TYPE_CREATOR_MAP(Subscription)
-
 
 }}}}

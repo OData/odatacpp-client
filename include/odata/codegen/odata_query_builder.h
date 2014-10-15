@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/codegen/odata_query_path.h"
 #include "odata/common/utility.h"

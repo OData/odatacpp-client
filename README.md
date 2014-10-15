@@ -123,6 +123,7 @@ Please ignore the failed tests as they are already known to us and will be fixed
 
 Complete on Building on OS X. Return to the root folder of odatacpp, run following commands.
 
+
     cd lib/casablanca/Build_iOS
     ./configure.sh
     cd ../../..
@@ -137,6 +138,8 @@ Please refer to our [wiki](https://github.com/OData/odatacpp/wiki) for documenta
 # Community
 ## Contribution
 Please refer to the [CONTRIBUTION.md](https://github.com/OData/odatacpp/blob/master/CONTRIBUTING.md).
+## Issue tracker
+To report bugs and require features, please use our [issue tracker](https://github.com/OData/odatacpp/issues?state=open).
 
 ## Team blog
 Please visit http://blogs.msdn.com/b/odatateam/.

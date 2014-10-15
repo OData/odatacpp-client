@@ -14,13 +14,12 @@
  * limitations under the License.
  */
  
- #include "odata/client/odata_client.h"
-#include "odata/core/odata_json_reader_minimal.h"
-#include "odata/core/odata_json_writer_minimal.h"
+#include "odata/client/odata_client.h"
+#include "odata/core/odata_json_reader.h"
+#include "odata/core/odata_json_writer.h"
 #include "odata/core/odata_json_operation_url_parameter_writer.h"
 #include "odata/core/odata_json_operation_payload_parameter_writer.h"
 #include "odata/core/odata_entity_factory.h"
-#include "odata/edm/edm_model_factory.h"
 
 using namespace ::web;
 using namespace ::odata::communication;
@@ -62,7 +61,7 @@ pplx::task<std::shared_ptr<edm_model>> odata_client::get_model()
 
 std::shared_ptr<edm_model> odata_client::schema_from_response(const http_client_response& response)
 {
-    auto reader = edm_model_factory<edm_model_reader>::create_reader_instance(response.body());
+    auto reader = std::make_shared<edm_model_reader>(response.body());
 
 	if (reader)
 	{
@@ -77,7 +76,7 @@ std::shared_ptr<odata_payload> odata_client::entity_payload_from_response(const 
 {
 	if (response.headers().content_type().substr(0, 16) == U("application/json"))
     {
-		auto reader = entity_factory<odata_json_reader_minimal>::create_reader_instance(m_model, m_service_root_url);
+		auto reader = entity_factory<odata_json_reader>::create_reader_instance(m_model, m_service_root_url);
 
 		return reader->deserilize(response.extract_json().get());
     }
@@ -93,7 +92,7 @@ std::shared_ptr<odata_payload> odata_client::parse_payload_from_response(const h
 {
 	if (response.headers().content_type().substr(0,16) == U("application/json"))
     {
-		auto reader = entity_factory<odata_json_reader_minimal>::create_reader_instance(m_model, m_service_root_url);
+		auto reader = entity_factory<odata_json_reader>::create_reader_instance(m_model, m_service_root_url);
 
 		return reader->deserilize(response.extract_json().get());
     }
@@ -182,7 +181,7 @@ pplx::task<::web::http::status_code> odata_client::add_reference(const ::utility
     }
 
 	auto entity = std::make_shared<odata_entity_value>(std::make_shared<edm_entity_type>(U(""), U("")));
-	entity->set_value(PAYLOAD_ANNOTATION_ID, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(PAYLOAD_ANNOTATION_ID), referenceEntityId));
+	entity->set_value(odata_json_constants::PAYLOAD_ANNOTATION_ID, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(odata_json_constants::PAYLOAD_ANNOTATION_ID), referenceEntityId));
 
 	::utility::stringstream_t ss;
 	ss << path << U("/$ref");
@@ -218,7 +217,7 @@ pplx::task<::web::http::status_code> odata_client::update_reference(const ::util
     }
 
 	auto entity = std::make_shared<odata_entity_value>(std::make_shared<edm_entity_type>(U(""), U("")));
-	entity->set_value(PAYLOAD_ANNOTATION_ID, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(PAYLOAD_ANNOTATION_ID), referenceEntityId));
+	entity->set_value(odata_json_constants::PAYLOAD_ANNOTATION_ID, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(odata_json_constants::PAYLOAD_ANNOTATION_ID), referenceEntityId));
 
 	::utility::stringstream_t ss;
 	ss << path << U("/$ref");
@@ -444,7 +443,7 @@ pplx::task<::web::http::status_code> odata_client::send_data_to_server(const ::u
 
 	::utility::string_t accept = U("application/json");
 
-	auto writer = std::make_shared<::odata::core::odata_json_writer_minimal>(m_model);
+	auto writer = std::make_shared<::odata::core::odata_json_writer>(m_model);
 
 	auto value_context = writer->serialize(send_value);
 	
@@ -465,7 +464,7 @@ pplx::task<::web::http::status_code> odata_client::send_data_to_server(const ::u
 				auto entity_value = std::dynamic_pointer_cast<odata_entity_value>(send_value);
 				if (entity_value)
 				{
-					entity_value->set_value(PAYLOAD_ANNOTATION_EDITLINK, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(PAYLOAD_ANNOTATION_EDITLINK), edit_link));
+					entity_value->set_value(odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK, std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK), edit_link));
 				}
 			}
 

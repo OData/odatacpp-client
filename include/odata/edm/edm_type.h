@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 
@@ -22,11 +22,6 @@ namespace odata { namespace edm
 {
 
 #define undefined_value 0xffffffff
-#define PAYLOAD_ANNOTATION_NAVIGATIONLINK  U("@odata.navigationLink")
-#define PAYLOAD_ANNOTATION_READLINK  U("@odata.readLink")
-#define PAYLOAD_ANNOTATION_EDITLINK  U("@odata.editLink")
-#define PAYLOAD_ANNOTATION_TYPE  U("@odata.type")
-#define PAYLOAD_ANNOTATION_ID  U("@odata.id")
 
 class edm_schema;
 class edm_model_reader;
@@ -77,31 +72,19 @@ class edm_named_type
 public:
 	edm_named_type() :  m_type_kind(edm_type_kind_t::None), m_name(U("")), m_namespace(U(""))
 	{
-#ifdef _MS_WINDOWS_DEBUG
-		std::wcout << U("create :") << m_namespace << U(".") << m_name << std::endl;
-#endif
 	}
 
 	edm_named_type(edm_type_kind_t type_kind) :  m_type_kind(type_kind), m_name(U("")), m_namespace(U(""))
 	{
-#ifdef _MS_WINDOWS_DEBUG
-		std::wcout << U("create :") << m_namespace << U(".") << m_name << std::endl;
-#endif
 	}
 
 	edm_named_type(::utility::string_t name, ::utility::string_t name_space, edm_type_kind_t type_kind)
-		: m_type_kind(type_kind), m_name(name), m_namespace(name_space)
+		: m_type_kind(type_kind), m_name(std::move(name)), m_namespace(std::move(name_space))
 	{
-#ifdef _MS_WINDOWS_DEBUG
-		std::wcout << U("create :") << m_namespace << U(".") << m_name << std::endl;
-#endif
 	}
 
-	virtual ~edm_named_type()
+    virtual ~edm_named_type()
 	{
-#ifdef _MS_WINDOWS_DEBUG
-		std::wcout << U("destroy :") << m_namespace << U(".") << m_name << std::endl;
-#endif
 	}
 
     const ::utility::string_t& get_name() const 
@@ -123,7 +106,7 @@ public:
 
 	void set_name(::utility::string_t name)
 	{
-		m_name = name;
+		m_name = std::move(name);
 	}
 
     const ::utility::string_t& get_namespace() const 
@@ -133,7 +116,7 @@ public:
 
 	void set_namespace(::utility::string_t name_space)
 	{
-		m_namespace = name_space;
+		m_namespace = std::move(name_space);
 	}
 
 	const edm_type_kind_t& get_type_kind() const 
@@ -146,7 +129,7 @@ public:
 		m_type_kind = kind;
 	}
 
-	ODATACPP_API static std::shared_ptr<edm_named_type> EDM_UNKNOWN();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_named_type> EDM_UNKNOWN();
 
 protected:
 	static std::mutex &mutex();
@@ -188,22 +171,22 @@ public:
 		return false;
     }
 
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> BINARY();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> BOOLEAN();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> BYTE();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> DATETIMEOFFSET();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> DURATION();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> DECIMAL();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> DOUBLE();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> GUID();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> INT16();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> INT32();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> INT64();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> SBYTE();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> SINGLE();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> STRING();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> STREAM();
-	ODATACPP_API static std::shared_ptr<edm_primitive_type> UNKNOWN();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> BINARY();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> BOOLEAN();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> BYTE();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> DATETIMEOFFSET();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> DURATION();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> DECIMAL();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> DOUBLE();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> GUID();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> INT16();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> INT32();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> INT64();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> SBYTE();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> SINGLE();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> STRING();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> STREAM();
+	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> UNKNOWN();
 
 private:
 	edm_primitive_type(::utility::string_t name, edm_primitive_type_kind_t primitive_kind)
@@ -395,6 +378,16 @@ public:
         return m_properties.cend();
     }
 
+    std::vector<std::shared_ptr<edm_property_type>> get_properties_vector() const
+	{
+		std::vector<std::shared_ptr<edm_property_type>> ret;
+		for (auto it : m_properties)
+		{
+			ret.push_back(it.second);
+		}
+		return ret;
+	}
+
 	const ::utility::string_t get_base_type_name() const
 	{
 		return m_baseTypeName;
@@ -415,7 +408,7 @@ public:
     /// </summary>
     /// <param name="name">The name of the property.</param>
     /// <returns>A pointer to the property if found, an empty pointer otherwise.</returns>
-    ODATACPP_API std::shared_ptr<edm_property_type> find_property(::utility::string_t name) const;
+    ODATACPP_CLIENT_API std::shared_ptr<edm_property_type> find_property(::utility::string_t name) const;
 
 protected:
     friend class edm_schema;

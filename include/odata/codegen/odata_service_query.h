@@ -14,11 +14,10 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/client/odata_client.h"
 #include "odata/codegen/odata_query_builder.h"
-#include "odata/codegen/odata_entity_tracker.h"
 #include "cpprest/uri.h"
 #include "cpprest/asyncrt_utils.h"
 #include "cpprest/json.h"

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/core/odata_context_url_parser.h"
+#include "odata/core/odata_context_url_parser.h"
 #include "odata/edm/edm_model_utility.h"
 
 using namespace ::odata::edm;
@@ -29,13 +29,12 @@ std::shared_ptr<edm_named_type> odata_contex_url_parser::get_payload_content_typ
 		return nullptr;
 	}
 
-	::utility::string_t path = context_url;
 	::utility::string_t root = m_service_root_url + U("/$metadata#");
 
-	path = context_url.substr(context_url.find(U("$metadata#")) + 10);
+	::utility::string_t path = context_url.substr(context_url.find(U("$metadata#")) + 10);
 
 	std::list<::utility::string_t> paths;
-	::odata::utility::split_string(path, U("/"), paths);
+	::odata::common::split_string(path, U("/"), paths);
 
 	return parse_context_url(paths, nullptr);
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 #include "odata/client/odata_client.h"
 #include "odata/common/utility.h"
 #include "odata/core/odata_core.h"

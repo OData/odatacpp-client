@@ -1,27 +1,18 @@
-﻿/***
-* ==++==
-*
-* Copyright (c) Microsoft Corporation. All rights reserved. 
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* http://www.apache.org/licenses/LICENSE-2.0
-* 
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* ==--==
-* =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-*
-* common_tests.cpp
-*
-*
-*
-* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-****/
+﻿/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "e2e_tests.h"
 #include "odata_wcf_service.h"
@@ -153,7 +144,7 @@ TEST_FIXTURE(e2e_raw_client, create_entity)
 	std::shared_ptr<odata_entity_value> entity = std::make_shared<odata_entity_value>(model->find_container()->find_entity_set(entity_set_name)->get_entity_type());
 
 	entity->set_value(U("AccountID"), 130);
-	entity->set_value(U("Country"), U("CN"));
+	entity->set_value(U("CountryRegion"), U("CN"));
 
 	auto accountinfo_type = model->find_complex_type(U("AccountInfo"));
 	auto account_info = std::make_shared<odata_complex_value>(accountinfo_type);
@@ -188,7 +179,7 @@ TEST_FIXTURE(e2e_raw_client, create_entity_with_unescaped_string)
 	std::shared_ptr<odata_entity_value> entity = std::make_shared<odata_entity_value>(model->find_entity_set_type(entity_set_name));
 
 	entity->set_value(U("AccountID"), 130);
-	entity->set_value(U("Country"), U("CN"));
+	entity->set_value(U("CountryRegion"), U("CN"));
 
 	auto accountinfo_type = model->find_complex_type(U("AccountInfo"));
 	auto account_info = std::make_shared<odata_complex_value>(accountinfo_type);
@@ -232,12 +223,12 @@ TEST_FIXTURE(e2e_raw_client, update_entity_with_patch)
 	auto query_result = client.get_data_from_server(U("Accounts(101)")).get();
 	auto old_entity = std::dynamic_pointer_cast<odata_entity_value>(query_result[0]);
 	std::shared_ptr<odata_value> old_value;
-	old_entity->get_property_value(U("Country"), old_value);
+	old_entity->get_property_value(U("CountryRegion"), old_value);
 	auto old_country = std::dynamic_pointer_cast<odata_primitive_value>(old_value);
 	VERIFY_ARE_EQUAL(U("US"), old_country->as<::utility::string_t>());
 
 	//update the entity with patch
-	old_entity->set_value(U("Country"), U("GB"));
+	old_entity->set_value(U("CountryRegion"), U("GB"));
 
 	auto response_code = client.patch_entity(U("Accounts"), old_entity).get();
 	VERIFY_ARE_EQUAL(204, response_code);
@@ -247,7 +238,7 @@ TEST_FIXTURE(e2e_raw_client, update_entity_with_patch)
 
 	auto new_entity = std::dynamic_pointer_cast<odata_entity_value>(check_query[0]);
 	std::shared_ptr<odata_value> property_value;
-	VERIFY_IS_TRUE(new_entity->get_property_value(U("Country"), property_value));
+	VERIFY_IS_TRUE(new_entity->get_property_value(U("CountryRegion"), property_value));
 	auto primitive_value = std::dynamic_pointer_cast<odata_primitive_value>(property_value);
 	::utility::string_t new_country = primitive_value->as<::utility::string_t>();
 	VERIFY_ARE_EQUAL(U("GB"), new_country);
@@ -303,7 +294,7 @@ TEST_FIXTURE(e2e_test_case, create_entity)
 {	
 	auto new_account = std::make_shared<Account>(service_context);
 	new_account->set_accountid(140);
-	new_account->set_country(U("DE"));
+	new_account->set_countryregion(U("DE"));
 	auto acinfo = std::make_shared<AccountInfo>(service_context);
 	acinfo->set_firstname(U("cpp"));
 	acinfo->set_lastname(U("test"));
@@ -313,7 +304,7 @@ TEST_FIXTURE(e2e_test_case, create_entity)
 	VERIFY_ARE_EQUAL(201, status_code);
 
 	auto account = service_context->create_accounts_query()->key(U("140"))->execute_query().get();
-	VERIFY_ARE_EQUAL(U("DE"), account[0]->get_country());
+	VERIFY_ARE_EQUAL(U("DE"), account[0]->get_countryregion());
 	auto info = account[0]->get_accountinfo();
 	VERIFY_ARE_EQUAL(U("cpp"), info->get_firstname());
 	VERIFY_ARE_EQUAL(U("test"), info->get_lastname());
@@ -325,7 +316,7 @@ TEST_FIXTURE(e2e_test_case, update_entity)
 	VERIFY_ARE_EQUAL(1, people.size());
 
 	people[0]->set_firstname(U("cpp test updated"));
-	auto status_code = service_context->update_object(people[0]).get(); //TODO-tiano: we should support PUT as well as PATCH. Bug #2265147
+	auto status_code = service_context->update_object(people[0], HTTP_PUT).get();
 	VERIFY_ARE_EQUAL(204, status_code);
 
 	auto people_new = service_context->create_people_query()->key(U("5"))->execute_query().get();

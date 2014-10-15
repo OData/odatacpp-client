@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="client_test">
+      <UniqueIdentifier>{0411eedc-5d92-4fa4-a3ae-a5600bcc9a40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codegen_test">
+      <UniqueIdentifier>{deac78e4-c4cd-4382-aed5-491ea0673826}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common_test">
+      <UniqueIdentifier>{5fa9fb1e-d039-4ca7-bf2f-8a4e9c8b2bd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core_test">
+      <UniqueIdentifier>{b36732de-b9f7-4675-8b9c-90edc093b06b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="edm_test">
+      <UniqueIdentifier>{2deb115a-262a-404a-bfaa-163b6c2be658}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codegen_tool_test">
+      <UniqueIdentifier>{2b45eb7b-c7b3-4e5d-b757-7fff96e9021f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codegen_tool_test\baseline">
+      <UniqueIdentifier>{b8d5790a-7c77-4a2b-9856-3577c2f665f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(ODataCppFunctionalTest)\client_test\odata_query_builder_test.cpp">
+      <Filter>client_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test.cpp">
+      <Filter>codegen_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test_service.cpp">
+      <Filter>codegen_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_collection_value_test.cpp">
+      <Filter>core_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_context_url_parser_test.cpp">
+      <Filter>core_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_json_reader_test.cpp">
+      <Filter>core_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_json_writer_test.cpp">
+      <Filter>core_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\core_test\odata_value_test.cpp">
+      <Filter>core_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\edm_test\edm_model_reader_test.cpp">
+      <Filter>edm_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\edm_test\edm_model_utility_test.cpp">
+      <Filter>edm_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\odata_tests.cpp" />
+    <ClCompile Include="$(ODataCppFunctionalTest)\codegen_tool_test\codegen_basic_test.cpp">
+      <Filter>codegen_tool_test</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppFunctionalTest)\common_test\common_utility_test.cpp">
+      <Filter>common_test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tests\functional\core_test\odata_entity_value_test.cpp">
+      <Filter>core_test</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(ODataCppFunctionalTest)\codegen_test\codegen_test_service.h">
+      <Filter>codegen_test</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppFunctionalTest)\odata_tests.h" />
+    <ClInclude Include="$(ODataCppFunctionalTest)\codegen_tool_test\codegen_tool_test_case.h">
+      <Filter>codegen_tool_test</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="$(ODataCppFunctionalTest)\codegen_tool_test\baseline\SimpleModel.xml">
+      <Filter>codegen_tool_test\baseline</Filter>
+    </Xml>
+    <Xml Include="$(ODataCppFunctionalTest)\codegen_tool_test\baseline\DefaultServiceModel.xml">
+      <Filter>codegen_tool_test\baseline</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

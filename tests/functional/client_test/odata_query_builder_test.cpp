@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
- 
 
 #include "../odata_tests.h"
 #include "cpprest/json.h"
@@ -25,7 +23,7 @@ using namespace ::odata::edm;
 using namespace ::odata::core;
 using namespace ::odata::client;
 using namespace ::odata::codegen;
-using namespace ::odata::utility;
+using namespace ::odata::common;
 
 namespace tests { namespace functional { namespace _odata {
 
@@ -93,9 +91,9 @@ TEST(select_and_expand_test)
 	auto query_builder = std::make_shared<odata_query_builder>(U("Accounts(101)"));
 	query_builder->expand(U("MyPaymentInstruments"));
 	query_builder->expand(U("MyGiftCard"));
-	query_builder->select(U("AccountID,Country"));
+	query_builder->select(U("AccountID,CountryRegion"));
 	::utility::string_t expression = query_builder->get_query_expression();
-	VERIFY_ARE_EQUAL(expression, U("Accounts(101)?$select=AccountID,Country&$expand=MyGiftCard,MyPaymentInstruments"));
+	VERIFY_ARE_EQUAL(expression, U("Accounts(101)?$select=AccountID,CountryRegion&$expand=MyGiftCard,MyPaymentInstruments"));
 }
 
 TEST(only_nested_expand_test)
@@ -103,27 +101,27 @@ TEST(only_nested_expand_test)
 	auto query_builder = std::make_shared<odata_query_builder>(U("Accounts(101)"));
 	query_builder->expand(U("MyGiftCard"));
 	query_builder->expand(odata_query_path::creat_query_path(U("MyPaymentInstruments"))->expand(U("TheStoredPI")));
-	query_builder->select(U("AccountID,Country"));
+	query_builder->select(U("AccountID,CountryRegion"));
 	::utility::string_t expression = query_builder->get_query_expression();
-	VERIFY_ARE_EQUAL(expression, U("Accounts(101)?$select=AccountID,Country&$expand=MyPaymentInstruments($expand=TheStoredPI),MyGiftCard"));
+	VERIFY_ARE_EQUAL(expression, U("Accounts(101)?$select=AccountID,CountryRegion&$expand=MyPaymentInstruments($expand=TheStoredPI),MyGiftCard"));
 }
 
 TEST(select_in_expand_test)
 {
 	auto query_builder = std::make_shared<odata_query_builder>(U("Accounts"));
 	query_builder->expand(odata_query_path::creat_query_path(U("MyPaymentInstruments"))->select(U("PaymentInstrumentID,FriendlyName")));
-	query_builder->select(U("AccountID,Country"));
+	query_builder->select(U("AccountID,CountryRegion"));
 	::utility::string_t expression = query_builder->get_query_expression();
-	VERIFY_ARE_EQUAL(expression, U("Accounts?$select=AccountID,Country&$expand=MyPaymentInstruments($select=PaymentInstrumentID,FriendlyName)"));
+	VERIFY_ARE_EQUAL(expression, U("Accounts?$select=AccountID,CountryRegion&$expand=MyPaymentInstruments($select=PaymentInstrumentID,FriendlyName)"));
 }
 
 TEST(expand_in_expand_test)
 {
 	auto query_builder = std::make_shared<odata_query_builder>(U("Accounts"));
 	query_builder->expand(odata_query_path::creat_query_path(U("MyPaymentInstruments"))->select(U("PaymentInstrumentID,FriendlyName"))->expand(odata_query_path::creat_query_path(U("TheStoredPI"))));
-	query_builder->select(U("AccountID,Country"));
+	query_builder->select(U("AccountID,CountryRegion"));
 	::utility::string_t expression = query_builder->get_query_expression();
-	VERIFY_ARE_EQUAL(expression, U("Accounts?$select=AccountID,Country&$expand=MyPaymentInstruments($select=PaymentInstrumentID,FriendlyName;$expand=TheStoredPI)"));
+	VERIFY_ARE_EQUAL(expression, U("Accounts?$select=AccountID,CountryRegion&$expand=MyPaymentInstruments($select=PaymentInstrumentID,FriendlyName;$expand=TheStoredPI)"));
 }
 
 TEST(three_layered_expand_test)

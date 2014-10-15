@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/core/odata_entity_value.h"
 
@@ -71,9 +71,9 @@ public:
 		return m_next_link;
 	}
 
-	void set_next_link(const ::utility::string_t& next_link)
+	void set_next_link(::utility::string_t next_link)
 	{
-		m_next_link = next_link;
+		m_next_link = std::move(next_link);
 	}
 
 	const ::utility::string_t& get_context_url() const
@@ -81,9 +81,9 @@ public:
 		return m_context_url;
 	}
 
-	void set_context_url(const ::utility::string_t& context_ur)
+	void set_context_url(::utility::string_t context_ur)
 	{
-		m_context_url = context_ur;
+		m_context_url = std::move(context_ur);
 	}
 
 	bool has_next_page_data()

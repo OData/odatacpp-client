@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/core/odata_value.h"
 #include "odata/core/odata_collection_value.h"
@@ -26,3 +26,4 @@
 #include "odata/core/odata_payload.h"
 #include "odata/core/odata_entity_model_builder.h"
 #include "odata/core/odata_parameter.h"
+#include "odata/core/odata_json_constants.h"

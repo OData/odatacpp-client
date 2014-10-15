@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata_codegen_writer.h"
+#include "odata_codegen_writer.h"
 #include "odata/client/odata_client.h"
 #include "odata/edm/edm_model_utility.h"
 #include <regex>
@@ -92,6 +92,7 @@ void odata_codegen_writer::generate_declare_include_files(::utility::ofstream_t&
 	output_line_content(out, U("using namespace std;"));
 	output_line_content(out, U("using namespace ::odata::client;"));
 	output_line_content(out, U("using namespace ::odata::core;"));
+	output_line_content(out, U("using namespace ::odata::edm;"));
 	output_line_content(out, U("using namespace ::odata::codegen;"));
 	output_empty_line(out, 1);
 }
@@ -1272,7 +1273,7 @@ void odata_codegen_writer::generate_implement_end_destructor_in_entity(::utility
 
 //BEGIN_PROPERTY_IN_ENTITY_MAPPING(Account)
 //    ON_PROPERTY_IN_ENTITY_MAPPING(Account, accountid)
-//    ON_PROPERTY_IN_ENTITY_MAPPING(Account, country)
+//    ON_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion)
 //	ON_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo)
 //	ON_PROPERTY_IN_ENTITY_MAPPING(Account, giftcard)
 //	ON_PROPERTY_IN_ENTITY_MAPPING(Account, mypaymentinstruments)
@@ -1321,7 +1322,7 @@ void odata_codegen_writer::generate_implement_end_materialize_in_entity(::utilit
 
 //BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account)
 //    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, accountid)
-//    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, country)
+//    ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion)
 //	ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo)
 //END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Account)
 void odata_codegen_writer::generate_implement_begin_serialize_in_entity(::utility::ofstream_t& out, const class_info& _class_info)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/edm/odata_edm.h"
 
@@ -88,50 +88,50 @@ public:
 		return *this;
 	}
 
-	ODATACPP_API std::shared_ptr<odata_value>& operator[](odata_property_name&& _Keyval)
+	ODATACPP_CLIENT_API std::shared_ptr<odata_value>& operator[](odata_property_name&& _Keyval)
     {
          return m_properties[_Keyval];
     }
 
-	ODATACPP_API std::shared_ptr<odata_value>& operator[](odata_property_name& _Keyval)
+	ODATACPP_CLIENT_API std::shared_ptr<odata_value>& operator[](odata_property_name& _Keyval)
     {
          return m_properties[_Keyval];
     }
 
-	ODATACPP_API std::shared_ptr<odata_value>& operator[](const odata_property_name& _Keyval)
+	ODATACPP_CLIENT_API std::shared_ptr<odata_value>& operator[](const odata_property_name& _Keyval)
     {
          return m_properties[_Keyval];
     }
 
-    ODATACPP_API odata_properties::iterator erase(odata_properties::const_iterator _Where)
+    ODATACPP_CLIENT_API odata_properties::iterator erase(odata_properties::const_iterator _Where)
     {
         return m_properties.erase(_Where);
     }
 
-    ODATACPP_API odata_properties::size_type erase(const odata_property_name& _Keyval)
+    ODATACPP_CLIENT_API odata_properties::size_type erase(const odata_property_name& _Keyval)
     {
         return m_properties.erase(_Keyval);
     }
 
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_value>& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_complex_value>& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_primitive_value>& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_entity_value>& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_enum_value>& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_collection_value>& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, char& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, unsigned char& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, std::vector<unsigned char>& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, bool& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, ::utility::datetime& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, ::utility::seconds& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, double& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, float& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, int32_t& value) const;
-	ODATACPP_API bool try_get(const ::utility::string_t& property_name, int16_t& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, int64_t& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, ::utility::string_t& value) const;
-    ODATACPP_API bool try_get(const ::utility::string_t& property_name, odata_property_map& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_value>& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_complex_value>& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_primitive_value>& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_entity_value>& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_enum_value>& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, std::shared_ptr<odata_collection_value>& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, char& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, unsigned char& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, std::vector<unsigned char>& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, bool& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, ::utility::datetime& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, ::utility::seconds& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, double& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, float& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, int32_t& value) const;
+	ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, int16_t& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, int64_t& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, ::utility::string_t& value) const;
+    ODATACPP_CLIENT_API bool try_get(const ::utility::string_t& property_name, odata_property_map& value) const;
 
     /// <summary>
     /// Gets the beginning const_iterator of the properties
@@ -158,7 +158,7 @@ private:
     friend class entity;
     odata_properties m_properties;
 
-	ODATACPP_API std::pair<bool, std::shared_ptr<odata_value>> find_property(const ::utility::string_t& property_name) const;
+	ODATACPP_CLIENT_API std::pair<bool, std::shared_ptr<odata_value>> find_property(const ::utility::string_t& property_name) const;
 };
 
 }}

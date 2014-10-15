@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Common.vs11.props" />
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3EB86C0D-432C-4FFC-BAD4-8DF4EFC7D0FF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>UnitTest</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath11)</VCTargetsPath>
+    <ProjectName>UnitTestpp.vs11</ProjectName>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(UnitTestppSrc);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>$(UnitTestppSrc);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(UnitTestppSrc);$(IncludePath)</IncludePath>
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(UnitTestppSrc);$(IncludePath)</IncludePath>
+    <OutDir>$(ODataCppOut)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>UNITTEST_DLL_EXPORT;WIN32;_DEBUG;_USRDLL;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>UNITTEST_DLL_EXPORT;WIN32;_DEBUG;_USRDLL;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>UNITTEST_DLL_EXPORT;WIN32;NDEBUG;_USRDLL;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName).int.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>UNITTEST_DLL_EXPORT;WIN32;NDEBUG;_USRDLL;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="$(UnitTestppSrc)\GlobalSettings.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\Win32\TimeHelpers.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\AssertException.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\CompositeTestReporter.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\CurrentTest.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\DeferredTestReporter.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\DeferredTestResult.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\MemoryOutStream.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\ReportAssert.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\Test.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\TestDetails.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\TestList.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\TestReporter.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\TestReporterStdout.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\TestResults.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\TestRunner.cpp" />
+    <ClCompile Include="$(UnitTestppSrc)\XmlTestReporter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(UnitTestppSrc)\GlobalSettings.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestHeader.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestProperties.h" />
+    <ClInclude Include="$(UnitTestppSrc)\Win32\TimeHelpers.h" />
+    <ClInclude Include="$(UnitTestppSrc)\AssertException.h" />
+    <ClInclude Include="$(UnitTestppSrc)\CheckMacros.h" />
+    <ClInclude Include="$(UnitTestppSrc)\Checks.h" />
+    <ClInclude Include="$(UnitTestppSrc)\CompositeTestReporter.h" />
+    <ClInclude Include="$(UnitTestppBase)\config.h" />
+    <ClInclude Include="$(UnitTestppSrc)\CurrentTest.h" />
+    <ClInclude Include="$(UnitTestppSrc)\DeferredTestReporter.h" />
+    <ClInclude Include="$(UnitTestppSrc)\DeferredTestResult.h" />
+    <ClInclude Include="$(UnitTestppSrc)\ExceptionMacros.h" />
+    <ClInclude Include="$(UnitTestppSrc)\ExecuteTest.h" />
+    <ClInclude Include="$(UnitTestppSrc)\HelperMacros.h" />
+    <ClInclude Include="$(UnitTestppSrc)\MemoryOutStream.h" />
+    <ClInclude Include="$(UnitTestppSrc)\ReportAssert.h" />
+    <ClInclude Include="$(UnitTestppSrc)\ReportAssertImpl.h" />
+    <ClInclude Include="$(UnitTestppSrc)\Test.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestDetails.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestList.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestMacros.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestReporter.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestReporterStdout.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestResults.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestRunner.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TestSuite.h" />
+    <ClInclude Include="$(UnitTestppSrc)\TimeHelpers.h" />
+    <ClInclude Include="$(UnitTestppBase)\unittestpp.h" />
+    <ClInclude Include="$(UnitTestppSrc)\XmlTestReporter.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+</Project>

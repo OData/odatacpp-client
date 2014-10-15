@@ -14,12 +14,12 @@
  * limitations under the License.
  */
  
- #include "../odata_tests.h"
+#include "../odata_tests.h"
 #include "odata/common/utility.h"
 
 using namespace ::odata::edm;
 using namespace ::odata::core;
-using namespace ::odata::utility;
+using namespace ::odata::common;
 
 namespace tests { namespace functional { namespace _odata {
 

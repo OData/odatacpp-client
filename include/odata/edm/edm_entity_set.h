@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 #include "odata/edm/edm_navigation_source.h"
@@ -36,19 +36,12 @@ public:
     /// </summary>
     /// <param name="name">The name of the entity set.</param>
     edm_entity_set(::utility::string_t name, ::utility::string_t type) 
-		: m_type_name(type), edm_navigation_source(name, container_resource_type::E_RESOURCE_ENTITY_SET)
+		: m_type_name(std::move(type)), edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_ENTITY_SET)
     {}
 
 	edm_entity_set(::utility::string_t name, std::shared_ptr<edm_entity_type> type) 
-		: m_entity_type(type), edm_navigation_source(name, container_resource_type::E_RESOURCE_ENTITY_SET)
+		: m_entity_type(type), edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_ENTITY_SET)
     {}
-
-	~edm_entity_set()
-	{
-#ifdef _MS_WINDOWS_DEBUG
-		std::wcout << U("destroy edm_entity_set") << std::endl;
-#endif
-	}
 
     /// <summary>
     /// Gets the name of the type of the entity set

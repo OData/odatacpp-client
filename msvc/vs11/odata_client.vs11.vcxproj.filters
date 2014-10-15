@@ -1,0 +1,264 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="$(ODataCppInc)\odata\client\odata_client.h">
+      <Filter>client</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\client\odata_client_options.h">
+      <Filter>client</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\communication\http_communication.h">
+      <Filter>communication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\communication\http_implement.h">
+      <Filter>communication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\communication\http_service_exception.h">
+      <Filter>communication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\communication\http_utility.h">
+      <Filter>communication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\code_generation.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\code_generation_base.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\code_generation_helper.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_complex_query_executor.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_entityset_query_executor.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_enum_query_executor.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_function_param_formatter.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_primitive_query_executor.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_query_builder.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_query_option.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_query_path.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_query_path_composer.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_service_context.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_service_query.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_singleton_query_executor.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="$(ODataCppInc)\odata\codegen\odata_void_query_executor.h">
+      <Filter>codegen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\common\utility.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\common\platform.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\common\xmlhelpers.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_collection_value.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_complex_value.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_context_url_parser.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_core.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_entity_factory.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_entity_model_builder.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_entity_value.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_enum_value.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_json_operation_payload_parameter_writer.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_json_operation_url_parameter_writer.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_json_reader.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_json_writer.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_parameter.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_payload.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_primitive_value.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_property_map.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_structured_value.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_value.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\core\odata_json_constants.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_entity_container.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_entity_set.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_model.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_model_reader.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_model_utility.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_navigation_source.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_operation_import.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_schema.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_singleton.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\edm_type.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\edm\odata_edm.h">
+      <Filter>edm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\odata\common\xmlstream.h">
+      <Filter>common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="client">
+      <UniqueIdentifier>{14022365-1487-4ba4-8d6b-544790fc43f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="communication">
+      <UniqueIdentifier>{da938f39-aa16-4f44-84e7-9a4bc1d0bb7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="codegen">
+      <UniqueIdentifier>{60e1bd9d-840d-46a3-80d8-2971f4791548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{15d88eb5-213d-4eea-a174-b88154d16abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{6ab363cd-7a54-4980-9c74-abb7988da0b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="edm">
+      <UniqueIdentifier>{d208661a-f671-492c-9804-6a6f3aea16ba}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(ODataCppSrc)\client\odata_client.cpp">
+      <Filter>client</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppSrc)\communication\http_implement.cpp">
+      <Filter>communication</Filter>
+    </ClCompile>
+    <ClCompile Include="$(ODataCppSrc)\codegen\odata_query_path.cpp">
+      <Filter>codegen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\common\utility.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\common\xmlhelpers.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_context_url_parser.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_entity_model_builder.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_entity_value.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_json_operation_payload_parameter_writer.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_json_operation_url_parameter_writer.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_json_reader.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_json_writer.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_primitive_value.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_property_map.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_structured_value.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\core\odata_json_constants.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\edm\edm_entity_container.cpp">
+      <Filter>edm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\edm\edm_model.cpp">
+      <Filter>edm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\edm\edm_model_reader.cpp">
+      <Filter>edm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\edm\edm_model_utility.cpp">
+      <Filter>edm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\edm\edm_schema.cpp">
+      <Filter>edm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\edm\edm_type.cpp">
+      <Filter>edm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>

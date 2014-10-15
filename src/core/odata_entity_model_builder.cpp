@@ -14,7 +14,8 @@
  * limitations under the License.
  */
  
- #include "odata/core/odata_entity_model_builder.h"
+#include "odata/core/odata_entity_model_builder.h"
+#include "odata/core/odata_json_constants.h"
 #include "odata/common/utility.h"
 
 using namespace ::odata::edm;
@@ -33,7 +34,7 @@ namespace odata { namespace core
 	if (entity_value)
 	{
 	    std::shared_ptr<odata_value> edit_link_value;
-        if (entity_value->get_property_value(PAYLOAD_ANNOTATION_EDITLINK, edit_link_value))
+        if (entity_value->get_property_value(odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK, edit_link_value))
 	    { 
 			auto primitive_value = std::dynamic_pointer_cast<odata_primitive_value>(edit_link_value);
 
@@ -44,7 +45,7 @@ namespace odata { namespace core
 
 			edit_link = primitive_value->to_string();
 
-			if (::odata::utility::is_relative_path(root_url, edit_link))
+			if (::odata::common::is_relative_path(root_url, edit_link))
 			{
 				edit_link = root_url + U("/") + edit_link;
 			}

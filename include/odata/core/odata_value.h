@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/edm/odata_edm.h"
 #include "odata/core/odata_property_map.h"

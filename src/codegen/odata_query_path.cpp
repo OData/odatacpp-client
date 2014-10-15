@@ -14,10 +14,10 @@
  * limitations under the License.
  */
  
- #include "odata/common/utility.h"
+#include "odata/common/utility.h"
 #include "odata/codegen/odata_query_path.h"
 
-using namespace ::odata::utility;
+using namespace ::odata::common;
 
 namespace odata { namespace codegen { 
 

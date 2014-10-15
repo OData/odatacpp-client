@@ -1,27 +1,18 @@
-/***
-* ==++==
-*
-* Copyright (c) Microsoft Corporation. All rights reserved. 
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* http://www.apache.org/licenses/LICENSE-2.0
-* 
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* ==--==
-* =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-*
-* query_option_tests.cpp
-*
-*
-*
-* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-****/
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "e2e_tests.h"
 #include "odata_wcf_service.h"
@@ -38,7 +29,7 @@ SUITE(query_option_tests_raw_client)
 /***
 TEST_FIXTURE(e2e_raw_client, filter_option)  //TODO-tiano: bug #2163372
 {
-	auto entities = client.get_data_from_server(U("Accounts?$filter=Country eq 'US'")).get();
+	auto entities = client.get_data_from_server(U("Accounts?$filter=CountryRegion eq 'US'")).get();
 	VERIFY_ARE_EQUAL(entities.size(), 2);
 }
 ***/
@@ -59,11 +50,11 @@ SUITE(query_option_tests)
 
 TEST_FIXTURE(e2e_test_case, filter_option)
 {
-	auto accounts = service_context->create_accounts_query()->filter(U("Country eq 'US'"))->execute_query().get();
+	auto accounts = service_context->create_accounts_query()->filter(U("CountryRegion eq 'US'"))->execute_query().get();
 	VERIFY_ARE_EQUAL(2, accounts.size());
 	for (auto iter = accounts.cbegin(); iter != accounts.cend(); iter++)
 	{
-		VERIFY_ARE_EQUAL(U("US"), (*iter)->get_country());
+		VERIFY_ARE_EQUAL(U("US"), (*iter)->get_countryregion());
 	}
 
 	//filter on derived type property
@@ -72,11 +63,11 @@ TEST_FIXTURE(e2e_test_case, filter_option)
 
 TEST_FIXTURE(e2e_test_case, orderby_option) 
 {
-	auto accounts = service_context->create_accounts_query()->orderby(U("Country"))->execute_query().get();
+	auto accounts = service_context->create_accounts_query()->orderby(U("CountryRegion"))->execute_query().get();
 	VERIFY_ARE_EQUAL(7, accounts.size());
-	VERIFY_ARE_EQUAL(U("CN"), accounts[0]->get_country());
-	VERIFY_ARE_EQUAL(U("FR"), accounts[3]->get_country());
-	VERIFY_ARE_EQUAL(U("US"), accounts[5]->get_country());
+	VERIFY_ARE_EQUAL(U("CN"), accounts[0]->get_countryregion());
+	VERIFY_ARE_EQUAL(U("FR"), accounts[3]->get_countryregion());
+	VERIFY_ARE_EQUAL(U("US"), accounts[5]->get_countryregion());
 }
 
 TEST_FIXTURE(e2e_test_case, select_option) 

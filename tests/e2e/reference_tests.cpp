@@ -1,27 +1,18 @@
-/***
-* ==++==
-*
-* Copyright (c) Microsoft Corporation. All rights reserved. 
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* http://www.apache.org/licenses/LICENSE-2.0
-* 
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* ==--==
-* =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-*
-* reference_tests.cpp
-*
-*
-*
-* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-****/
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "e2e_tests.h"
 #include "odata_wcf_service.h"
@@ -42,7 +33,7 @@ TEST_FIXTURE(e2e_raw_client, add_reference)
 	auto orderEntity = std::dynamic_pointer_cast<odata_entity_value>(client.get_data_from_server(U("Orders(7)")).get()[0]);
 	
 	string_t orderId;
-	orderEntity->try_get(PAYLOAD_ANNOTATION_ID, orderId);
+	orderEntity->try_get(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_ID, orderId);
 	client.add_reference(orders_of_customer1, orderId).get();
 
 	orders = client.get_data_from_server(orders_of_customer1).get();
@@ -57,7 +48,7 @@ TEST_FIXTURE(e2e_raw_client, delete_reference_in_collection_valued_navigation_pr
 
 	auto orderEntity = std::dynamic_pointer_cast<odata_entity_value>(orders[0]);
 	string_t orderId;
-	orderEntity->try_get(PAYLOAD_ANNOTATION_ID, orderId);
+	orderEntity->try_get(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_ID, orderId);
 	client.remove_reference(orders_of_customer1, orderId).get();
 
 	orders = client.get_data_from_server(orders_of_customer1).get();
@@ -90,7 +81,7 @@ TEST_FIXTURE(e2e_raw_client, update_reference)
 
 	auto newParentEntity = std::dynamic_pointer_cast<odata_entity_value>(client.get_data_from_server(U("People(3)")).get()[0]);
 	::utility::string_t newParentId;
-	newParentEntity->try_get(PAYLOAD_ANNOTATION_ID, newParentId);
+	newParentEntity->try_get(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_ID, newParentId);
 
 	client.update_reference(parent, newParentId).get();
 

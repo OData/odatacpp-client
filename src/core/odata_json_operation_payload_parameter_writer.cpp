@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/core/odata_json_operation_payload_parameter_writer.h"
+#include "odata/core/odata_json_operation_payload_parameter_writer.h"
 
 using namespace ::odata::edm;
 
@@ -292,7 +292,7 @@ bool odata_json_operation_payload_parameter_writer::is_type_serializable(const s
 			|| property_type->get_type_kind() == edm_type_kind_t::Complex
 			|| property_type->get_type_kind() == edm_type_kind_t::Primitive
 			|| property_type->get_type_kind() == edm_type_kind_t::Enum
-	        || (property_type->get_type_kind() == edm_type_kind_t::PayloadAnnotation && property_type->get_name() == PAYLOAD_ANNOTATION_TYPE))
+	        || (property_type->get_type_kind() == edm_type_kind_t::PayloadAnnotation && property_type->get_name() == odata_json_constants::PAYLOAD_ANNOTATION_TYPE))
 		{
 			return true;
 		}

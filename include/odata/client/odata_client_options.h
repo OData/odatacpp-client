@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 
@@ -23,8 +23,8 @@ namespace odata { namespace client {
 class odata_client_credential
 {
 public:
-	odata_client_credential(const ::utility::string_t& username, const ::utility::string_t& password) :
-		m_username(username), m_password(password)
+	odata_client_credential(::utility::string_t username, ::utility::string_t password) :
+		m_username(std::move(username)), m_password(std::move(password))
 	{
 	}
 
@@ -87,9 +87,9 @@ public:
         return *this;
     }
 
-	void enable_client_credential(const ::utility::string_t& username, const ::utility::string_t& password)
+	void enable_client_credential(::utility::string_t username, ::utility::string_t password)
 	{
-		m_credential = std::make_shared<odata_client_credential>(username, password);
+		m_credential = std::make_shared<odata_client_credential>(std::move(username), std::move(password));
 	}
 
 	void disable_client_credential()

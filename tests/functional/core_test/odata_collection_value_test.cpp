@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "../odata_tests.h"
+#include "../odata_tests.h"
 #include "cpprest/json.h"
 #include "odata/edm/odata_edm.h"
 #include "odata/edm/edm_model_reader.h"

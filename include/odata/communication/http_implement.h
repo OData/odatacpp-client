@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include <functional>
 #include "odata/communication/http_communication.h"

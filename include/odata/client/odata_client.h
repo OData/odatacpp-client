@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include <functional>
 #include "odata/client/odata_client_options.h"
@@ -35,10 +35,10 @@ namespace odata { namespace client {
         /// Constructor
         /// </summary>
         /// <param name="baseAddress">The OData service endpoint used to create the client.</param>
-        odata_client(const ::utility::string_t& baseAddress, client_options options = client_options()) :
-            m_options(options), m_service_root_url(baseAddress)
+        odata_client(::utility::string_t baseAddress, client_options options = client_options()) :
+            m_options(options), m_service_root_url(std::move(baseAddress))
         {
-            m_client_proxy = std::make_shared<::odata::communication::http_client_proxy<::odata::communication::http_client_impl, ::odata::communication::http_client_response>>(baseAddress, options.get_credential_setting());
+            m_client_proxy = std::make_shared<::odata::communication::http_client_proxy<::odata::communication::http_client_impl, ::odata::communication::http_client_response>>(m_service_root_url, options.get_credential_setting());
 
             if (m_service_root_url.back() == '/')
             {
@@ -53,13 +53,12 @@ namespace odata { namespace client {
 
         ::utility::string_t get_relative_path(const ::utility::string_t& full_path)
         {
-            if (::odata::utility::is_relative_path(m_service_root_url, full_path))
+            if (::odata::common::is_relative_path(m_service_root_url, full_path))
             {
                 return full_path;
             }
 
-            ::utility::string_t path = full_path;
-            return path.substr(m_service_root_url.length() + 1, path.length() - m_service_root_url.length());
+            return full_path.substr(m_service_root_url.length() + 1, full_path.length() - m_service_root_url.length());
         }
 
         /// <summary>

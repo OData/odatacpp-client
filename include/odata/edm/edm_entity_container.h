@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 #include "odata/edm/edm_entity_set.h"
@@ -35,16 +35,9 @@ public:
     /// </summary>
     /// <param name="name">The name of the entity container.</param>
     edm_entity_container(::utility::string_t name, bool is_default) : 
-        m_name(name), m_is_default(is_default)
+        m_name(std::move(name)), m_is_default(is_default)
     {
     }
-
-	~edm_entity_container()
-	{
-#ifdef _MS_WINDOWS_DEBUG
-		std::wcout << U("destroy edm_entity_container") << std::endl;
-#endif
-	}
 
     /// <summary>
     /// Gets the name of the entity container
@@ -72,7 +65,6 @@ public:
 		if (et)
 		{
 		    m_entity_sets[et->get_name()] = et;
-            m_entity_set_vector.push_back(et);
 		}
     }
 
@@ -84,7 +76,6 @@ public:
 		if (sg)
 		{
 			m_singletons[sg->get_name()] = sg;
-            m_singleton_vector.push_back(sg);
 		}
 	}
 
@@ -101,21 +92,6 @@ public:
 		return m_singletons;
 	}
 
-    const std::vector<std::shared_ptr<edm_operation_import>>& get_operation_import_vector() const
-	{
-		return m_operation_import_vector;
-	}
-
-	const std::vector<std::shared_ptr<edm_singleton>>& get_singleton_vector() const
-	{
-		return m_singleton_vector;
-	}
-
-    const std::vector<std::shared_ptr<edm_entity_set>>& get_entity_set_vector() const
-	{
-		return m_entity_set_vector;
-	}
-
     /// <summary>
     /// 
     /// </summary>
@@ -124,7 +100,6 @@ public:
 		if (op)
 		{
 		    m_operation_imports[op->get_name()] = op;
-            m_operation_import_vector.push_back(op);
 		}
 	}
 
@@ -149,21 +124,21 @@ public:
     /// </summary>
     /// <param name="name">The qualified or unqualified name of the entity set.</param>
     /// <returns>A pointer to the type if found, an empty pointer otherwise.</returns>
-    ODATACPP_API std::shared_ptr<edm_entity_set> find_entity_set(::utility::string_t name) const;
+    ODATACPP_CLIENT_API std::shared_ptr<edm_entity_set> find_entity_set(::utility::string_t name) const;
 
     /// <summary>
     /// Looks up a singleton of the container by name.
     /// </summary>
     /// <param name="name">The qualified or unqualified name of the singleton.</param>
     /// <returns>A pointer to the type if found, an empty pointer otherwise.</returns>
-	ODATACPP_API std::shared_ptr<edm_singleton> find_singleton(::utility::string_t name) const;
+	ODATACPP_CLIENT_API std::shared_ptr<edm_singleton> find_singleton(::utility::string_t name) const;
 
     /// <summary>
     /// Looks up an operation import of the container by name.
     /// </summary>
     /// <param name="name">The qualified or unqualified name of the operation import.</param>
     /// <returns>A pointer to the type if found, an empty pointer otherwise.</returns>
-    ODATACPP_API std::shared_ptr<edm_operation_import> find_operation_import(::utility::string_t name) const;
+    ODATACPP_CLIENT_API std::shared_ptr<edm_operation_import> find_operation_import(::utility::string_t name) const;
 
 private:
     friend class edm_schema;
@@ -174,9 +149,6 @@ private:
 	std::unordered_map<::utility::string_t, std::shared_ptr<edm_entity_set>> m_entity_sets;
 	std::unordered_map<::utility::string_t, std::shared_ptr<edm_singleton>> m_singletons;
 	std::unordered_map<::utility::string_t, std::shared_ptr<edm_operation_import>> m_operation_imports;
-    std::vector<std::shared_ptr<edm_entity_set>> m_entity_set_vector;
-	std::vector<std::shared_ptr<edm_singleton>> m_singleton_vector;
-	std::vector<std::shared_ptr<edm_operation_import>> m_operation_import_vector;
 
 };
 

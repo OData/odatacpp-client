@@ -14,12 +14,13 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "cpprest/json.h"
 #include "odata/communication/http_communication.h"
 #include "odata/common/utility.h"
 #include "odata/core/odata_core.h"
+#include "odata/core/odata_json_constants.h"
 #include "odata/edm/odata_edm.h"
 
 namespace odata { namespace core
@@ -32,7 +33,7 @@ public:
 	{
 	}
 
-	ODATACPP_API ::web::json::value serialize(std::vector<std::shared_ptr<odata_parameter>> parameters);
+	ODATACPP_CLIENT_API ::web::json::value serialize(std::vector<std::shared_ptr<odata_parameter>> parameters);
 
 private:
 	void handle_serialize_odata_parameter(::utility::stringstream_t& ss, const std::shared_ptr<::odata::core::odata_parameter>& parameter, ::utility::char_t mark, ::utility::char_t separator);

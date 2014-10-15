@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,23 +14,22 @@
  * limitations under the License.
  */
  
- #include "../odata_tests.h"
+#include "../odata_tests.h"
 #include "cpprest/json.h"
 #include "odata/core/odata_core.h"
-#include "odata/core/odata_json_reader_minimal.h"
-
+#include "odata/core/odata_json_reader.h"
 
 using namespace ::odata::core;
 using namespace ::odata::edm;
 
 namespace tests { namespace functional { namespace _odata {
 
-static std::shared_ptr<odata_json_reader_minimal> get_json_reader()
+static std::shared_ptr<odata_json_reader> get_json_reader()
 {
 	auto model = get_test_model();
 	if (model)
 	{
-		return std::make_shared<odata_json_reader_minimal>(model, g_service_root_url);
+		return std::make_shared<odata_json_reader>(model, g_service_root_url);
 	}
 
 	return nullptr;
@@ -47,7 +46,7 @@ TEST(single_entity_test)
 	::utility::string_t _entity_payload = U(
 		"{\"@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts/$entity\", \
 		\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(101)\", \
-		\"AccountID\":101,\"Country\":\"US\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"}}"
+		\"AccountID\":101,\"CountryRegion\":\"US\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"}}"
 		);
 
 	web::json::value json_payload = web::json::value::parse(_entity_payload);
@@ -147,7 +146,7 @@ TEST(single_complex_test)
 {
 	auto model = get_test_model();
 	VERIFY_IS_NOT_NULL(model);
-	auto json_reader = std::make_shared<odata_json_reader_minimal>(model, g_service_root_url);
+	auto json_reader = std::make_shared<odata_json_reader>(model, g_service_root_url);
 	VERIFY_IS_NOT_NULL(json_reader);
 
     ::utility::string_t _entity_payload = U(
@@ -174,7 +173,7 @@ TEST(derived_complex_test)
 {
 	auto model = get_test_model();
 	VERIFY_IS_NOT_NULL(model);
-	auto json_reader = std::make_shared<odata_json_reader_minimal>(model, g_service_root_url);
+	auto json_reader = std::make_shared<odata_json_reader>(model, g_service_root_url);
 	VERIFY_IS_NOT_NULL(json_reader);
 
     ::utility::string_t _entity_payload = U(
@@ -202,7 +201,7 @@ TEST(derived_complex_test_2)
 {
 	auto model = get_test_model();
 	VERIFY_IS_NOT_NULL(model);
-	auto json_reader = std::make_shared<odata_json_reader_minimal>(model, g_service_root_url);
+	auto json_reader = std::make_shared<odata_json_reader>(model, g_service_root_url);
 	VERIFY_IS_NOT_NULL(json_reader);
 
     ::utility::string_t _entity_payload = U(
@@ -843,7 +842,7 @@ TEST(collection_of_entity_with_collection_of_navigation_test)
 	auto json_reader = get_json_reader();
 	VERIFY_IS_NOT_NULL(json_reader);
 
-	::utility::string_t _entity_payload = U("{\"@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts\",\"value\":[{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(101)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(101)\",\"AccountID\":101,\"Country\":\"US\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(101)/MyPaymentInstruments\",\"MyPaymentInstruments\":[{\"PaymentInstrumentID\":101901,\"FriendlyName\":\"101 first PI\",\"CreatedDate\":\"2012-11-01T00:00:00Z\"},{\"@odata.type\":\"#Microsoft.Test.OData.Services.ODataWCFService.CreditCardPI\",\"PaymentInstrumentID\":101902,\"FriendlyName\":\"101 frist credit PI\",\"CreatedDate\":\"2012-11-01T00:00:00Z\",\"CardNumber\":\"6000000000000000\",\"CVV\":\"234\",\"HolderName\":\"Alex\",\"Balance\":100.0,\"ExperationDate\":\"2022-11-01T00:00:00Z\"},{\"@odata.type\":\"#Microsoft.Test.OData.Services.ODataWCFService.CreditCardPI\",\"PaymentInstrumentID\":101903,\"FriendlyName\":\"101 second credit PI\",\"CreatedDate\":\"2012-11-01T00:00:00Z\",\"CardNumber\":\"8000000000000000\",\"CVV\":\"012\",\"HolderName\":\"James\",\"Balance\":300.0,\"ExperationDate\":\"2022-10-02T00:00:00Z\"}]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(102)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(102)\",\"AccountID\":102,\"Country\":\"GB\",\"AccountInfo\":{\"FirstName\":\"James\",\"LastName\":\"Bunder\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(102)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(103)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(103)\",\"AccountID\":103,\"Country\":\"CN\",\"AccountInfo\":{\"FirstName\":\"Adam\",\"LastName\":\"Homes\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(103)/MyPaymentInstruments\",\"MyPaymentInstruments\":[{\"PaymentInstrumentID\":103901,\"FriendlyName\":\"103 frist PI\",\"CreatedDate\":\"2013-10-01T00:00:00Z\"},{\"PaymentInstrumentID\":103902,\"FriendlyName\":\"103 second PI\",\"CreatedDate\":\"2013-01-01T00:00:00Z\"},{\"PaymentInstrumentID\":103905,\"FriendlyName\":\"103 new PI\",\"CreatedDate\":\"2013-10-29T00:00:00Z\"},{\"PaymentInstrumentID\":101910,\"FriendlyName\":\"103 backup PI\",\"CreatedDate\":\"2013-06-15T00:00:00Z\"}]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(104)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(104)\",\"AccountID\":104,\"Country\":\"CN\",\"AccountInfo\":{\"FirstName\":\"Adrian\",\"LastName\":\"Green\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(104)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(105)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(105)\",\"AccountID\":105,\"Country\":\"US\",\"AccountInfo\":{\"FirstName\":\"Lily\",\"LastName\":\"Green\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(105)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(106)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(106)\",\"AccountID\":106,\"Country\":\"CN\",\"AccountInfo\":{\"FirstName\":\"Allen\",\"LastName\":\"Ivorson\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(106)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(107)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(107)\",\"AccountID\":107,\"Country\":\"FR\",\"AccountInfo\":{\"FirstName\":\"Albert\",\"LastName\":\"Ivorson\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(107)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]}]}");
+	::utility::string_t _entity_payload = U("{\"@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts\",\"value\":[{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(101)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(101)\",\"AccountID\":101,\"CountryRegion\":\"US\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(101)/MyPaymentInstruments\",\"MyPaymentInstruments\":[{\"PaymentInstrumentID\":101901,\"FriendlyName\":\"101 first PI\",\"CreatedDate\":\"2012-11-01T00:00:00Z\"},{\"@odata.type\":\"#Microsoft.Test.OData.Services.ODataWCFService.CreditCardPI\",\"PaymentInstrumentID\":101902,\"FriendlyName\":\"101 frist credit PI\",\"CreatedDate\":\"2012-11-01T00:00:00Z\",\"CardNumber\":\"6000000000000000\",\"CVV\":\"234\",\"HolderName\":\"Alex\",\"Balance\":100.0,\"ExperationDate\":\"2022-11-01T00:00:00Z\"},{\"@odata.type\":\"#Microsoft.Test.OData.Services.ODataWCFService.CreditCardPI\",\"PaymentInstrumentID\":101903,\"FriendlyName\":\"101 second credit PI\",\"CreatedDate\":\"2012-11-01T00:00:00Z\",\"CardNumber\":\"8000000000000000\",\"CVV\":\"012\",\"HolderName\":\"James\",\"Balance\":300.0,\"ExperationDate\":\"2022-10-02T00:00:00Z\"}]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(102)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(102)\",\"AccountID\":102,\"CountryRegion\":\"GB\",\"AccountInfo\":{\"FirstName\":\"James\",\"LastName\":\"Bunder\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(102)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(103)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(103)\",\"AccountID\":103,\"CountryRegion\":\"CN\",\"AccountInfo\":{\"FirstName\":\"Adam\",\"LastName\":\"Homes\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(103)/MyPaymentInstruments\",\"MyPaymentInstruments\":[{\"PaymentInstrumentID\":103901,\"FriendlyName\":\"103 frist PI\",\"CreatedDate\":\"2013-10-01T00:00:00Z\"},{\"PaymentInstrumentID\":103902,\"FriendlyName\":\"103 second PI\",\"CreatedDate\":\"2013-01-01T00:00:00Z\"},{\"PaymentInstrumentID\":103905,\"FriendlyName\":\"103 new PI\",\"CreatedDate\":\"2013-10-29T00:00:00Z\"},{\"PaymentInstrumentID\":101910,\"FriendlyName\":\"103 backup PI\",\"CreatedDate\":\"2013-06-15T00:00:00Z\"}]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(104)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(104)\",\"AccountID\":104,\"CountryRegion\":\"CN\",\"AccountInfo\":{\"FirstName\":\"Adrian\",\"LastName\":\"Green\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(104)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(105)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(105)\",\"AccountID\":105,\"CountryRegion\":\"US\",\"AccountInfo\":{\"FirstName\":\"Lily\",\"LastName\":\"Green\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(105)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(106)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(106)\",\"AccountID\":106,\"CountryRegion\":\"CN\",\"AccountInfo\":{\"FirstName\":\"Allen\",\"LastName\":\"Ivorson\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(106)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]},{\"@odata.id\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(107)\",\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(107)\",\"AccountID\":107,\"CountryRegion\":\"FR\",\"AccountInfo\":{\"FirstName\":\"Albert\",\"LastName\":\"Ivorson\"},\"MyPaymentInstruments@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts(107)/MyPaymentInstruments\",\"MyPaymentInstruments\":[]}]}");
 
     ::web::json::value json_payload = web::json::value::parse(_entity_payload);
 	auto return_payload = json_reader->deserilize(json_payload);
@@ -893,7 +892,7 @@ TEST(edit_link_entity_relative_path)
 	::utility::string_t _entity_payload = U(
 		"{\"@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts/$entity\", \
 		\"@odata.editLink\":\"Accounts(101)\", \
-		\"AccountID\":101,\"Country\":\"%0A%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"}}"
+		\"AccountID\":101,\"CountryRegion\":\"%0A%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"}}"
 		);
 
 	auto json_reader = get_json_reader();
@@ -1174,29 +1173,44 @@ TEST(edit_link_none_contained_in_contained)
 	VERIFY_ARE_EQUAL(edit_link, U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService/StoredPIs(802)"));
 }
 
-/* TODO: [tiano] 
-TEST(read_escaped_data_in_entity)
+
+TEST(read_unicode_data_in_entity)
 {
 	auto json_reader = get_json_reader();
 	VERIFY_IS_NOT_NULL(json_reader);
 
-	::utility::string_t _entity_payload = U(
+	::utility::string_t _entity_payload_escaped = U(
 		"{\"@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts/$entity\", \
 		\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(101)\", \
-		\"AccountID\":101,\"Country\":\"%0A%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"}}"
+		\"AccountID\":101,\"CountryRegion\":\"\u4e0a\u6d77\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"}}"
 		);
-
-    ::web::json::value json_payload = web::json::value::parse(_entity_payload);
-	auto return_payload = json_reader->deserilize(json_payload);
-	auto entity_values = return_payload->get_values();
+	
+    ::web::json::value json_payload_escaped = web::json::value::parse(_entity_payload_escaped);
+	auto return_payload_escaped = json_reader->deserilize(json_payload_escaped);
+	auto entity_values = return_payload_escaped->get_values();
 
 	VERIFY_ARE_EQUAL(entity_values.size(), 1);
 	auto entity_value = std::dynamic_pointer_cast<odata_entity_value>(entity_values[0]);
-	::utility::string_t country;
-	auto ok = entity_value->try_get(U("Country"), country);
-	VERIFY_ARE_EQUAL(country, U("\nÖÐ»ªÈËÃñ¹²ºÍ¹ú"));
+	::utility::string_t countryregion;
+	auto ok = entity_value->try_get(U("CountryRegion"), countryregion);
+	VERIFY_ARE_EQUAL(countryregion, U("ä¸Šæµ·"));
+
+	::utility::string_t _entity_payload_unescaped = U(
+		"{\"@odata.context\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/$metadata#Accounts/$entity\", \
+		\"@odata.editLink\":\"http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts(101)\", \
+		\"AccountID\":101,\"CountryRegion\":\"ä¸Šæµ·\",\"AccountInfo\":{\"FirstName\":\"Alex\",\"LastName\":\"Green\"}}"
+		);
+
+	::web::json::value json_payload_unescaped = web::json::value::parse(_entity_payload_unescaped);
+	auto return_payload_unescaped = json_reader->deserilize(json_payload_unescaped);
+	entity_values = return_payload_unescaped->get_values();
+
+	VERIFY_ARE_EQUAL(entity_values.size(), 1);
+	entity_value = std::dynamic_pointer_cast<odata_entity_value>(entity_values[0]);
+	ok = entity_value->try_get(U("CountryRegion"), countryregion);
+	VERIFY_ARE_EQUAL(countryregion, U("ä¸Šæµ·"));
 }
-*/
+
 
 //
 // to do add read all primitive type data test

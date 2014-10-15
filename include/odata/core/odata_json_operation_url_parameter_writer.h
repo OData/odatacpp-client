@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "cpprest/json.h"
 #include "odata/communication/http_communication.h"
@@ -32,7 +32,7 @@ public:
 	{
 	}
 
-	ODATACPP_API ::utility::string_t serialize(std::vector<std::shared_ptr<odata_parameter>> parameters);
+	ODATACPP_CLIENT_API ::utility::string_t serialize(std::vector<std::shared_ptr<odata_parameter>> parameters);
 
 private:
 	void handle_serialize_odata_parameter(::utility::stringstream_t& ss, const std::shared_ptr<::odata::core::odata_parameter>& parameter, ::utility::char_t mark, ::utility::char_t separator);

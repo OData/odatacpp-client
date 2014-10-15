@@ -14,10 +14,10 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
+
 #include "odata/client/odata_client.h"
 #include "odata/codegen/code_generation_base.h"
-#include "odata/codegen/odata_entity_tracker.h"
 #include "odata/codegen/odata_service_query.h"
 #include "odata/common/utility.h"
 #include "odata/core/odata_core.h"
@@ -80,13 +80,13 @@ public:
 				return ::pplx::task_from_result(::web::http::status_code(-1));
 			}
 
-			entity_value->set_value(PAYLOAD_ANNOTATION_TYPE, Type::get_full_name());
+			entity_value->set_value(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_TYPE, Type::get_full_name());
 
 			return m_client->create_entity(path, entity_value).then(
 				[this, entity_value, p_object] (const ::web::http::status_code& ret_code) -> ::web::http::status_code
 			    {
 					::utility::string_t edit_link;
-					if (entity_value->try_get(PAYLOAD_ANNOTATION_EDITLINK, edit_link))
+					if (entity_value->try_get(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK, edit_link))
 					{
 						p_object->set_edit_link(edit_link);
 					}
@@ -99,11 +99,11 @@ public:
 	}
 
 	template<typename Type>
-	::pplx::task<::web::http::status_code> update_object(const std::shared_ptr<Type>& p_object)
+	::pplx::task<::web::http::status_code> update_object(const std::shared_ptr<Type>& p_object, const ::utility::string_t &update_type = HTTP_PATCH)
 	{
 		if (m_client && p_object)
 		{
-			return m_client->send_data_to_server(get_relative_path(p_object->get_edit_link()), p_object->to_value(), HTTP_PATCH);
+			return m_client->send_data_to_server(get_relative_path(p_object->get_edit_link()), p_object->to_value(), update_type);
 		}
 
 		return ::pplx::task_from_result(::web::http::status_code(-1));
@@ -185,7 +185,6 @@ public:
 protected:
 	std::shared_ptr<::odata::client::odata_client>         m_client;
 	std::shared_ptr<::odata::edm::edm_model>               m_model;
-	std::shared_ptr<::odata::client::odata_entity_tracker> m_entity_tracker;
 };
 
 }}

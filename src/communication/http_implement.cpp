@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/communication/http_implement.h"
+#include "odata/communication/http_implement.h"
 #include "odata/edm/edm_model_reader.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1800)

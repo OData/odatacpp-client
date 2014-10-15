@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  * Copyright (c) Microsoft Corporation. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,22 +14,22 @@
  * limitations under the License.
  */
  
- #include "../odata_tests.h"
+#include "../odata_tests.h"
 #include "cpprest/json.h"
 #include "odata/core/odata_core.h"
-#include "odata/core/odata_json_writer_minimal.h"
+#include "odata/core/odata_json_writer.h"
 
 using namespace ::odata::core;
 using namespace ::odata::edm;
 
 namespace tests { namespace functional { namespace _odata {
 
-static std::shared_ptr<odata_json_writer_minimal> get_json_writer()
+static std::shared_ptr<odata_json_writer> get_json_writer()
 {
 	auto model = get_test_model();
 	if (model)
 	{
-		return std::make_shared<odata_json_writer_minimal>(model);
+		return std::make_shared<odata_json_writer>(model);
 	}
 
 	return nullptr;
@@ -38,14 +38,14 @@ static std::shared_ptr<odata_json_writer_minimal> get_json_writer()
 typedef std::unordered_map<::utility::string_t, ::utility::string_t> map_type;
 const map_type::value_type init_test_values[] = 
 {
-	map_type::value_type(U("single_entity"), U("{\"AccountID\":100,\"AccountInfo\":{\"FirstName\":\"Leo\",\"LastName\":\"Hu\"},\"Country\":\"China\"}")),
+	map_type::value_type(U("single_entity"), U("{\"AccountID\":100,\"AccountInfo\":{\"FirstName\":\"Leo\",\"LastName\":\"Hu\"},\"CountryRegion\":\"China\"}")),
 
-	map_type::value_type(U("collection_of_entity"), U("[{\"AccountID\":100,\"Country\":\"China\"},{\"AccountID\":200,\"Country\":\"USA\"},{\"AccountID\":300,\"Country\":\"JP\"}]")),
+	map_type::value_type(U("collection_of_entity"), U("[{\"AccountID\":100,\"CountryRegion\":\"China\"},{\"AccountID\":200,\"CountryRegion\":\"USA\"},{\"AccountID\":300,\"CountryRegion\":\"JP\"}]")),
     
 #ifdef __APPLE__
-	map_type::value_type(U("escaped_data_in_entity"), U("\"Country\":\"%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD\",\"AccountID\":100}")),
+	map_type::value_type(U("unicode_data_in_entity"), U("\"CountryRegion\":\"ä¸Šæµ·\",\"AccountID\":100}")),
 #else
-	map_type::value_type(U("escaped_data_in_entity"), U("{\"AccountID\":100,\"Country\":\"%E4%B8%AD%E5%8D%8E%E4%BA%BA%E6%B0%91%E5%85%B1%E5%92%8C%E5%9B%BD\"}")),
+	map_type::value_type(U("unicode_data_in_entity"), U("{\"AccountID\":100,\"CountryRegion\":\"ä¸Šæµ·\"}")),
 #endif
 	map_type::value_type(U("single_complex"), U("{\"FirstName\":\"Leo\",\"LastName\":\"Hu\"}")),
 	map_type::value_type(U("collection_of_complex"), U("[{\"FirstName\":\"Leo\",\"LastName\":\"Hu\"},{\"FirstName\":\"Tian\",\"LastName\":\"Ouyang\"}]")),
@@ -96,7 +96,7 @@ TEST(single_entity)
 
 	auto entity_value = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value->set_value(U("AccountID"), (int32_t)100);
-	entity_value->set_value(U("Country"), U("China"));
+	entity_value->set_value(U("CountryRegion"), U("China"));
 	entity_value->set_value(U("AccountInfo"), complex_value);
 
 	auto json_string = json_writer->serialize(entity_value).to_string();
@@ -112,15 +112,15 @@ TEST(collection_of_entity)
 
 	auto entity_value_1 = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value_1->set_value(U("AccountID"), (int32_t)100);
-	entity_value_1->set_value(U("Country"), U("China"));
+	entity_value_1->set_value(U("CountryRegion"), U("China"));
 
 	auto entity_value_2 = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value_2->set_value(U("AccountID"), (int32_t)200);
-	entity_value_2->set_value(U("Country"), U("USA"));
+	entity_value_2->set_value(U("CountryRegion"), U("USA"));
 
 	auto entity_value_3 = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value_3->set_value(U("AccountID"), (int32_t)300);
-	entity_value_3->set_value(U("Country"), U("JP"));
+	entity_value_3->set_value(U("CountryRegion"), U("JP"));
 
 	auto collection_type = std::make_shared<edm_collection_type>(U("entity values"), model->find_entity_type(U("Account")));
 	auto collection_value = std::make_shared<odata_collection_value>(collection_type);
@@ -436,8 +436,7 @@ TEST(collection_of_enum)
 	VERIFY_ARE_EQUAL(pass, true);
 }
 
-/* TODO: [tiano] 
-TEST(escaped_data_in_entity)
+TEST(unicode_data_in_entity)
 {
 	auto json_writer = get_json_writer();
 	VERIFY_IS_NOT_NULL(json_writer);
@@ -445,14 +444,13 @@ TEST(escaped_data_in_entity)
 
 	auto entity_value = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value->set_value(U("AccountID"), (int32_t)100);
-	entity_value->set_value(U("Country"), U("ÖÐ»ªÈËÃñ¹²ºÍ¹ú"));
+	entity_value->set_value(U("CountryRegion"), U("ä¸Šæµ·"));
 
-	auto json_string = json_writer->serialize(entity_value).to_string();
-	bool pass = check_writer_result(U("escaped_data_in_entity"), json_string);
+	auto json_string = json_writer->serialize(entity_value).serialize();
+	bool pass = check_writer_result(U("unicode_data_in_entity"), json_string);
 
 	VERIFY_ARE_EQUAL(pass, true);
 }
-*/
 
 }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/edm/odata_edm.h"
 #include "odata/core/odata_value.h"
@@ -25,7 +25,7 @@ namespace odata { namespace core
 class odata_primitive_value : public odata_value
 {
 public:
-    odata_primitive_value(std::shared_ptr<::odata::edm::edm_named_type>type, const ::utility::string_t& stringRep) : odata_value(type), m_string_rep(stringRep)
+    odata_primitive_value(std::shared_ptr<::odata::edm::edm_named_type>type, ::utility::string_t stringRep) : odata_value(type), m_string_rep(std::move(stringRep))
     {
     }
 
@@ -61,12 +61,12 @@ public:
 
 	static std::shared_ptr<odata_primitive_value> make_primitive_value(double double_precision_value)
 	{
-		return std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::DOUBLE(), ::odata::utility::print_double(double_precision_value));
+		return std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::DOUBLE(), ::odata::common::print_double(double_precision_value));
 	}
 
 	static std::shared_ptr<odata_primitive_value> make_primitive_value(float float_precision_value)
 	{
-		return std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::SINGLE(), ::odata::utility::print_float(float_precision_value));
+		return std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::SINGLE(), ::odata::common::print_float(float_precision_value));
 	}
 
 	static std::shared_ptr<odata_primitive_value> make_primitive_value(int64_t int64_value)
@@ -79,9 +79,9 @@ public:
 		return std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::INT64(), ::utility::conversions::print_string(u_int64_value));
 	}
 
-	static std::shared_ptr<odata_primitive_value> make_primitive_value(const ::utility::string_t& string_value)
+	static std::shared_ptr<odata_primitive_value> make_primitive_value(::utility::string_t string_value)
 	{
-		return std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::STRING(), string_value);
+		return std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::STRING(), std::move(string_value));
 	}
 
 	static std::shared_ptr<odata_primitive_value> make_primitive_value(const ::utility::char_t* string_value)
@@ -94,6 +94,11 @@ public:
         return m_string_rep; 
     }
 
+    std::shared_ptr<::odata::edm::edm_primitive_type> get_primitive_type() const 
+    { 
+        return std::dynamic_pointer_cast<::odata::edm::edm_primitive_type>(get_value_type()); 
+    }
+
     template<typename T> T as()
     {
         T result;
@@ -104,19 +109,19 @@ public:
 private:
 	::utility::string_t    m_string_rep;
 
-    ODATACPP_API void _try_get(std::vector<unsigned char>& value) const;
-    ODATACPP_API void _try_get(unsigned char& value) const;
-    ODATACPP_API void _try_get(char& value) const;
-    ODATACPP_API void _try_get(bool& value) const;
-    ODATACPP_API void _try_get(::utility::datetime& value) const;
-	ODATACPP_API void _try_get(::utility::seconds& value) const;
-    ODATACPP_API void _try_get(double& value) const;
-	ODATACPP_API void _try_get(float& value) const;
-	ODATACPP_API void _try_get(int16_t& value) const;
-    ODATACPP_API void _try_get(int32_t& value) const;
-    ODATACPP_API void _try_get(int64_t& value) const;
-	ODATACPP_API void _try_get(uint64_t& value) const;
-    ODATACPP_API void _try_get(::utility::string_t& value) const;
+    ODATACPP_CLIENT_API void _try_get(std::vector<unsigned char>& value) const;
+    ODATACPP_CLIENT_API void _try_get(unsigned char& value) const;
+    ODATACPP_CLIENT_API void _try_get(char& value) const;
+    ODATACPP_CLIENT_API void _try_get(bool& value) const;
+    ODATACPP_CLIENT_API void _try_get(::utility::datetime& value) const;
+	ODATACPP_CLIENT_API void _try_get(::utility::seconds& value) const;
+    ODATACPP_CLIENT_API void _try_get(double& value) const;
+	ODATACPP_CLIENT_API void _try_get(float& value) const;
+	ODATACPP_CLIENT_API void _try_get(int16_t& value) const;
+    ODATACPP_CLIENT_API void _try_get(int32_t& value) const;
+    ODATACPP_CLIENT_API void _try_get(int64_t& value) const;
+	ODATACPP_CLIENT_API void _try_get(uint64_t& value) const;
+    ODATACPP_CLIENT_API void _try_get(::utility::string_t& value) const;
 };
 
 }}

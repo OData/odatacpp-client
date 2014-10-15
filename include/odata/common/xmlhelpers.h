@@ -1,44 +1,18 @@
-// -----------------------------------------------------------------------------------------
-// <copyright file="xmlhelpers.h" company="Microsoft">
-//    Copyright 2013 Microsoft Corporation
-//
-//    Licensed under the Apache License, Version 2.0 (the "License");
-//    you may not use this file except in compliance with the License.
-//    You may obtain a copy of the License at
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-//    Unless required by applicable law or agreed to in writing, software
-//    distributed under the License is distributed on an "AS IS" BASIS,
-//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//    See the License for the specific language governing permissions and
-//    limitations under the License.
-// </copyright>
-// -----------------------------------------------------------------------------------------
-
-/***
-* ==++==
-*
-* Copyright (c) Microsoft Corporation. All rights reserved. 
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* http://www.apache.org/licenses/LICENSE-2.0
-* 
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* ==--==
-* =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-*
-* xmlhelpers.h
-*
-* This file contains xml parsing helper routines
-*
-* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-****/
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #pragma once
 #ifndef _XMLHELPERS_H
@@ -59,7 +33,7 @@
 
 #include "odata/common/platform.h"
 
-namespace odata { namespace edm {
+namespace odata { namespace common {
 
 /// <summary>
 /// XML reader based on xmlllite in Windows and libxml2 in other platform.
@@ -160,7 +134,7 @@ protected:
     /// <summary>
     /// Initialize the reader
     /// </summary>
-    ODATACPP_API void initialize(concurrency::streams::istream stream);
+    ODATACPP_CLIENT_API void initialize(concurrency::streams::istream stream);
 
     /// <summary>
     /// Remove Byte Order Mark from the stream
@@ -183,105 +157,6 @@ protected:
     std::vector<::utility::string_t> m_elementStack;
     bool m_continueParsing;
     bool m_streamDone;
-};
-
-/// <summary>
-/// XML writer based on xmlllite in Windows and libxml2 in non-Windows
-/// </summary>
-class xml_writer
-{
-public:
-
-    virtual ~xml_writer() {}
-
-protected:
-    xml_writer()
-    {
-    }
-
-    /// <summary>
-    /// Initialize the writer
-    /// </summary>
-    void initialize(std::ostream& stream);
-
-    /// <summary>
-    /// Finalize the writer
-    /// </summary>
-    void finalize();
-
-    /// <summary>
-    /// Write the start element tag
-    /// </summary>
-    void write_start_element(const ::utility::string_t& elementName, const ::utility::string_t& namespaceName = U(""));
-
-    /// <summary>
-    /// Writes the start element tag with a prefix
-    /// </summary>
-    void write_start_element_with_prefix(const ::utility::string_t& elementPrefix, const ::utility::string_t& elementName,
-                                         const ::utility::string_t& namespaceName = U(""));
-
-    /// <summary>
-    /// Write the end element tag for the current element
-    /// </summary>
-    void write_end_element();
-
-    /// <summary>
-    /// Write the full end element tag for the current element
-    /// </summary>
-    void write_full_end_element();
-
-    /// <summary>
-    /// Write an element including the name and text.
-    /// </summary>
-    template<class T>
-    void write_element(const ::utility::string_t& elementName, T value)
-    {
-        write_element(elementName, convert_to_string(value));
-    }
-
-    /// <summary>
-    /// Write an element including the name and text.
-    /// </summary>
-    void write_element(const ::utility::string_t& elementName, const ::utility::string_t& value);
-
-    /// <summary>
-    /// Write an element including the prefix, name and text.
-    /// </summary>
-    void write_element_with_prefix(const ::utility::string_t& prefix, const ::utility::string_t& elementName, const ::utility::string_t& value);
-
-    /// <summary>
-    /// Write raw data
-    /// </summary>
-    void write_raw(const ::utility::string_t& data);
-
-    /// <summary>
-    /// Write a string
-    /// </summary>
-    void write_string(const ::utility::string_t& string);
-
-    /// <summary>
-    /// Write an attribute string with a prefix
-    /// </summary>
-    void write_attribute_string(const ::utility::string_t& prefix, const ::utility::string_t& name,
-                                const ::utility::string_t& namespaceUri, const ::utility::string_t& value);
-
-
-    /// <summary>
-    /// Logs an error from processing XML
-    /// </summary>
-    virtual void log_error_message(const ::utility::string_t& message, unsigned long error = 0)
-    {
-        UNREFERENCED_PARAMETER(message);
-        UNREFERENCED_PARAMETER(error);
-    }
-private:
-#ifdef WIN32
-    CComPtr<IXmlWriter> m_writer;
-#else // LINUX
-    xmlTextWriterPtr m_writer;
-    xmlDocPtr m_doc;
-    std::ostream * m_stream;
-#endif
 };
 
 }} // namespace odata::edm

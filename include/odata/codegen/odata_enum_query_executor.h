@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/client/odata_client.h"
 #include "odata/common/utility.h"
@@ -27,7 +27,6 @@
 
 namespace odata { namespace codegen {
 
-//template<typename ElementType, typename InputType, ElementType function(InputType)>
 template<typename ElementType, typename Resolver>
 class odata_enum_query_executor
 {

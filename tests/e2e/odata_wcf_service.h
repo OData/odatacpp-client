@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 #include "odata/codegen/code_generation.h"
 #include "odata/codegen/odata_service_context.h"
 #include "odata/codegen/odata_service_query.h"
@@ -36,19 +36,19 @@ using namespace ::odata::codegen;
 
 namespace tests { namespace e2e { namespace odata { namespace odata_wcf_service {
 
-
 class AccountInfo;
 class Address;
 class HomeAddress;
 class CompanyAddress;
+class CityInformation;
 
 class Person;
 class Statement;
+class Product;
 class Department;
 class Customer;
 class ProductDetail;
 class Employee;
-class Product;
 class ProductReview;
 class Order;
 class OrderDetail;
@@ -67,17 +67,17 @@ class Subscription;
 
 enum AccessLevel
 {
-    None = 0,
     Read = 1,
+    None = 0,
     Write = 2,
-    Execute = 4,
     ReadWrite = 3,
+    Execute = 4,
 };
 
 enum Color
 {
-    Red = 1,
     Green = 2,
+    Red = 1,
     Blue = 4,
 };
 
@@ -103,9 +103,6 @@ public:
     DECLARE_GET_ENUM_TYPE_NAMESPACE(CompanyCategory, Microsoft.Test.OData.Services.ODataWCFService);
 };
 
-    
-#include "odata/codegen/odata_function_param_formatter.h"
-    
 class AccountInfo : public type_base
 {
 public:
@@ -114,8 +111,8 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_COMPLEX_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(lastname, LastName, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(firstname, FirstName, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(lastname, LastName, ::utility::string_t);
 };
 
 class Address : public type_base
@@ -153,6 +150,18 @@ public:
     DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(companyname, CompanyName, ::utility::string_t);
 };
 
+class CityInformation : public type_base
+{
+public:
+    DECLARE_COMPLEX_CONSTRUCTOR(CityInformation);
+    DECLARE_COMPLEX_DESTRUCTOR(CityInformation);
+    DECLARE_EDM_INFO();
+    ENABLE_PROPERTY_IN_COMPLEX_MAPPING();
+
+    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(countryregion, CountryRegion, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(iscapital, IsCapital, bool);
+};
+
 class Person : public type_base
 {
 public:
@@ -163,8 +172,8 @@ public:
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(personid, PersonID, int32_t);
     DECLARE_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(numbers, Numbers, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(lastname, LastName, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(firstname, FirstName, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(lastname, LastName, ::utility::string_t);
     DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(middlename, MiddleName, ::utility::string_t);
     DECLARE_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(homeaddress, HomeAddress, Address);
     DECLARE_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(emails, Emails, ::utility::string_t);
@@ -184,77 +193,11 @@ public:
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(statementid, StatementID, int32_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(amount, Amount, double);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(transactiontype, TransactionType, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(amount, Amount, double);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(transactiondescription, TransactionDescription, ::utility::string_t);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, StatementID, statementid);
-};
-
-class Department : public type_base
-{
-public:
-    DECLARE_ENTITY_CONSTRUCTOR(Department);
-    DECLARE_ENTITY_DESTRUCTOR(Department);
-    DECLARE_EDM_INFO();
-    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
-
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(departmentid, DepartmentID, int32_t);
-    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(company, Company, Company);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::utility::string_t);
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(departmentno, DepartmentNO, ::utility::string_t);
-
-    DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, DepartmentID, departmentid);
-};
-
-class Customer : public Person
-{
-public:
-    DECLARE_ENTITY_CONSTRUCTOR(Customer);
-    DECLARE_ENTITY_DESTRUCTOR(Customer);
-    DECLARE_EDM_INFO();
-    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
-
-    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(company, Company, Company);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(city, City, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(birthday, Birthday, ::utility::datetime);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(timebetweenlasttwoorders, TimeBetweenLastTwoOrders, ::utility::seconds);
-    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(orders, Orders, Order);
-
-    DECLARE_GET_KEY_PROPERTY_STRING_NO_PARAM(Person);
-};
-
-class ProductDetail : public type_base
-{
-public:
-    DECLARE_ENTITY_CONSTRUCTOR(ProductDetail);
-    DECLARE_ENTITY_DESTRUCTOR(ProductDetail);
-    DECLARE_EDM_INFO();
-    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
-
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(description, Description, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productid, ProductID, int32_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productdetailid, ProductDetailID, int32_t);
-    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(relatedproduct, RelatedProduct, Product);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productname, ProductName, ::utility::string_t);
-    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(reviews, Reviews, ProductReview);
-    DECLARE_FUNCTION_P0(ProductDetail, GetRelatedProduct, odata_entityset_query_executor<Product>);
-
-    DECLARE_GET_KEY_PROPERTY_STRING_TWO_PARAM(type_base, ProductID, productid, ProductDetailID, productdetailid);
-};
-
-class Employee : public Person
-{
-public:
-    DECLARE_ENTITY_CONSTRUCTOR(Employee);
-    DECLARE_ENTITY_DESTRUCTOR(Employee);
-    DECLARE_EDM_INFO();
-    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
-
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(datehired, DateHired, ::utility::datetime);
-    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(company, Company, Company);
-
-    DECLARE_GET_KEY_PROPERTY_STRING_NO_PARAM(Person);
 };
 
 class Product : public type_base
@@ -282,6 +225,72 @@ public:
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, ProductID, productid);
 };
 
+class Department : public type_base
+{
+public:
+    DECLARE_ENTITY_CONSTRUCTOR(Department);
+    DECLARE_ENTITY_DESTRUCTOR(Department);
+    DECLARE_EDM_INFO();
+    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
+
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(departmentid, DepartmentID, int32_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::utility::string_t);
+    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(company, Company, Company);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(departmentno, DepartmentNO, ::utility::string_t);
+
+    DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, DepartmentID, departmentid);
+};
+
+class Customer : public Person
+{
+public:
+    DECLARE_ENTITY_CONSTRUCTOR(Customer);
+    DECLARE_ENTITY_DESTRUCTOR(Customer);
+    DECLARE_EDM_INFO();
+    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
+
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(city, City, ::utility::string_t);
+    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(company, Company, Company);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(birthday, Birthday, ::utility::datetime);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(timebetweenlasttwoorders, TimeBetweenLastTwoOrders, ::utility::seconds);
+    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(orders, Orders, Order);
+
+    DECLARE_GET_KEY_PROPERTY_STRING_NO_PARAM(Person);
+};
+
+class ProductDetail : public type_base
+{
+public:
+    DECLARE_ENTITY_CONSTRUCTOR(ProductDetail);
+    DECLARE_ENTITY_DESTRUCTOR(ProductDetail);
+    DECLARE_EDM_INFO();
+    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
+
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productid, ProductID, int32_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(description, Description, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productdetailid, ProductDetailID, int32_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productname, ProductName, ::utility::string_t);
+    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(relatedproduct, RelatedProduct, Product);
+    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(reviews, Reviews, ProductReview);
+    DECLARE_FUNCTION_P0(ProductDetail, GetRelatedProduct, odata_entityset_query_executor<Product>);
+
+    DECLARE_GET_KEY_PROPERTY_STRING_TWO_PARAM(type_base, ProductID, productid, ProductDetailID, productdetailid);
+};
+
+class Employee : public Person
+{
+public:
+    DECLARE_ENTITY_CONSTRUCTOR(Employee);
+    DECLARE_ENTITY_DESTRUCTOR(Employee);
+    DECLARE_EDM_INFO();
+    ENABLE_PROPERTY_IN_ENTITY_MAPPING();
+
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(datehired, DateHired, ::utility::datetime);
+    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(company, Company, Company);
+
+    DECLARE_GET_KEY_PROPERTY_STRING_NO_PARAM(Person);
+};
+
 class ProductReview : public type_base
 {
 public:
@@ -290,14 +299,14 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(revisionid, RevisionID, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productid, ProductID, int32_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(revisionid, RevisionID, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productdetailid, ProductDetailID, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(reviewtitle, ReviewTitle, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(comment, Comment, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(author, Author, ::utility::string_t);
 
-    DECLARE_GET_KEY_PROPERTY_STRING_FOUR_PARAM(type_base, RevisionID, revisionid, ProductID, productid, ProductDetailID, productdetailid, ReviewTitle, reviewtitle);
+    DECLARE_GET_KEY_PROPERTY_STRING_FOUR_PARAM(type_base, ProductID, productid, RevisionID, revisionid, ProductDetailID, productdetailid, ReviewTitle, reviewtitle);
 };
 
 class Order : public type_base
@@ -309,10 +318,10 @@ public:
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(orderid, OrderID, int32_t);
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(shelflife, ShelfLife, ::utility::seconds);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(orderdate, OrderDate, ::utility::datetime);
-    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(loggedinemployee, LoggedInEmployee, Employee);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(shelflife, ShelfLife, ::utility::seconds);
     DECLARE_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ordershelflifes, OrderShelfLifes, ::utility::seconds);
+    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(loggedinemployee, LoggedInEmployee, Employee);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(customerfororder, CustomerForOrder, Customer);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(orderdetails, OrderDetails, OrderDetail);
 
@@ -327,11 +336,11 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(unitprice, UnitPrice, float);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(quantity, Quantity, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(orderid, OrderID, int32_t);
-    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(associatedorder, AssociatedOrder, Order);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(quantity, Quantity, int32_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(unitprice, UnitPrice, float);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(productid, ProductID, int32_t);
+    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(associatedorder, AssociatedOrder, Order);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(orderplaced, OrderPlaced, ::utility::datetime);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(productordered, ProductOrdered, Product);
 
@@ -369,8 +378,8 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(assets, Assets, Asset);
     DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(stockexchange, StockExchange, ::utility::string_t);
+    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(assets, Assets, Asset);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(club, Club, Club);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(labourunion, LabourUnion, LabourUnion);
 
@@ -402,8 +411,8 @@ public:
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(giftcardid, GiftCardID, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(giftcardno, GiftCardNO, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(amount, Amount, double);
     DECLARE_FUNCTION_P1(GiftCard, GetActualAmount, odata_primitive_query_executor<double>, bonusRate, double, bonusRate);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(amount, Amount, double);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(experationdate, ExperationDate, ::utility::datetime);
     DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ownername, OwnerName, ::utility::string_t);
 
@@ -434,6 +443,7 @@ public:
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(labourunionid, LabourUnionID, int32_t);
     DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::utility::string_t);
+    DECLARE_ACTION_P1(LabourUnion, ChangeLabourUnionName, odata_void_query_executor, name, ::utility::string_t, name);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, LabourUnionID, labourunionid);
 };
@@ -450,7 +460,7 @@ public:
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(accountid, AccountID, int32_t);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(mygiftcard, MyGiftCard, GiftCard);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(activesubscriptions, ActiveSubscriptions, Subscription);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(country, Country, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(countryregion, CountryRegion, ::utility::string_t);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(mypaymentinstruments, MyPaymentInstruments, PaymentInstrument);
     DECLARE_ACTION_P1(Account, RefreshDefaultPI, odata_entityset_query_executor<PaymentInstrument>, newDate, ::utility::datetime, newDate);
     DECLARE_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(accountinfo, AccountInfo, AccountInfo);
@@ -470,8 +480,8 @@ public:
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(paymentinstrumentid, PaymentInstrumentID, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(friendlyname, FriendlyName, ::utility::string_t);
-    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(backupstoredpi, BackupStoredPI, StoredPI);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(createddate, CreatedDate, ::utility::datetime);
+    DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(backupstoredpi, BackupStoredPI, StoredPI);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(thestoredpi, TheStoredPI, StoredPI);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(billingstatements, BillingStatements, Statement);
 
@@ -488,8 +498,8 @@ public:
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(creditrecordid, CreditRecordID, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(isgood, IsGood, bool);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(createddate, CreatedDate, ::utility::datetime);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(reason, Reason, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(createddate, CreatedDate, ::utility::datetime);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, CreditRecordID, creditrecordid);
 };
@@ -502,11 +512,11 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(holdername, HolderName, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(cardnumber, CardNumber, ::utility::string_t);
-    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(creditrecords, CreditRecords, CreditRecord);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(experationdate, ExperationDate, ::utility::datetime);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(holdername, HolderName, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(cvv, CVV, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(experationdate, ExperationDate, ::utility::datetime);
+    DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(creditrecords, CreditRecords, CreditRecord);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(balance, Balance, double);
 
     DECLARE_GET_KEY_PROPERTY_STRING_NO_PARAM(PaymentInstrument);
@@ -538,8 +548,8 @@ public:
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(subscriptionid, SubscriptionID, int32_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(templateguid, TemplateGuid, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(category, Category, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(title, Title, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(category, Category, ::utility::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(createddate, CreatedDate, ::utility::datetime);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, SubscriptionID, subscriptionid);
@@ -552,23 +562,18 @@ public:
     {
     }
 
+    DECLARE_FUNCTION_IMPORT_P2(InMemoryEntities, GetBossEmails, odata_primitive_query_executor<::utility::string_t>, start, int32_t, start, count, int32_t, count);
+
+    DECLARE_ACTION_IMPORT_P1(InMemoryEntities, ResetBossEmail, odata_primitive_query_executor<::utility::string_t>, emails, std::vector<::utility::string_t>, emails);
+
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Person>, odata_query_builder>> create_people_query()
     {
         return create_query<odata_entityset_query_executor<Person>, odata_query_builder>(U("People"));
     }
 
-    DECLARE_ACTION_IMPORT_P1(InMemoryEntities, ResetBossEmail, odata_primitive_query_executor<::utility::string_t>, emails, std::vector<::utility::string_t>, emails);
-
-    DECLARE_FUNCTION_IMPORT_P2(InMemoryEntities, GetBossEmails, odata_primitive_query_executor<::utility::string_t>, start, int32_t, start, count, int32_t, count);
-
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Customer>, odata_query_builder>> create_customers_query()
     {
         return create_query<odata_entityset_query_executor<Customer>, odata_query_builder>(U("Customers"));
-    }
-
-    std::shared_ptr<odata_service_query<odata_entityset_query_executor<Department>, odata_query_builder>> create_departments_query()
-    {
-        return create_query<odata_entityset_query_executor<Department>, odata_query_builder>(U("Departments"));
     }
 
     std::shared_ptr<odata_service_query<odata_singleton_query_executor<Company>, odata_query_builder>> create_company_query()
@@ -576,14 +581,19 @@ public:
         return create_query<odata_singleton_query_executor<Company>, odata_query_builder>(U("Company"));
     }
 
-    std::shared_ptr<odata_service_query<odata_entityset_query_executor<Employee>, odata_query_builder>> create_employees_query()
+    std::shared_ptr<odata_service_query<odata_entityset_query_executor<Department>, odata_query_builder>> create_departments_query()
     {
-        return create_query<odata_entityset_query_executor<Employee>, odata_query_builder>(U("Employees"));
+        return create_query<odata_entityset_query_executor<Department>, odata_query_builder>(U("Departments"));
     }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<StoredPI>, odata_query_builder>> create_storedpis_query()
     {
         return create_query<odata_entityset_query_executor<StoredPI>, odata_query_builder>(U("StoredPIs"));
+    }
+
+    std::shared_ptr<odata_service_query<odata_entityset_query_executor<Employee>, odata_query_builder>> create_employees_query()
+    {
+        return create_query<odata_entityset_query_executor<Employee>, odata_query_builder>(U("Employees"));
     }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<ProductDetail>, odata_query_builder>> create_productdetails_query()
@@ -596,21 +606,21 @@ public:
         return create_query<odata_entityset_query_executor<Product>, odata_query_builder>(U("Products"));
     }
 
+    DECLARE_ACTION_IMPORT_P1(InMemoryEntities, Discount, odata_void_query_executor, percentage, int32_t, percentage);
+
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<ProductReview>, odata_query_builder>> create_productreviews_query()
     {
         return create_query<odata_entityset_query_executor<ProductReview>, odata_query_builder>(U("ProductReviews"));
     }
 
-    DECLARE_ACTION_IMPORT_P1(InMemoryEntities, Discount, odata_void_query_executor, percentage, int32_t, percentage);
+    std::shared_ptr<odata_service_query<odata_singleton_query_executor<Person>, odata_query_builder>> create_boss_query()
+    {
+        return create_query<odata_singleton_query_executor<Person>, odata_query_builder>(U("Boss"));
+    }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Order>, odata_query_builder>> create_orders_query()
     {
         return create_query<odata_entityset_query_executor<Order>, odata_query_builder>(U("Orders"));
-    }
-
-    std::shared_ptr<odata_service_query<odata_singleton_query_executor<Person>, odata_query_builder>> create_boss_query()
-    {
-        return create_query<odata_singleton_query_executor<Person>, odata_query_builder>(U("Boss"));
     }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<OrderDetail>, odata_query_builder>> create_orderdetails_query()
@@ -623,12 +633,12 @@ public:
         return create_query<odata_entityset_query_executor<Account>, odata_query_builder>(U("Accounts"));
     }
 
+    DECLARE_FUNCTION_IMPORT_P0(InMemoryEntities, GetAllProducts, odata_entityset_query_executor<Product>);
+
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Subscription>, odata_query_builder>> create_subscriptiontemplates_query()
     {
         return create_query<odata_entityset_query_executor<Subscription>, odata_query_builder>(U("SubscriptionTemplates"));
     }
-
-    DECLARE_FUNCTION_IMPORT_P0(InMemoryEntities, GetAllProducts, odata_entityset_query_executor<Product>);
 
     std::shared_ptr<odata_service_query<odata_singleton_query_executor<Customer>, odata_query_builder>> create_vipcustomer_query()
     {
@@ -664,5 +674,7 @@ public:
     DECLARE_FUNCTION_IMPORT_P1(InMemoryEntities, GetProductsByAccessLevel, odata_primitive_query_executor<::utility::string_t>, accessLevel, AccessLevel, accessLevel);
 
 };
+
+#include "odata/codegen/odata_function_param_formatter.h"
 
 }}}}

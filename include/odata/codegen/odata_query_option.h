@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 #include "odata/core/odata_core.h"
@@ -35,8 +35,8 @@ enum ODATA_QUERY_OPTION_TYPE
 class odata_query_option
 {
 public:
-	odata_query_option(ODATA_QUERY_OPTION_TYPE query_option_type, const ::utility::string_t& query_option_clause)
-		: m_query_option_type(query_option_type), m_query_option_clause(query_option_clause)
+	odata_query_option(ODATA_QUERY_OPTION_TYPE query_option_type, ::utility::string_t query_option_clause)
+		: m_query_option_type(query_option_type), m_query_option_clause(std::move(query_option_clause))
 	{
 	}
 
@@ -50,9 +50,9 @@ public:
 		return m_query_option_clause;
 	}
 
-	void set_query_option_clause(const ::utility::string_t& query_option_clause)
+	void set_query_option_clause(::utility::string_t query_option_clause)
 	{
-		m_query_option_clause = query_option_clause;
+		m_query_option_clause = std::move(query_option_clause);
 	}
 
 private:

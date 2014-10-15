@@ -28,7 +28,6 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 add_library(${ODATACPP_TESTS_E2E} ${ODATACPP_TESTS_E2E_SOURCES})
 
 target_link_libraries(${ODATACPP_TESTS_E2E}
-  ${ODATACPP_LIBRARY}
   ${ODATACPP_CLIENT}
   unittestpp
   utilities

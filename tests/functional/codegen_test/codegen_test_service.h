@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 #include "odata/codegen/code_generation.h"
 #include "odata/codegen/odata_service_context.h"
 #include "odata/codegen/odata_service_query.h"
@@ -160,7 +160,7 @@ public:
 
 	// primitive property
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(accountid, AccountID, int32_t);
-	DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(country, Country, ::utility::string_t);
+	DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(countryregion, CountryRegion, ::utility::string_t);
 	// complex property
 	DECLARE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(accountinfo, AccountInfo, AccountInfo);
 	DECLARE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(vipinfo, VIPAccountInfo, VipAccountInfo);

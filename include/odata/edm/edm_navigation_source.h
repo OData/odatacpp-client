@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/common/utility.h"
 #include "odata/edm/edm_type.h"
@@ -31,7 +31,7 @@ enum container_resource_type
 class edm_navigation_source
 {
 public:
-	edm_navigation_source(const ::utility::string_t& name, container_resource_type resource_type) : m_name(name), m_resource_type(resource_type)
+	edm_navigation_source(::utility::string_t name, container_resource_type resource_type) : m_name(std::move(name)), m_resource_type(resource_type)
 	{}
 
 	virtual ~edm_navigation_source()

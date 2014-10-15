@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 #include "odata/common/utility.h"
 #include "cpprest/json.h"
 #include "odata/core/odata_core.h"
@@ -44,9 +44,9 @@ public:
 		return m_edit_link;
 	}
 
-	void set_edit_link(const ::utility::string_t& edit_link)
+	void set_edit_link(::utility::string_t edit_link)
 	{
-		m_edit_link = edit_link;
+		m_edit_link = std::move(edit_link);
 	}
 
 	::utility::string_t get_key_property_string(bool with_key_name = false)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/core/odata_structured_value.h"
+#include "odata/core/odata_structured_value.h"
 #include "odata/core/odata_collection_value.h"
 #include "odata/core/odata_complex_value.h"
 #include "odata/core/odata_enum_value.h"

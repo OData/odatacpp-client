@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 
 #include "odata/edm/odata_edm.h"
 #include "odata/core/odata_value.h"
@@ -84,7 +84,7 @@ public:
 
 	void set_value(const ::utility::string_t& property_name, float float_value)
 	{
-		m_properties[property_name] = std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::SINGLE(), ::odata::utility::print_float(float_value));
+		m_properties[property_name] = std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::SINGLE(), ::odata::common::print_float(float_value));
 	}
 
 	void set_value(const ::utility::string_t& property_name, unsigned char ubyte_value)
@@ -124,7 +124,7 @@ public:
 
 	void set_value(const ::utility::string_t& property_name, double double_precision_value)
 	{
-		m_properties[property_name] = std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::DOUBLE(), ::odata::utility::print_double(double_precision_value));
+		m_properties[property_name] = std::make_shared<odata_primitive_value>(::odata::edm::edm_primitive_type::DOUBLE(), ::odata::common::print_double(double_precision_value));
 	}
 
 	void set_value(const ::utility::string_t& property_name, int64_t int64_value)
@@ -152,17 +152,17 @@ public:
 		m_properties[property_name] = property_value;
 	}
 
-	ODATACPP_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_primitive_value> property_value);
+	ODATACPP_CLIENT_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_primitive_value> property_value);
 
-	ODATACPP_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_complex_value> property_value);
+	ODATACPP_CLIENT_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_complex_value> property_value);
 
-	ODATACPP_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_entity_value> property_value);
+	ODATACPP_CLIENT_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_entity_value> property_value);
 
-	ODATACPP_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_enum_value> property_value);
+	ODATACPP_CLIENT_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_enum_value> property_value);
 
-	ODATACPP_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_collection_value> property_value);
+	ODATACPP_CLIENT_API void set_value(const ::utility::string_t& property_name, std::shared_ptr<odata_collection_value> property_value);
 
-	ODATACPP_API void set_value(const ::utility::string_t& property_name, const ::utility::string_t& string_value);
+	ODATACPP_CLIENT_API void set_value(const ::utility::string_t& property_name, const ::utility::string_t& string_value);
 
     /// <summary>
     /// Removes a property from the structured object if it is present.

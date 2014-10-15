@@ -1,0 +1,99 @@
+nuget{
+	nuspec{
+		id = odatacpp-client;
+		version:1.0.0;
+		title: OData CPP Client;
+		authors: {Microsoft Corporation};
+		owners: {Microsoft OData Team};
+		licenseUrl: "http://www.apache.org/licenses/LICENSE-2.0";
+		projectUrl: "https://github.com/OData/odatacpp";
+		iconUrl: "http://www.odata.org/wp-content/uploads/2014/02/OData-logo-e1393393068350.png";
+		requireLicenseAcceptance: true;
+		summary: "The odatacpp-client is a cross-platform library that enables developers to access any OData V4 service";
+		description: "This library is a Microsoft effort to support connect to OData V4 service.";
+		releaseNotes: "Release of OData CPP Client 1.0.0 libraries.";
+		copyright: Microsoft Corporation;
+		tags: {C++, JSON, OData, native};
+	}
+
+	 dependencies {
+        // This node defines any outside items which may be needed to consume this package.
+        packages : {
+            // This is a list of other NuGet packages required to use this package.
+            // Each item follows the format "<pkg_name>/<version>"
+            cpprestsdk/2.1.0
+        };
+    }
+
+
+	files {
+		#defines {
+			OUTPUT_DIR = ..\output\;
+		}
+
+		// grab all the files in the include folder
+		// the folder that contains all the .h files will 
+		// automatically get added to the Includes path.
+		nestedInclude: {
+            #destination = ${d_include}odata;
+             "..\include\**\*"
+        };
+
+		// Documents that we want to ship with the package. 
+		docs: {  ..\LICENSE.txt };
+
+		[x86,v110,debug,desktop] { 
+			lib: ${OUTPUT_DIR}Win32\Debug\odata_client.vs11d.lib;
+			symbols: ${OUTPUT_DIR}Win32\Debug\odata_client.vs11d.pdb;
+			bin: ${OUTPUT_DIR}Win32\Debug\odata_client.vs11d.dll;
+		}
+
+		[x86,v110,release,desktop] { 
+			lib: ${OUTPUT_DIR}Win32\Release\odata_client.vs11.lib;
+			symbols: ${OUTPUT_DIR}Win32\Release\odata_client.vs11.pdb;
+			bin: ${OUTPUT_DIR}Win32\Release\odata_client.vs11.dll;
+		}
+
+		[x64,v110,debug,desktop] { 
+			lib: ${OUTPUT_DIR}x64\Debug\odata_client.vs11d.lib;
+			symbols: ${OUTPUT_DIR}x64\Debug\odata_client.vs11d.pdb;
+			bin: ${OUTPUT_DIR}x64\Debug\odata_client.vs11d.dll;
+		}
+
+		[x64,v110,release,desktop] { 
+			lib: ${OUTPUT_DIR}x64\Release\odata_client.vs11.lib;
+			symbols: ${OUTPUT_DIR}x64\Release\odata_client.vs11.pdb;
+			bin: ${OUTPUT_DIR}x64\Release\odata_client.vs11.dll;
+		}
+
+		[x86,v120,debug,desktop] { 
+			lib: ${OUTPUT_DIR}Win32\Debug\odata_client.vs12d.lib;
+			symbols: ${OUTPUT_DIR}Win32\Debug\odata_client.vs12d.pdb;
+			bin: ${OUTPUT_DIR}Win32\Debug\odata_client.vs12d.dll;
+		}
+
+		[x86,v120,release,desktop] { 
+			lib: ${OUTPUT_DIR}Win32\Release\odata_client.vs12.lib;
+			symbols: ${OUTPUT_DIR}Win32\Release\odata_client.vs12.pdb;
+			bin: ${OUTPUT_DIR}Win32\Release\odata_client.vs12.dll;
+		}
+
+		[x64,v120,debug,desktop] { 
+			lib: ${OUTPUT_DIR}x64\Debug\odata_client.vs12d.lib;
+			symbols: ${OUTPUT_DIR}x64\Debug\odata_client.vs12d.pdb;
+			bin: ${OUTPUT_DIR}x64\Debug\odata_client.vs12d.dll;
+		}
+
+		[x64,v120,release,desktop] { 
+			lib: ${OUTPUT_DIR}x64\Release\odata_client.vs12.lib;
+			symbols: ${OUTPUT_DIR}x64\Release\odata_client.vs12.pdb;
+			bin: ${OUTPUT_DIR}x64\Release\odata_client.vs12.dll;
+		}
+
+		targets {
+            // We're trying to be standard about these sorts of thing. 
+            // (Will help with config.h later :D)
+            Defines += HAS_ODATACPPCLIENT;
+        }
+	}
+}

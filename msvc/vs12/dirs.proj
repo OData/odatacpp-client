@@ -1,0 +1,18 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="$([MSBuild]::GetDirectoryNameOfFileAbove($(MSBuildThisFileDirectory), build.root))\msvc\Common.Build.settings" />
+
+  <ItemGroup Condition="'$(DevToolsVersion)'=='120'">
+      <ProjectFile Include="UnitTestpp.vs12.vcxproj"/>
+      <ProjectFile Include="TestRunner.vs12.vcxproj"/>
+      <ProjectFile Include="utilities.vs12.vcxproj"/>
+      <ProjectFile Include="odata_library.vs12.vcxproj"/>
+      <ProjectFile Include="odata_client.vs12.vcxproj"/>
+      <ProjectFile Include="odata_codegen_tool.vs12.vcxproj"/>
+      <ProjectFile Include="odata_functional_test.vs12.vcxproj"/>
+      <ProjectFile Include="odata_e2e_test.vs12.vcxproj"/>
+  </ItemGroup>
+
+  <Import Project="$(TargetsPath)\Common.Build.Traversal.targets" />
+
+</Project>

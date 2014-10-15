@@ -84,7 +84,6 @@ set(ODATACPP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include ${Casablanca_INCLU
 set(ODATACPP_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 # OData library targets
-set(ODATACPP_LIBRARY ${LIB}odata-library)
 set(ODATACPP_CLIENT ${LIB}odata-client)
 
 # Everything in the project needs access to the odatacpp include directories

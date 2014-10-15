@@ -14,9 +14,9 @@
  * limitations under the License.
  */
  
- #include "odata/common/utility.h"
+#include "odata/common/utility.h"
 
-namespace odata { namespace utility
+namespace odata { namespace common
 {
 
 ::utility::string_t strip_string(const ::utility::string_t& escaped)

@@ -14,8 +14,6 @@
  * limitations under the License.
  */
  
- 
-
 #include "../odata_tests.h"
 #include "cpprest/json.h"
 #include "odata/edm/odata_edm.h"
@@ -293,7 +291,7 @@ TEST(entity_value)
 
 	auto entity_value = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value->set_value(U("AccountID"), (int32_t)100);
-	entity_value->set_value(U("Country"), U("China"));
+	entity_value->set_value(U("CountryRegion"), U("China"));
     
     std::shared_ptr<::odata::edm::edm_named_type> type = nullptr;
 	auto structurd_value = std::make_shared<odata_structured_value>(type);
@@ -310,7 +308,7 @@ TEST(entity_value)
 	verify->try_get(U("AccountID"), id);
 	VERIFY_ARE_EQUAL(id, 100);
 	::utility::string_t str;
-	verify->try_get(U("Country"), str);
+	verify->try_get(U("CountryRegion"), str);
 	VERIFY_ARE_EQUAL(str, U("China"));
 }
 
@@ -416,15 +414,15 @@ TEST(entity_collection_value)
 
 	auto entity_value_1 = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value_1->set_value(U("AccountID"), (int32_t)100);
-	entity_value_1->set_value(U("Country"), U("China"));
+	entity_value_1->set_value(U("CountryRegion"), U("China"));
 
 	auto entity_value_2 = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value_2->set_value(U("AccountID"), (int32_t)200);
-	entity_value_2->set_value(U("Country"), U("JP"));
+	entity_value_2->set_value(U("CountryRegion"), U("JP"));
 
 	auto entity_value_3 = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value_3->set_value(U("AccountID"), (int32_t)300);
-	entity_value_3->set_value(U("Country"), U("UK"));
+	entity_value_3->set_value(U("CountryRegion"), U("GB"));
 
 	auto collection_type = std::make_shared<edm_collection_type>(U("collection value"), model->find_entity_type(U("Account")));
 	auto collection_value = std::make_shared<odata_collection_value>(collection_type);
@@ -440,18 +438,18 @@ TEST(entity_collection_value)
 	::utility::string_t str;
 	entity_value_1->try_get(U("AccountID"), id);
 	VERIFY_ARE_EQUAL(id, 100);
-	entity_value_1->try_get(U("Country"), str);
+	entity_value_1->try_get(U("CountryRegion"), str);
 	VERIFY_ARE_EQUAL(str, U("China"));
 
 	entity_value_2->try_get(U("AccountID"), id);
 	VERIFY_ARE_EQUAL(id, 200);
-	entity_value_2->try_get(U("Country"), str);
+	entity_value_2->try_get(U("CountryRegion"), str);
 	VERIFY_ARE_EQUAL(str, U("JP"));
 
 	entity_value_3->try_get(U("AccountID"), id);
 	VERIFY_ARE_EQUAL(id, 300);
-	entity_value_3->try_get(U("Country"), str);
-	VERIFY_ARE_EQUAL(str, U("UK"));
+	entity_value_3->try_get(U("CountryRegion"), str);
+	VERIFY_ARE_EQUAL(str, U("GB"));
 }
 
 }

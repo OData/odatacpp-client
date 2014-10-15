@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
 #include "odata/codegen/code_generation.h"
 #include "odata/codegen/odata_service_context.h"
 #include "odata/codegen/odata_service_query.h"

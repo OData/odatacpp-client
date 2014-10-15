@@ -14,37 +14,32 @@
  * limitations under the License.
  */
  
- #include "odata_codegen_initializer.h"
+#include "odata_codegen_initializer.h"
 #include "odata/client/odata_client.h"
 #include "odata/edm/edm_model_utility.h"
+#include "cpprest/filestream.h"
 #include <regex>
 
 using namespace ::odata::edm;
+using namespace ::concurrency::streams;
 
 namespace odata { namespace codegen { namespace tools {
 
 #define BASE_TYPE_NAME U("type_base")
 #define DATA_SERVICE_CONTEXT_NAME U("odata_service_context")
 
-::pplx::task<int> odata_codegen_initializer::begin_initialize(const ::utility::string_t metadata_url, const ::utility::string_t file_name, const ::utility::string_t user_name, const ::utility::string_t  password)
-{
-	m_config._metadata_url = metadata_url;
-	m_config._file_name = file_name;
-	m_config._user_name = user_name;
-	m_config._pass_word = password;
 
-	return begin_initialize_code_gen_info(m_config._metadata_url, m_config._user_name, m_config._pass_word);
-}
-
-::pplx::task<int> odata_codegen_initializer::begin_initialize_code_gen_info(const ::utility::string_t& metadata_url,  const ::utility::string_t& _user_name, const ::utility::string_t& _pass_word)
+::pplx::task<int> odata_codegen_initializer::initialize_from_service_metadata(const ::utility::string_t metadata_url, const ::utility::string_t output_file_name, const ::utility::string_t user_name, const ::utility::string_t  password)
 {
+	m_config._file_name = output_file_name.empty() ? U("generated_code") : output_file_name;
+
 	reset_class_info();
 
 	std::shared_ptr<::odata::client::odata_client> client = nullptr;
-	if (!_user_name.empty() && !_pass_word.empty())
+	if (!user_name.empty() && !password.empty())
 	{
 	    ::odata::client::client_options options;
-	    options.enable_client_credential(_user_name, _pass_word);
+	    options.enable_client_credential(user_name, password);
 		client = std::make_shared<::odata::client::odata_client>(metadata_url, options);
 	}
 	else
@@ -57,12 +52,57 @@ namespace odata { namespace codegen { namespace tools {
 		return ::pplx::task_from_result(-1);
 	}
 
-    m_model = client->get_model().get();
-	if (!m_model)
+	::std::shared_ptr<edm_model> model;
+	try
+	{
+		model = client->get_model().get();
+	}
+	catch (const std::exception &e)
+	{
+		::std::string error_msg = "error when getting metadata - ";
+		error_msg += e.what();
+		throw std::runtime_error(error_msg);
+	}
+
+	return begin_initialize_code_gen_info(model);
+}
+
+::pplx::task<int> odata_codegen_initializer::initialize_from_metadata_file(const ::utility::string_t metadata_file, const ::utility::string_t output_file_name)
+{
+	m_config._file_name = output_file_name.empty() ? U("generated_code") : output_file_name;
+
+	reset_class_info();
+
+	::std::shared_ptr<edm_model> model;
+	try
+	{
+		model = fstream::open_istream(metadata_file).then([] (istream file_opened) -> ::std::shared_ptr<edm_model>
+		{
+			auto model_reader = std::make_shared<edm_model_reader>(file_opened);
+			model_reader->parse();
+		
+			return model_reader->get_model();
+		}).get();
+	}
+	catch (const std::exception &e)
+	{
+		::std::string error_msg = "error when reading metadata file - ";
+		error_msg += e.what();
+		throw std::runtime_error(error_msg);
+	}
+
+	return begin_initialize_code_gen_info(model);
+}
+
+::pplx::task<int> odata_codegen_initializer::begin_initialize_code_gen_info(::std::shared_ptr<edm_model> model)
+{
+	if (!model)
 	{
 		return ::pplx::task_from_result(-1);
 	}
 	
+	m_model = model;
+
 	auto entity_container = m_model->find_container();
 	if (!entity_container)
 	{

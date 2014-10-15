@@ -14,7 +14,8 @@
  * limitations under the License.
  */
  
- #pragma once
+#pragma once
+
 #include "odata/common/utility.h"
 #include "odata/codegen/code_generation_base.h"
 

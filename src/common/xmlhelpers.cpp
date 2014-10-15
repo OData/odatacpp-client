@@ -1,43 +1,18 @@
-// -----------------------------------------------------------------------------------------
-// <copyright file="xmlhelpers.cpp" company="Microsoft">
-//    Copyright 2013 Microsoft Corporation
-//
-//    Licensed under the Apache License, Version 2.0 (the "License");
-//    you may not use this file except in compliance with the License.
-//    You may obtain a copy of the License at
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-//    Unless required by applicable law or agreed to in writing, software
-//    distributed under the License is distributed on an "AS IS" BASIS,
-//    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//    See the License for the specific language governing permissions and
-//    limitations under the License.
-// </copyright>
-// -----------------------------------------------------------------------------------------
-
-/***
-* ==++==
-*
-* Copyright (c) Microsoft Corporation. All rights reserved.
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-* ==--==
-* =+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
-*
-* xmlhelpers.cpp
-*
-*
-* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-****/
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #include "odata/common/xmlhelpers.h"
 
@@ -53,7 +28,7 @@ typedef int XmlNodeType;
 using namespace utility;
 using namespace concurrency;
 
-namespace odata { namespace edm {
+namespace odata { namespace common {
 
     void xml_reader::initialize(streams::istream stream)
     {
@@ -297,221 +272,5 @@ namespace odata { namespace edm {
         return xmlTextReaderMoveToNextAttribute(m_reader) > 0;
 #endif
     }
-
-    void xml_writer::initialize(std::ostream& stream)
-    {
-#ifdef WIN32
-        HRESULT hr;
-        CComPtr<IStream> pStream;
-        pStream.Attach(xmlstring_ostream::create(stream));
-
-        if (pStream == nullptr)
-        {
-            auto error = ERROR_NOT_ENOUGH_MEMORY;
-            log_error_message(U("XML writer IStream creation failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-
-        if (FAILED(hr = CreateXmlWriter(__uuidof(IXmlWriter), (void**)&m_writer, NULL)))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer CreateXmlWriter failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-
-        if (FAILED(hr = m_writer->SetOutput(pStream)))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer SetOutput failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-
-        if (FAILED(hr = m_writer->SetProperty(XmlWriterProperty_Indent, TRUE)))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer SetProperty failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-
-        if (FAILED(hr = m_writer->WriteStartDocument(XmlStandalone_Omit)))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteStartDocument failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else // LINUX
-        m_writer = xmlNewTextWriterDoc(&m_doc, 0);
-        m_stream = &stream;
-#endif
-    }
-
-    void xml_writer::finalize()
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteEndDocument()))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteEndDocument failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-        if (FAILED(hr = m_writer->Flush()))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer Flush failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else // LINUX
-        xmlChar *memory;
-        int size;
-        xmlDocDumpMemory(m_doc, &memory, &size);
-        *m_stream << memory;
-        xmlFree(memory);
-
-#endif
-    }
-
-    void xml_writer::write_start_element_with_prefix(const utility::string_t& elementPrefix, const utility::string_t& elementName, const utility::string_t& namespaceName)
-    {
-#ifdef WIN32
-        HRESULT hr;
-        if (FAILED(hr = m_writer->WriteStartElement(elementPrefix.c_str(), elementName.c_str(), namespaceName.empty() ? NULL : namespaceName.c_str())))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteStartElement with prefix failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else 
-        xmlChar* valueXml = (xmlChar*) ::utility::conversions::to_utf8string(elementName).c_str();
-        xmlTextWriterStartElement(m_writer, valueXml);
-        xmlFree(valueXml);
-#endif
-    }
-
-    void xml_writer::write_start_element(const utility::string_t& elementName, const utility::string_t& namespaceName)
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteStartElement(NULL, elementName.c_str(), namespaceName.empty() ? NULL : namespaceName.c_str())))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteStartElement failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else 
-        write_start_element_with_prefix(U(""), elementName, namespaceName);
-#endif
-    }
-
-    void xml_writer::write_end_element()
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteEndElement()))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteEndElement failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else
-        xmlTextWriterEndElement(m_writer);
-#endif
-    }
-
-    void xml_writer::write_full_end_element()
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteFullEndElement()))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteFullEndElement failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else
-        throw std::runtime_error("Not implemented");
-#endif
-    }
-
-    void xml_writer::write_string(const utility::string_t& str)
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteString(str.c_str())))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteString failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else
-        UNREFERENCED_PARAMETER(str);
-        throw std::runtime_error("Not implemented");
-#endif
-    }
-
-
-    void xml_writer::write_attribute_string(const utility::string_t& prefix, const utility::string_t& name, const utility::string_t& namespaceUri, const utility::string_t& value)
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteAttributeString(prefix.empty() ? NULL : prefix.c_str(),
-            name.empty() ? NULL : name.c_str(),
-            namespaceUri.empty() ? NULL : namespaceUri.c_str(),
-            value.empty() ? NULL : value.c_str())))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteAttributeString failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else
-        xmlChar* nameXml = (xmlChar*) ::utility::conversions::to_utf8string(name).c_str();
-        xmlChar* valueXml = (xmlChar*) ::utility::conversions::to_utf8string(value).c_str();
-        xmlTextWriterWriteAttribute(m_writer, nameXml, valueXml);
-        xmlFree(nameXml);
-        xmlFree(valueXml);
-#endif
-    }
-
-    void xml_writer::write_element(const utility::string_t& elementName, const utility::string_t& value)
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteElementString(NULL, elementName.c_str(), NULL, value.c_str())))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteElementString failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else // LINUX
-        write_element_with_prefix(U(""), elementName, value);
-#endif
-    }
-
-    void xml_writer::write_element_with_prefix(const utility::string_t& prefix, const utility::string_t& elementName, const utility::string_t& value)
-    {
-#ifdef WIN32
-        HRESULT hr;
-
-        if (FAILED(hr = m_writer->WriteElementString(prefix.c_str(), elementName.c_str(), NULL, value.c_str())))
-        {
-            auto error = GetLastError();
-            log_error_message(U("XML writer WriteElementStringWithPrefix failed"), error);
-            throw utility::details::create_system_error(error);
-        }
-#else
-        write_start_element_with_prefix(prefix, elementName);
-        write_string(value);
-        write_end_element();
-#endif
-    }
-
-
 }}
 // namespace odata::edm

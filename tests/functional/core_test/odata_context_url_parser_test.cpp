@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "../odata_tests.h"
+#include "../odata_tests.h"
 #include "cpprest/json.h"
 #include "odata/core/odata_core.h"
 #include "odata/core/odata_context_url_parser.h"

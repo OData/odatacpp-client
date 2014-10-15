@@ -14,7 +14,7 @@
  * limitations under the License.
  */
  
- #include "odata/core/odata_json_operation_url_parameter_writer.h"
+#include "odata/core/odata_json_operation_url_parameter_writer.h"
 
 using namespace ::odata::edm;
 

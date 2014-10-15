@@ -33,7 +33,7 @@
 
   <!-- paths can be overridden by configuration -->
   <PropertyGroup>
-    <OutputPath>$(BuildRoot)\output\$(Configuration)\</OutputPath>
+    <OutputPath>$(BuildRoot)\output\$(Platform)\$(Configuration)\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
     <TestRoot>$(BuildRoot)\Release\Tests</TestRoot>
     <WebsocketppIncludeDir>$(BuildRoot)\Release\libs\websocketpp</WebsocketppIncludeDir>

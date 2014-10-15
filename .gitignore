@@ -8,8 +8,14 @@
 
 # Build results
 output
-msvc/Debug
-msvc/Release
+msvc/vs11/Debug
+msvc/vs11/*/Debug
+msvc/vs11/Release
+msvc/vs11/*/Release
+msvc/vs12/Debug
+msvc/vs12/*/Debug
+msvc/vs12/Release
+msvc/vs12/*/Release
 
 # CMake intermediate files
 CMakeCache.txt
@@ -104,6 +110,7 @@ publish/
 
 # NuGet Packages Directory
 packages/
+nuget/*.nupkg
 
 # Windows Azure Build Output
 csx
@@ -174,5 +181,5 @@ test_runner
 
 # iOS build files
 ios/*
-!ios/CMakeLists.txt
-!ios/configure.sh
+~ios/CMakeLists.txt
+~ios/configure.sh

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
  
- #include "../odata_tests.h"
+#include "../odata_tests.h"
 #include "odata/edm/edm_type.h"
 #include "odata/codegen/code_generation.h"
 #include "codegen_test_service.h"
 
 using namespace ::odata::edm;
 using namespace ::odata::core;
-using namespace ::odata::utility;
+using namespace ::odata::common;
 
 namespace tests { namespace functional { namespace _odata {
 
@@ -35,9 +35,9 @@ static std::shared_ptr<odata_entity_value> make_account_object()
 
 	auto entity_value = std::make_shared<odata_entity_value>(model->find_entity_type(U("Account")));
 	entity_value->set_value(U("AccountID"), (int32_t)989899);
-	entity_value->set_value(U("Country"), U("China"));
+	entity_value->set_value(U("CountryRegion"), U("China"));
 	entity_value->set_value(U("AccountInfo"), complex_value);
-	entity_value->set_value(PAYLOAD_ANNOTATION_EDITLINK, U("http://0.0.0.1/Account(989899)"));
+	entity_value->set_value(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK, U("http://0.0.0.1/Account(989899)"));
 
 	return entity_value;
 }
@@ -88,7 +88,7 @@ static std::shared_ptr<odata_entity_value> make_account_object_with_navigation()
 	pi_2->set_value(U("PaymentInstrumentID"), 200000);
 	pi_2->set_value(U("FriendlyName"), U("PI 2"));
 	pi_2->set_value(U("CardNumber"), U("777777"));
-	pi_2->set_value(PAYLOAD_ANNOTATION_EDITLINK, U("http://0.0.0.1/PaymentInstrument(200000)"));
+	pi_2->set_value(::odata::core::odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK, U("http://0.0.0.1/PaymentInstrument(200000)"));
 
 	auto collection_value = std::make_shared<odata_collection_value>(model->find_entity_type(U("PaymentInstrument")));
 	collection_value->add_collection_value(pi_1);
@@ -216,7 +216,7 @@ TEST(map_primitive_to_entity)
 	account->from_value(test_value);
 
 	VERIFY_ARE_EQUAL(account->get_accountid(), 989899);
-	VERIFY_ARE_EQUAL(account->get_country(), U("China"));
+	VERIFY_ARE_EQUAL(account->get_countryregion(), U("China"));
 }
 
 TEST(map_collection_primitive_to_entity)
