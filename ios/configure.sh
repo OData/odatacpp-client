@@ -16,4 +16,4 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make
 popd
 echo "===="
-echo "The final library is available in 'build.ios/libodata-library.a' and 'build.ios/libodata-client.a'"
+echo "The final library is available in 'build.ios/libodata-client.a'"

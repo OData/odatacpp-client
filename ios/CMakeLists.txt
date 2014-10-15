@@ -35,7 +35,6 @@ execute_process(WORKING_DIRECTORY ${ARM_BINARY_DIR}
 add_custom_target(sim
   COMMAND ${CMAKE_COMMAND}
     --build ${SIM_BINARY_DIR}
-    --target odata-library
     --target odata-client
     --config ${CMAKE_BUILD_TYPE}
   COMMENT "Building for i386 (simulator)"
@@ -46,25 +45,9 @@ add_custom_target(sim
 add_custom_target(arm
   COMMAND ${CMAKE_COMMAND}
     --build ${ARM_BINARY_DIR}
-    --target odata-library
     --target odata-client
     --config ${CMAKE_BUILD_TYPE}
   COMMENT "Building for armv7, armv7s, arm64"
-  VERBATIM
-)
-
-set(LIB_ODATACPP libodata-library.a)
-add_custom_command(
-  OUTPUT ${LIB_ODATACPP}
-  COMMAND lipo -create
-    -output "${CMAKE_CURRENT_BINARY_DIR}/${LIB_ODATACPP}"
-    ${SIM_BINARY_DIR}/output/${CMAKE_BUILD_TYPE}/${LIB_ODATACPP}
-    ${ARM_BINARY_DIR}/output/${CMAKE_BUILD_TYPE}/${LIB_ODATACPP}
-  DEPENDS
-    sim
-    arm
-    "${SIM_BINARY_DIR}/output/${CMAKE_BUILD_TYPE}/${LIB_ODATACPP}"
-    "${ARM_BINARY_DIR}/output/${CMAKE_BUILD_TYPE}/${LIB_ODATACPP}"
   VERBATIM
 )
 
@@ -83,4 +66,4 @@ add_custom_command(
   VERBATIM
 )
 
-add_custom_target(odata-library ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${LIB_ODATACPP} ${CMAKE_CURRENT_BINARY_DIR}/${LIB_ODATACLIENT})
+add_custom_target(odata-library ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${LIB_ODATACLIENT}) 
