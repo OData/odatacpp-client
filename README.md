@@ -5,7 +5,7 @@ ODataCpp is an open-source C++ library that implements the Open Data Protocol (O
 
 ## Getting the source
 
-    git clone https://github.com/odata/odatacpp
+    git clone https://github.com/odata/odatacpp-client
 
 ## Building and testing
 
