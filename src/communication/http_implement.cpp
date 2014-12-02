@@ -44,7 +44,6 @@ http::http_request http_client_impl::_build_get_request(http::method method, htt
     if (!accept.empty())
         msg.headers().add(U("Accept"), accept);
 
-    msg.headers().add(U("Authorization"), U("Basic YWRtaW5Ab2F1dGgzLmNjc2N0cC5uZXQ6UGEkJHcwcmQ="));
     msg.set_request_uri(request_uri.to_uri());
 
     return msg;
