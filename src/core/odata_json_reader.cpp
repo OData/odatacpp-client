@@ -549,6 +549,11 @@ odata_property_map odata_json_reader::handle_extract_complex_property(web::json:
 		return result;
 	}
 
+	if (obj.is_null())
+	{
+		return result;
+	}
+
 	// find odata.type and check odata.type to see if it is a derived type
 	if (obj.has_field(odata_json_constants::PAYLOAD_ANNOTATION_TYPE))
 	{
