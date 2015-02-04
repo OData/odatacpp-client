@@ -1,3 +1,9 @@
+﻿//---------------------------------------------------------------------
+// <copyright file="simple_model_test_baseline.h" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
+
 #pragma once
 #include "odata/codegen/code_generation.h"
 #include "odata/codegen/odata_service_context.h"
