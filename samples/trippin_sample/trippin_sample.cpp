@@ -1,5 +1,8 @@
-// ExchangeSample.cpp : Defines the entry point for the console application.
-//
+﻿//---------------------------------------------------------------------
+// <copyright file="trippin_sample.cpp" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
 
 #include <iostream>
 #include "odata/client/odata_client.h"

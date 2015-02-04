@@ -1,3 +1,9 @@
+﻿//---------------------------------------------------------------------
+// <copyright file="default_service_test_baseline.cpp" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
+
 #include "default_service_test.h"
 
 namespace Microsoft_Test_OData_Services_ODataWCFService

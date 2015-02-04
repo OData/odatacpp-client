@@ -1,3 +1,9 @@
+﻿//---------------------------------------------------------------------
+// <copyright file="simple_model_test_baseline.cpp" company="Microsoft">
+//      Copyright (C) Microsoft Corporation. All rights reserved. See License.txt in the project root for license information.
+// </copyright>
+//---------------------------------------------------------------------
+
 #include "simple_model_test.h"
 
 namespace Simple
