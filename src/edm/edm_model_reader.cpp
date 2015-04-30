@@ -367,10 +367,10 @@ void edm_model_reader::_process_property()
 	if (m_current_st)
 	{
         ::utility::string_t property_name;
-        bool is_nullable;
+        bool is_nullable = false;
         std::shared_ptr<edm_named_type> type;
         unsigned int max_length = undefined_value;
-        bool is_unicode;
+        bool is_unicode = false;
 	    unsigned int scale = undefined_value;
 	    unsigned int precision = undefined_value;
 
