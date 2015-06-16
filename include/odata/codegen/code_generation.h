@@ -1607,8 +1607,14 @@ public: \
 #define IMPLEMENT_ACTION_P3(myclass, funcname, executor, key1, type1, value1, key2, type2, value2, key3, type3, value3) \
    IMPLEMENT_OPERATION_P3(myclass, funcname, executor, false, key1, type1, value1, key2, type2, value2, key3, type3, value3)
 
+#define DECLARE_ACTION_P4(myclass, funcname, executor, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4) \
+    DECLARE_OPERATION_P4(myclass, funcname, executor, false, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4)
+
 #define IMPLEMENT_ACTION_P4(myclass, funcname, executor, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4) \
    IMPLEMENT_OPERATION_P4(myclass, funcname, executor, false, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4)
+
+#define DECLARE_ACTION_P5(myclass, funcname, executor, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4, key5, type5, value5) \
+    DECLARE_OPERATION_P5(myclass, funcname, executor, false, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4, key5, type5, value5)
 
 #define IMPLEMENT_ACTION_P5(myclass, funcname, executor, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4, key5, type5, value5) \
    IMPLEMENT_OPERATION_P5(myclass, funcname, executor, false, key1, type1, value1, key2, type2, value2, key3, type3, value3, key4, type4, value4, key5, type5, value5)
