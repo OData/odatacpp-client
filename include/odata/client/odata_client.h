@@ -36,6 +36,10 @@ namespace odata { namespace client {
             }
         }
 
+        ::web::http::client::http_client_config& get_client_config(){
+            return m_client_proxy->get_client_config();
+        }
+
         const ::utility::string_t& get_service_root_url() const
         {
             return m_service_root_url;
