@@ -66,7 +66,7 @@ pplx::task<http::http_response> http_client_impl::send_http_request(const ::util
 
 	auto request = _build_get_request(method, bldr, accept);
 
-    return m_client->request(request);
+    return getOrCreateClient()->request(request);
 }
 
 pplx::task<http::http_response> http_client_impl::send_http_request(const ::utility::string_t& method, const ::utility::string_t& request_uri, const ::utility::string_t accept, ::web::json::value object)
@@ -76,7 +76,7 @@ pplx::task<http::http_response> http_client_impl::send_http_request(const ::util
 
 	auto request = _build_request(method, bldr, accept, object);
 
-    return m_client->request(request);
+    return getOrCreateClient()->request(request);
 }
 
 }}
