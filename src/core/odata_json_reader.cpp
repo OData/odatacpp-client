@@ -393,6 +393,12 @@ odata_property_map odata_json_reader::handle_extract_entity_property(web::json::
 
                     // set edit_link
 					auto navigation_value = result[name];
+					
+					if (!navigation_value)
+					{
+						continue; // can't edit a null value
+					}
+					
 					if (navigation_value->get_value_type()->get_type_kind() == edm_type_kind_t::Collection)
 					{
 						auto collection_value = std::dynamic_pointer_cast<odata_collection_value>(navigation_value);
