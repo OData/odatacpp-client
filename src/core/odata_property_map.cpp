@@ -7,7 +7,7 @@
 #include "odata/core/odata_core.h"
 #include "odata/edm/edm_model_utility.h"
 #include "cpprest/http_msg.h"
-#include "cpprest/http_helpers.h"
+#include "cpprest/details/http_helpers.h"
 
 using namespace ::pplx;
 using namespace ::web;

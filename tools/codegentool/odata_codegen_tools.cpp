@@ -36,7 +36,7 @@ void print_help()
 		<< "    " << "odata_codegen_tools.exe -f \"c:\\files\\test.xml\" -o \"test\""  << ::std::endl
 		<< "    " << "odata_codegen_tools.exe -m \"http://service/odata\" -o \"newfile\" [-u \"abc\" -p \"ppp\"]" << ::std::endl << ::std::endl;
 		
-};
+}
 
 #ifdef WIN32
 int _tmain(int argc, ::utility::char_t* argv[])

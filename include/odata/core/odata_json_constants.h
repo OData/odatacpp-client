@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "cpprest/basic_types.h"
+#include "cpprest/details/basic_types.h"
 #include "odata/common/platform.h"
 
 namespace odata { namespace core

@@ -19,9 +19,10 @@ if(IOS)
    
   set(BUILD_SHARED_LIBS OFF)
 elseif(UNIX) # This includes OSX
-  find_package(Boost REQUIRED COMPONENTS locale filesystem system thread)
+  find_package(Boost REQUIRED COMPONENTS locale filesystem system thread chrono)
   find_package(LibXml2 REQUIRED)
-
+  find_package(OpenSSL REQUIRED)
+  
   option(BUILD_SHARED_LIBS "Build shared Libraries." ON)
 # elseif(WIN32)
 #   option(BUILD_SHARED_LIBS "Build shared Libraries." ON)
@@ -58,8 +59,8 @@ if(("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") OR IOS)
 elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
   message("-- Setting gcc options")
 
-  set(WARNINGS "-Wall -Wextra -Wunused-parameter -Wcast-align -Wcast-qual -Wconversion -Wformat=2 -Winit-self -Winvalid-pch -Wmissing-format-attribute -Wmissing-include-dirs -Wpacked -Wredundant-decls -Wunreachable-code")
-  set(LINUX_SUPPRESSIONS "-Wno-deprecated -Wno-unknown-pragmas -Wno-reorder -Wno-unused-function -Wno-char-subscripts -Wno-switch -Wno-unused-but-set-parameter -Wno-unused-value -Wno-unused-local-typedefs")
+  set(WARNINGS "-Wall -Wextra -Wunused-parameter -Wcast-align -Wcast-qual -Wformat=2 -Winit-self -Winvalid-pch -Wmissing-format-attribute -Wmissing-include-dirs -Wpacked -Wredundant-decls -Wunreachable-code")
+  set(LINUX_SUPPRESSIONS "-Wno-deprecated -Wno-unknown-pragmas -Wno-reorder -Wno-unused-function -Wno-char-subscripts -Wno-switch -Wno-unused-but-set-parameter -Wno-unused-value -Wno-unused-local-typedefs -Wno-unused-parameter -Wno-deprecated-declarations -Wno-ignored-qualifiers -Wno-unused-variable -Wno-sign-conversion -Wno-sign-compare -Wno-parentheses")
 
   set(WARNINGS "${WARNINGS} ${LINUX_SUPPRESSIONS}")
   set(LD_FLAGS "${LD_FLAGS} -Wl,-z,defs")
@@ -77,8 +78,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/output)
 
 # These settings can be used by the test targets
 set(ODATACPP_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(Casablanca_LIBRARIES ${ODATACPP_LIB_DIR}/casablanca/build.release/Binaries/libcpprest.dylib)
-set(Casablanca_INCLUDE_DIR ${ODATACPP_LIB_DIR}/casablanca/Release/include)
+set(Casablanca_LIBRARIES /usr/lib/x86_64-linux-gnu/libcpprest.so)
+set(Casablanca_INCLUDE_DIR /usr/include/cpprest)
 set(ODATACPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(ODATACPP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include ${Casablanca_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${LIBXML2_INCLUDE_DIR})
 set(ODATACPP_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
