@@ -1,5 +1,5 @@
 set(CMAKE_LEGACY_CYGWIN_WIN32 0)
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.5)
 project(odatacpp)
 
 enable_testing()
@@ -19,9 +19,9 @@ if(IOS)
    
   set(BUILD_SHARED_LIBS OFF)
 elseif(UNIX) # This includes OSX
-  find_package(Boost REQUIRED COMPONENTS locale filesystem system thread chrono)
+  find_package(Boost REQUIRED COMPONENTS system filesystem)
   find_package(LibXml2 REQUIRED)
-  find_package(OpenSSL REQUIRED)
+  find_package(cpprestsdk REQUIRED)
   
   option(BUILD_SHARED_LIBS "Build shared Libraries." ON)
 # elseif(WIN32)
@@ -78,10 +78,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/output)
 
 # These settings can be used by the test targets
 set(ODATACPP_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-set(Casablanca_LIBRARIES /usr/lib/x86_64-linux-gnu/libcpprest.so)
-set(Casablanca_INCLUDE_DIR /usr/include/cpprest)
 set(ODATACPP_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(ODATACPP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include ${Casablanca_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${LIBXML2_INCLUDE_DIR})
+set(ODATACPP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include ${LIBXML2_INCLUDE_DIR})
 set(ODATACPP_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 # OData library targets

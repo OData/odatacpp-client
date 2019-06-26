@@ -45,6 +45,16 @@
 #include <boost/locale/encoding_utf.hpp>
 #endif
 
+#ifdef WIN32
+#include "odata/common/compat/windows_compat.h"
+#else
+#ifdef __APPLE__
+#include "odata/common/compat/apple_compat.h"
+#else
+#include "odata/common/compat/linux_compat.h"
+#endif
+#endif
+
 namespace UnitTest {
 
 namespace details

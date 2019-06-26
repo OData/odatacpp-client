@@ -14,6 +14,5 @@ add_executable(${ODATACPP_TOOLS_CODEGENTOOL} ${ODATACPP_TOOLS_CODEGENTOOL_SOURCE
 target_link_libraries(${ODATACPP_TOOLS_CODEGENTOOL}
   ${ODATACPP_CLIENT}
   Boost::system
-  ${OPENSSL_SSL_LIBRARY}
-  ${OPENSSL_CRYPTO_LIBRARY}
+  cpprestsdk::cpprest
   )

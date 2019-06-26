@@ -107,7 +107,7 @@ TEST(primitive_value_boundary_i64)
 	    auto primitive_type = std::dynamic_pointer_cast<edm_primitive_type>(i64->get_value_type());
 	    VERIFY_ARE_EQUAL(primitive_type->get_primitive_kind(), edm_primitive_type_kind_t::Int64);
 		VERIFY_IS_TRUE(i64->as<int64_t>() < 0);
-	    VERIFY_ARE_EQUAL(i64->as<int64_t>(), -9223372036854775808);
+	    VERIFY_ARE_EQUAL(i64->as<int64_t>(), (int64_t)-9223372036854775808);
 	}
 
 	// max i64 
@@ -117,7 +117,7 @@ TEST(primitive_value_boundary_i64)
 	    auto primitive_type = std::dynamic_pointer_cast<edm_primitive_type>(i64->get_value_type());
 	    VERIFY_ARE_EQUAL(primitive_type->get_primitive_kind(), edm_primitive_type_kind_t::Int64);
 		VERIFY_IS_TRUE(i64->as<int64_t>() > 0);
-	    VERIFY_ARE_EQUAL(i64->as<int64_t>(), 9223372036854775807);
+	    VERIFY_ARE_EQUAL(i64->as<int64_t>(), (int64_t)9223372036854775807);
 	}
 
 	//overflow
@@ -165,14 +165,14 @@ TEST(primitive_value_boundary_i16)
 	{
 	    auto i16 = odata_primitive_value::make_primitive_value((int16_t)32767);
 		VERIFY_IS_TRUE(i16->as<int16_t>() > 0);
-	    VERIFY_ARE_EQUAL(i16->as<int16_t>(), 32767);
+	    VERIFY_ARE_EQUAL(i16->as<int16_t>(), (int16_t)32767);
 	}
 
 	// min i16 -32768
 	{
 	    auto i16 = odata_primitive_value::make_primitive_value((int16_t)-32768);
 		VERIFY_IS_TRUE(i16->as<int16_t>() < 0);
-	    VERIFY_ARE_EQUAL(i16->as<int16_t>(), -32768);
+	    VERIFY_ARE_EQUAL(i16->as<int16_t>(), (int16_t)-32768);
 	}
 
 	// overflow
@@ -187,7 +187,6 @@ TEST(primitive_value_boundary_i16)
 		VERIFY_IS_TRUE(i16->as<int16_t>() > 0);
 	}
 }
-
 
 TEST(structured_value)
 {
