@@ -18,7 +18,7 @@
 //#include <unistd.h>
 #ifdef __APPLE__
 #include "odata/common/compat/apple_compat.h"
-//#include <dirent.h>
+#include <dirent.h>
 #else
 #include <boost/filesystem.hpp>
 #include "odata/common/compat/linux_compat.h"

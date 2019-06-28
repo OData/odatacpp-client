@@ -36,6 +36,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNINGS} -Werror -pedantic")
 add_library(${ODATACPP_CLIENT} ${ODATACPP_CLIENT_SOURCES})
 
 target_link_libraries(${ODATACPP_CLIENT}
+  Boost::thread
   cpprestsdk::cpprest
   ${LIBXML2_LIBRARIES}
   ${EXTRALINKS}
