@@ -6,9 +6,7 @@
 
 #ifdef WIN32
 #include <Windows.h>
-#include "compat/windows_compat.h"
-#elif defined(__APPLE__)
-#include "compat/apple_compat.h"
+#include "odata/common/compat/windows_compat.h"
 #endif
 
 #include "test_module_loader.h"

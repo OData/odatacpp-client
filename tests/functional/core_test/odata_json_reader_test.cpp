@@ -418,7 +418,7 @@ TEST(json_primitive_int64_min)
 	auto primitive_type = std::dynamic_pointer_cast<edm_primitive_type>(primitive_value->get_value_type());
 	VERIFY_ARE_EQUAL(primitive_type->get_primitive_kind(), edm_primitive_type_kind_t::Int64);
 	VERIFY_ARE_EQUAL(primitive_type->get_type_kind(), edm_type_kind_t::Primitive);
-	VERIFY_ARE_EQUAL(primitive_value->as<int64_t>(), -9223372036854775808);
+	VERIFY_ARE_EQUAL(primitive_value->as<int64_t>(), (int64_t)-9223372036854775808);
 }
 
 TEST(json_primitive_bool)

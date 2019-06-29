@@ -17,7 +17,7 @@
 #endif 
 
 #include <string>
-#include "cpprest/basic_types.h"
+#include "cpprest/details/basic_types.h"
 #include "cpprest/streams.h"
 #include "cpprest/containerstream.h"
 
@@ -77,8 +77,8 @@ protected:
     /// </summary>
     virtual void log_error_message(const ::utility::string_t& message, unsigned long error = 0)
     {
-        UNREFERENCED_PARAMETER(message);
-        UNREFERENCED_PARAMETER(error);
+        CASABLANCA_UNREFERENCED_PARAMETER(message);
+        CASABLANCA_UNREFERENCED_PARAMETER(error);
     }
 
     /// <summary>

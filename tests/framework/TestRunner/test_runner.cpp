@@ -11,17 +11,17 @@
 #include <regex>
 
 #ifdef WIN32
-#include <Windows.h>
-#include <conio.h>
-#include "compat/windows_compat.h"
+//#include <Windows.h>
+//#include <conio.h>
+#include "odata/common/compat/windows_compat.h"
 #else
-#include <unistd.h>
+//#include <unistd.h>
 #ifdef __APPLE__
-#include "compat/apple_compat.h"
+#include "odata/common/compat/apple_compat.h"
 #include <dirent.h>
 #else
 #include <boost/filesystem.hpp>
-#include "compat/linux_compat.h"
+#include "odata/common/compat/linux_compat.h"
 #endif
 #endif
 

@@ -32,11 +32,7 @@ const map_type::value_type init_test_values[] =
 
 	map_type::value_type(U("collection_of_entity"), U("[{\"AccountID\":100,\"CountryRegion\":\"China\"},{\"AccountID\":200,\"CountryRegion\":\"USA\"},{\"AccountID\":300,\"CountryRegion\":\"JP\"}]")),
     
-#ifdef __APPLE__
-	map_type::value_type(U("unicode_data_in_entity"), U("\"CountryRegion\":\"上海\",\"AccountID\":100}")),
-#else
 	map_type::value_type(U("unicode_data_in_entity"), U("{\"AccountID\":100,\"CountryRegion\":\"上海\"}")),
-#endif
 	map_type::value_type(U("single_complex"), U("{\"FirstName\":\"Leo\",\"LastName\":\"Hu\"}")),
 	map_type::value_type(U("collection_of_complex"), U("[{\"FirstName\":\"Leo\",\"LastName\":\"Hu\"},{\"FirstName\":\"Tian\",\"LastName\":\"Ouyang\"}]")),
 	map_type::value_type(U("single_primitive"), U("100")),

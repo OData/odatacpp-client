@@ -30,7 +30,7 @@ public:
     /// <summary>
     /// Destructor
     /// </summary>
-    ~service_exception() _noexcept {}
+    ~service_exception() noexcept {}
 
 	const ::utility::string_t& what()
 	{
