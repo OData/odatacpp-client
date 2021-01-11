@@ -15,22 +15,22 @@ namespace odata { namespace core
 class odata_collection_value : public odata_value
 {
 public:
-    odata_collection_value(std::shared_ptr<::odata::edm::edm_named_type> type) : odata_value(type)
-    {
-    }
+	odata_collection_value(std::shared_ptr<::odata::edm::edm_named_type> type) : odata_value(type)
+	{
+	}
 
-    void add_collection_value(std::shared_ptr<odata_value> value)
-    {
-        m_values.push_back(value);
-    }
+	void add_collection_value(std::shared_ptr<odata_value> value)
+	{
+		m_values.emplace_back(value);
+	}
 
-	const std::vector<std::shared_ptr<odata_value>>& get_collection_values() const 
+	const std::vector<std::shared_ptr<odata_value>>& get_collection_values() const
 	{
 		return m_values;
 	}
 
 private:
-    std::vector<std::shared_ptr<odata_value>>  m_values;
+	std::vector<std::shared_ptr<odata_value>> m_values;
 };
 
 }}

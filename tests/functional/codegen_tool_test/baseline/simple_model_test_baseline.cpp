@@ -17,7 +17,7 @@ BEGIN_ENTITY_DESTRUCTOR(TestType)
 END_ENTITY_DESTRUCTOR(TestType)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(TestType, keyprop, KeyProp, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(TestType, valueprop, ValueProp, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(TestType, valueprop, ValueProp, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(TestType, Simple, TestType)
 

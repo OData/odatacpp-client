@@ -15,7 +15,7 @@ namespace odata { namespace edm
 class edm_entity_container;
 
 /// <summary>
-/// 
+///
 /// </summary>
 enum OperationImportKind
 {
@@ -29,13 +29,13 @@ enum OperationImportKind
 class edm_operation_import
 {
 public:
-	edm_operation_import(::utility::string_t name, ::utility::string_t operation_name, ::utility::string_t entity_set_path, bool is_in_service_document, OperationImportKind operation_import_kind) :
+	edm_operation_import(::odata::string_t name, ::odata::string_t operation_name, ::odata::string_t entity_set_path, bool is_in_service_document, OperationImportKind operation_import_kind) :
 		m_name(std::move(name)), m_operation_name(std::move(operation_name)), m_entity_set_path(std::move(entity_set_path)), m_is_in_service_document(is_in_service_document), m_operation_import_kind(operation_import_kind)
 	{
 		m_operation_type = nullptr;
 	}
 
-	const ::utility::string_t get_name() const
+	const ::odata::string_t get_name() const
 	{
 		return m_name;
 	}
@@ -53,10 +53,10 @@ public:
 private:
 	friend class edm_entity_container;
 
-	::utility::string_t m_name;
-	::utility::string_t m_operation_name;
+	::odata::string_t m_name;
+	::odata::string_t m_operation_name;
 	std::shared_ptr<edm_operation_type> m_operation_type;
-	::utility::string_t m_entity_set_path;
+	::odata::string_t m_entity_set_path;
 	bool m_is_in_service_document;
 	OperationImportKind m_operation_import_kind;
 };

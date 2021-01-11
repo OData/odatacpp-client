@@ -5,12 +5,14 @@
 //---------------------------------------------------------------------
 
 #include "odata/core/odata_json_constants.h"
+#include "odata/common/utility.h"
 
 namespace odata { namespace core
 {
-    const ::utility::string_t odata_json_constants::PAYLOAD_ANNOTATION_NAVIGATIONLINK = U("@odata.navigationLink");
-    const ::utility::string_t odata_json_constants::PAYLOAD_ANNOTATION_READLINK(U("@odata.readLink"));
-    const ::utility::string_t odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK(U("@odata.editLink"));
-    const ::utility::string_t odata_json_constants::PAYLOAD_ANNOTATION_TYPE(U("@odata.type"));
-    const ::utility::string_t odata_json_constants::PAYLOAD_ANNOTATION_ID(U("@odata.id"));
+	const ::odata::string_t odata_json_constants::PAYLOAD_ANNOTATION_NAVIGATIONLINK = _XPLATSTR("@odata.navigationLink");
+	const ::odata::string_t odata_json_constants::PAYLOAD_ANNOTATION_READLINK(_XPLATSTR("@odata.readLink"));
+	const ::odata::string_t odata_json_constants::PAYLOAD_ANNOTATION_EDITLINK(_XPLATSTR("@odata.editLink"));
+	const ::odata::string_t odata_json_constants::PAYLOAD_ANNOTATION_TYPE(_XPLATSTR("@odata.type"));
+	const ::odata::string_t odata_json_constants::PAYLOAD_ANNOTATION_ID(_XPLATSTR("@odata.id"));
+	const ::odata::string_t odata_json_constants::PAYLOAD_ANNOTATION_BIND(_XPLATSTR("@odata.bind"));
 }}

@@ -18,19 +18,19 @@ template<typename _Entity_Impl>
 class entity_factory
 {
 public:
-	static std::shared_ptr<_Entity_Impl> create_reader_instance(std::shared_ptr<::odata::edm::edm_model> model, const ::utility::string_t& service_root_url)
+	static std::shared_ptr<_Entity_Impl> create_reader_instance(std::shared_ptr<::odata::edm::edm_model> model, const ::odata::string_t& service_root_url)
 	{
-		return std::make_shared<_Entity_Impl>(model, service_root_url);
+		return ::odata::make_shared<_Entity_Impl>(model, service_root_url);
 	}
 
 	static std::shared_ptr<_Entity_Impl> create_writer_instance(std::shared_ptr<::odata::edm::edm_model> model)
 	{
-		return std::make_shared<_Entity_Impl>(model);
+		return ::odata::make_shared<_Entity_Impl>(model);
 	}
 
-	static std::shared_ptr<_Entity_Impl> create_context_url_parser(std::shared_ptr<::odata::edm::edm_model> model, const ::utility::string_t& service_root_url)
+	static std::shared_ptr<_Entity_Impl> create_context_url_parser(std::shared_ptr<::odata::edm::edm_model> model, const ::odata::string_t& service_root_url)
 	{
-		return std::make_shared<_Entity_Impl>(model, service_root_url); 
+		return ::odata::make_shared<_Entity_Impl>(model, service_root_url);
 	}
 };
 

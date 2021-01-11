@@ -28,9 +28,9 @@ END_COMPLEX_CONSTRUCTOR(City, type_base)
 BEGIN_COMPLEX_DESTRUCTOR(City)
 END_COMPLEX_DESTRUCTOR(City)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(City, countryregion, CountryRegion, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(City, region, Region, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(City, name, Name, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(City, countryregion, CountryRegion, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(City, region, Region, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(City, name, Name, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(City, Microsoft.OData.SampleService.Models.TripPin, City)
 
@@ -53,7 +53,7 @@ BEGIN_COMPLEX_DESTRUCTOR(Location)
 END_COMPLEX_DESTRUCTOR(Location)
 
 IMPLEMENT_COMPLEX_PROPERTY_IN_COMPLEX_MAPPING(Location, city, City, City);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Location, address, Address, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Location, address, Address, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Location, Microsoft.OData.SampleService.Models.TripPin, Location)
 
@@ -75,7 +75,7 @@ BEGIN_COMPLEX_DESTRUCTOR(EventLocation)
     ON_PROPERTY_IN_COMPLEX_DESTRUCTOR(buildinginfo)
 END_COMPLEX_DESTRUCTOR(EventLocation)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(EventLocation, buildinginfo, BuildingInfo, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(EventLocation, buildinginfo, BuildingInfo, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(EventLocation, Microsoft.OData.SampleService.Models.TripPin, EventLocation)
 
@@ -113,13 +113,13 @@ BEGIN_ENTITY_DESTRUCTOR(Trip)
 END_ENTITY_DESTRUCTOR(Trip)
 
 IMPLEMENT_FUNCTION_P0(Trip, GetInvolvedPeople, odata_entityset_query_executor<Person>);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, description, Description, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, description, Description, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, budget, Budget, float);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, tripid, TripId, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, endsat, EndsAt, ::utility::datetime);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, shareid, ShareId, ::utility::string_t);
-IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, tags, Tags, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, name, Name, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, shareid, ShareId, ::odata::string_t);
+IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, tags, Tags, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, name, Name, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Trip, startsat, StartsAt, ::utility::datetime);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Trip, photos, Photos, Photo);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Trip, planitems, PlanItems, PlanItem);
@@ -156,8 +156,8 @@ END_ENTITY_CONSTRUCTOR(Airline, type_base)
 BEGIN_ENTITY_DESTRUCTOR(Airline)
 END_ENTITY_DESTRUCTOR(Airline)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airline, airlinecode, AirlineCode, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airline, name, Name, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airline, airlinecode, AirlineCode, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airline, name, Name, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Airline, Microsoft.OData.SampleService.Models.TripPin, Airline)
 
@@ -177,10 +177,10 @@ END_ENTITY_CONSTRUCTOR(Airport, type_base)
 BEGIN_ENTITY_DESTRUCTOR(Airport)
 END_ENTITY_DESTRUCTOR(Airport)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airport, name, Name, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airport, icaocode, IcaoCode, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airport, name, Name, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airport, icaocode, IcaoCode, ::odata::string_t);
 IMPLEMENT_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Airport, location, Location, AirportLocation);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airport, iatacode, IataCode, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Airport, iatacode, IataCode, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Airport, Microsoft.OData.SampleService.Models.TripPin, Airport)
 
@@ -208,15 +208,15 @@ BEGIN_ENTITY_DESTRUCTOR(Person)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(gender)
 END_ENTITY_DESTRUCTOR(Person)
 
-IMPLEMENT_FUNCTION_P1(Person, GetFriendsTrips, odata_entityset_query_executor<Trip>, userName, ::utility::string_t, userName);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, username, UserName, ::utility::string_t);
+IMPLEMENT_FUNCTION_P1(Person, GetFriendsTrips, odata_entityset_query_executor<Trip>, userName, ::odata::string_t, userName);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, username, UserName, ::odata::string_t);
 IMPLEMENT_FUNCTION_P0(Person, GetFavoriteAirline, odata_entityset_query_executor<Airline>);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, concurrency, Concurrency, int64_t);
-IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, emails, Emails, ::utility::string_t);
+IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, emails, Emails, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Person, trips, Trips, Trip);
-IMPLEMENT_ACTION_P2(Person, ShareTrip, odata_void_query_executor, userName, ::utility::string_t, userName, tripId, int32_t, tripId);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname, FirstName, ::utility::string_t);
+IMPLEMENT_ACTION_P2(Person, ShareTrip, odata_void_query_executor, userName, ::odata::string_t, userName, tripId, int32_t, tripId);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname, FirstName, ::odata::string_t);
 IMPLEMENT_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Person, addressinfo, AddressInfo, Location);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Person, friends, Friends, Person);
 IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_ENTITY_MAPPING(Person, gender, Gender, PersonGender);
@@ -257,7 +257,7 @@ BEGIN_ENTITY_DESTRUCTOR(Photo)
 END_ENTITY_DESTRUCTOR(Photo)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Photo, id, Id, int64_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Photo, name, Name, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Photo, name, Name, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Photo, Microsoft.OData.SampleService.Models.TripPin, Photo)
 
@@ -290,7 +290,7 @@ IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PlanItem, endsat, EndsAt
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PlanItem, planitemid, PlanItemId, int32_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PlanItem, duration, Duration, ::utility::seconds);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PlanItem, startsat, StartsAt, ::utility::datetime);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PlanItem, confirmationcode, ConfirmationCode, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PlanItem, confirmationcode, ConfirmationCode, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(PlanItem, Microsoft.OData.SampleService.Models.TripPin, PlanItem)
 
@@ -318,7 +318,7 @@ BEGIN_ENTITY_DESTRUCTOR(Event)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(description)
 END_ENTITY_DESTRUCTOR(Event)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Event, description, Description, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Event, description, Description, ::odata::string_t);
 IMPLEMENT_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Event, occursat, OccursAt, EventLocation);
 
 IMPLEMENT_EDM_INFO(Event, Microsoft.OData.SampleService.Models.TripPin, Event)
@@ -340,7 +340,7 @@ BEGIN_ENTITY_DESTRUCTOR(PublicTransportation)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(seatnumber)
 END_ENTITY_DESTRUCTOR(PublicTransportation)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PublicTransportation, seatnumber, SeatNumber, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PublicTransportation, seatnumber, SeatNumber, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(PublicTransportation, Microsoft.OData.SampleService.Models.TripPin, PublicTransportation)
 
@@ -357,7 +357,7 @@ END_ENTITY_CONSTRUCTOR(Flight, PublicTransportation)
 BEGIN_ENTITY_DESTRUCTOR(Flight)
 END_ENTITY_DESTRUCTOR(Flight)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Flight, flightnumber, FlightNumber, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Flight, flightnumber, FlightNumber, ::odata::string_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Flight, from, From, Airport);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Flight, to, To, Airport);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Flight, airline, Airline, Airline);

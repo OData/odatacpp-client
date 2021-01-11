@@ -15,24 +15,22 @@
 #include "odata/common/utility.h"
 #include "odata/core/odata_core.h"
 
-namespace odata { namespace codegen { 
+namespace odata { namespace codegen {
 
 class odata_service_context;
 
 template<typename Executor, typename Builder>
 class odata_service_query : public std::enable_shared_from_this<odata_service_query<Executor, Builder>>
 {
-public: 
-	odata_service_query(const ::utility::string_t& query_root, std::shared_ptr<odata_service_context> client_context) 
-		: m_client_context(client_context)
+public:
+	odata_service_query(const ::odata::string_t& query_root, std::shared_ptr<odata_service_context> client_context)
+		: m_client_context(client_context), m_query_executor(::odata::make_shared<Executor>(client_context)), m_query_builder(::odata::make_shared<Builder>(query_root))
 	{
-		m_query_builder = std::make_shared<Builder>(query_root);
-		m_query_executor = std::make_shared<Executor>(client_context);
 	}
 
 	::pplx::task<typename Executor::return_type> execute_query()
 	{
-	    if (m_query_executor && m_query_builder)
+		if (m_query_executor && m_query_builder)
 		{
 			return m_query_executor->execute_query(m_query_builder->get_query_expression());
 		}
@@ -40,9 +38,9 @@ public:
 		return ::pplx::task_from_result(typename Executor::return_type());
 	}
 
-	::pplx::task<typename Executor::return_type> execute_paged_query(::utility::string_t& next_link_url)
+	::pplx::task<typename Executor::return_type> execute_paged_query(::odata::string_t& next_link_url)
 	{
-	    if (m_query_executor && m_query_builder)
+		if (m_query_executor && m_query_builder)
 		{
 			return m_query_executor->execute_paged_query(next_link_url);
 		}
@@ -53,7 +51,7 @@ public:
 	// for function and action
 	::pplx::task<typename Executor::return_type> execute_operation_query(const std::vector<std::shared_ptr<::odata::core::odata_parameter>>& parameters, bool is_function)
 	{
-	    if (m_query_executor && m_query_builder)
+		if (m_query_executor && m_query_builder)
 		{
 			return m_query_executor->execute_operation_query(m_query_builder->get_query_expression(), parameters, is_function);
 		}
@@ -66,14 +64,14 @@ public:
 		m_query_builder = builder;
 	}
 
-	::utility::string_t get_query_expression()
+	::odata::string_t get_query_expression()
 	{
 		if (m_query_builder)
 		{
 			return m_query_builder->get_query_expression();
 		}
 
-		return U("");
+		return _XPLATSTR("");
 	}
 
 	std::shared_ptr<odata_service_query<Executor, Builder>> top(int count)
@@ -86,7 +84,7 @@ public:
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_service_query<Executor, Builder>> key(const ::utility::string_t& key_clause)
+	std::shared_ptr<odata_service_query<Executor, Builder>> key(const ::odata::string_t& key_clause)
 	{
 		if (m_query_builder)
 		{
@@ -106,7 +104,7 @@ public:
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_service_query<Executor, Builder>> filter(const ::utility::string_t& filter_clause)
+	std::shared_ptr<odata_service_query<Executor, Builder>> filter(const ::odata::string_t& filter_clause)
 	{
 		if (m_query_builder)
 		{
@@ -116,7 +114,7 @@ public:
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_service_query<Executor, Builder>> select(const ::utility::string_t& select_clause)
+	std::shared_ptr<odata_service_query<Executor, Builder>> select(const ::odata::string_t& select_clause)
 	{
 		if (m_query_builder)
 		{
@@ -126,7 +124,7 @@ public:
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_service_query<Executor, Builder>> expand(const ::utility::string_t& expand_clause)
+	std::shared_ptr<odata_service_query<Executor, Builder>> expand(const ::odata::string_t& expand_clause)
 	{
 		if (m_query_builder)
 		{
@@ -146,11 +144,71 @@ public:
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_service_query<Executor, Builder>> orderby(const ::utility::string_t& orderby_clause)
+	std::shared_ptr<odata_service_query<Executor, Builder>> orderby(const ::odata::string_t& orderby_clause)
 	{
 		if (m_query_builder)
 		{
 			m_query_builder->orderby(orderby_clause);
+		}
+
+		return this->shared_from_this();
+	}
+
+	std::shared_ptr<odata_service_query<Executor, Builder>> search(const ::odata::string_t& search_clause)
+	{
+		if (m_query_builder)
+		{
+			m_query_builder->search(search_clause);
+		}
+
+		return this->shared_from_this();
+	}
+
+	std::shared_ptr<odata_service_query<Executor, Builder>> clear_request_header()
+	{
+		if (m_client_context && m_client_context->get_client())
+		{
+			m_client_context->get_client()->clear_request_header();
+		}
+
+		return this->shared_from_this();
+	}
+	bool has_request_header(const ::odata::string_t& name) const
+	{
+		if (m_client_context && m_client_context->get_client())
+		{
+			return m_client_context->get_client()->has_request_header();
+		}
+		return false;
+	}
+	std::shared_ptr<odata_service_query<Executor, Builder>> has_request_header(const ::odata::string_t& name, bool& value)
+	{
+		value = has_request_header(name);
+		return this->shared_from_this();
+	}
+	std::shared_ptr<odata_service_query<Executor, Builder>> add_request_header(const ::odata::string_t& name, const ::odata::string_t& value)
+	{
+		if (m_client_context && m_client_context->get_client())
+		{
+			m_client_context->get_client()->add_request_header(name, value);
+		}
+
+		return this->shared_from_this();
+	}
+	std::shared_ptr<odata_service_query<Executor, Builder>> remove_request_header(const ::odata::string_t& name)
+	{
+		if (m_client_context && m_client_context->get_client())
+		{
+			m_client_context->get_client()->remove_request_header(name);
+		}
+
+		return this->shared_from_this();
+	}
+	std::shared_ptr<odata_service_query<Executor, Builder>> match_request_header(const ::odata::string_t& name, ::odata::string_t& value)
+	{
+		if (m_client_context && m_client_context->get_client())
+		{
+			value = m_client_context->get_client()->match_request_header(name);
 		}
 
 		return this->shared_from_this();

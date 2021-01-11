@@ -9,15 +9,15 @@
 #if defined(_MSC_VER) && (_MSC_VER >= 1800)
 #include <ppltasks.h>
 namespace pplx = Concurrency;
-#else 
+#else
 #include "pplx/pplxtasks.h"
 #endif
 
 #ifdef _MSC_VER
-#pragma warning(disable:4146 4267 4521 4522 4566 4996)
+#pragma warning(disable: 4996)
 #endif
 
-#define U(x) _XPLATSTR(x)
+//#define U(x) _XPLATSTR(x)
 
 #ifndef ODATACPP_CLIENT_API
 #ifdef ODATACLIENT_EXPORTS

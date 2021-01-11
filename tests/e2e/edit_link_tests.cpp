@@ -18,21 +18,21 @@ SUITE(edit_link_tests)
 //http://services.odata.org/V4/Northwind/Northwind.svc/Products
 TEST(query_entity_set)
 {
-	//auto norwind_service = std::make_shared<InMemoryEntities>(U("http://services.odata.org/V4/Northwind/Northwind.svc"));
+	//auto norwind_service = ::odata::make_shared<InMemoryEntities>(_XPLATSTR("http://services.odata.org/V4/Northwind/Northwind.svc"));
 	//auto ret = norwind_service->create_products_query()->top(3)->execute_query().get();
-	
-	//VERIFY_ARE_EQUAL(U("http://services.odata.org/V4/Northwind/Northwind.svc/Products(1)"), ret[0]->get_edit_link());
-	//VERIFY_ARE_EQUAL(U("http://services.odata.org/V4/Northwind/Northwind.svc/Products(2)"), ret[1]->get_edit_link());
-	//VERIFY_ARE_EQUAL(U("http://services.odata.org/V4/Northwind/Northwind.svc/Products(3)"), ret[2]->get_edit_link());
+
+	//VERIFY_ARE_EQUAL(_XPLATSTR("http://services.odata.org/V4/Northwind/Northwind.svc/Products(1)"), ret[0]->get_edit_link());
+	//VERIFY_ARE_EQUAL(_XPLATSTR("http://services.odata.org/V4/Northwind/Northwind.svc/Products(2)"), ret[1]->get_edit_link());
+	//VERIFY_ARE_EQUAL(_XPLATSTR("http://services.odata.org/V4/Northwind/Northwind.svc/Products(3)"), ret[2]->get_edit_link());
 }
 
 //http://services.odata.org/V4/Northwind/Northwind.svc/Products(1)
 TEST(query_entity_set_with_key)
 {
-	//auto norwind_service = std::make_shared<InMemoryEntities>(U("http://services.odata.org/V4/Northwind/Northwind.svc"));
-	//auto ret = norwind_service->create_products_query()->key(U("1"))->execute_query().get();
+	//auto norwind_service = ::odata::make_shared<InMemoryEntities>(_XPLATSTR("http://services.odata.org/V4/Northwind/Northwind.svc"));
+	//auto ret = norwind_service->create_products_query()->key(_XPLATSTR("1"))->execute_query().get();
 
-	//VERIFY_ARE_EQUAL(U("http://services.odata.org/V4/Northwind/Northwind.svc/Products(1)"), ret[0]->get_edit_link());
+	//VERIFY_ARE_EQUAL(_XPLATSTR("http://services.odata.org/V4/Northwind/Northwind.svc/Products(1)"), ret[0]->get_edit_link());
 }
 
 // todo we should find service that has not @editLink value

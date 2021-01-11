@@ -16,7 +16,7 @@ namespace odata { namespace codegen { namespace tools {
 enum PROPERTY_TYPE
 {
 	E_PRIMITIVE = 0,
-    E_COMPLEX,
+	E_COMPLEX,
 	E_ENTITY,
 	E_ENUM,
 	E_COLLECTION_PRIMITIVE,
@@ -43,11 +43,11 @@ enum CLASS_TYPE
 
 struct class_info
 {
-	::utility::string_t _edm_name;
-	::utility::string_t _edm_namespace;
-	::utility::string_t _class_name;
-	::utility::string_t _base_class_name;
-	CLASS_TYPE          _type;
+	::odata::string_t _edm_name;
+	::odata::string_t _edm_namespace;
+	::odata::string_t _class_name;
+	::odata::string_t _base_class_name;
+	CLASS_TYPE        _type;
 
 	class_info()
 	{
@@ -57,33 +57,33 @@ struct class_info
 
 struct operation_param
 {
-	::utility::string_t _edm_name;
-	::utility::string_t _member_name;
-	::utility::string_t _member_type;
-	::utility::string_t _member_strong_type_name;
+	::odata::string_t _edm_name;
+	::odata::string_t _member_name;
+	::odata::string_t _member_type;
+	::odata::string_t _member_strong_type_name;
 };
 
 struct operation_info
 {
 	std::vector<operation_param> vec_params;
-    ::utility::string_t _return_type;
-	::utility::string_t _executor_name;
+	::odata::string_t _return_type;
+	::odata::string_t _executor_name;
 };
 
 struct property_info
 {
-	::utility::string_t _edm_name;
+	::odata::string_t _edm_name;
 	::utility::string_t _class_member_name;
 	// int* or vector<int>
-	::utility::string_t _class_member_type;
+	::odata::string_t _class_member_type;
 	// int or single entity type name
-	::utility::string_t _strong_type_name;
-	PROPERTY_TYPE       _type;
-	::utility::string_t _default_value;
-	bool                _is_nullable;
-	bool                _is_key;
+	::odata::string_t _strong_type_name;
+	PROPERTY_TYPE     _type;
+	::odata::string_t _default_value;
+	bool              _is_nullable;
+	bool              _is_key;
 
-	std::shared_ptr<operation_info>  _operation_info;   // used for action / function
+	std::shared_ptr<operation_info> _operation_info; // used for action / function
 
 	property_info()
 	{
@@ -97,8 +97,8 @@ struct property_info
 
 struct code_gen_configuration
 {
-	::utility::string_t _namespace;
-	::utility::string_t _file_name;
+	::odata::string_t _namespace;
+	::odata::string_t _file_name;
 
 	code_gen_configuration()
 	{
@@ -106,12 +106,12 @@ struct code_gen_configuration
 };
 
 // key is property name
-typedef std::unordered_map<::utility::string_t, property_info>  class_property_info;
+typedef std::unordered_map<::odata::string_t, property_info>  class_property_info;
 // key is enity complex enum type name
-typedef std::unordered_map<::utility::string_t, class_property_info>  class_property_map;  // class member infomation
+typedef std::unordered_map<::odata::string_t, class_property_info>  class_property_map;  // class member infomation
 // key is enity complex enum type name
-typedef std::unordered_map<::utility::string_t, class_info>  class_map;   // class infomation
-typedef std::unordered_map<::utility::string_t, std::vector<::utility::string_t>> derived_class_map;
+typedef std::unordered_map<::odata::string_t, class_info>  class_map;   // class infomation
+typedef std::unordered_map<::odata::string_t, std::vector<::odata::string_t>> derived_class_map;
 
 struct schema_info  // one model may contain several schemas (namespaces)
 {
@@ -130,13 +130,13 @@ struct schema_info  // one model may contain several schemas (namespaces)
 };
 
 // key is namespace name
-typedef std::unordered_map<::utility::string_t, schema_info> code_gen_map;
+typedef std::unordered_map<::odata::string_t, schema_info> code_gen_map;
 
 class odata_codegen_initializer
 {
 public:
-	::pplx::task<int> initialize_from_metadata_file(const ::utility::string_t metadata_file, const ::utility::string_t output_file_name);
-	::pplx::task<int> initialize_from_service_metadata(const ::utility::string_t metadata_url, const ::utility::string_t output_file_name, const ::utility::string_t user_name = U(""), const ::utility::string_t  password = U(""));
+	::pplx::task<int> initialize_from_metadata_file(const ::odata::string_t metadata_file, const ::odata::string_t output_file_name);
+	::pplx::task<int> initialize_from_service_metadata(const ::odata::string_t metadata_url, const ::odata::string_t output_file_name, const ::odata::string_t user_name = _XPLATSTR(""), const ::odata::string_t  password = _XPLATSTR(""));
 	::pplx::task<int> begin_initialize_code_gen_info(::std::shared_ptr<::odata::edm::edm_model> model);
 
 	const code_gen_configuration& get_config() const
@@ -153,7 +153,7 @@ public:
 	{
 		return m_code_gen_map;
 	}
-	
+
 private:
 	void reset_class_info();
 	void initialize_class_info(const std::shared_ptr<::odata::edm::edm_schema>& schema, schema_info& _schema_info);
@@ -162,7 +162,7 @@ private:
 	void set_default_value(property_info& _property_info, const std::shared_ptr<::odata::edm::edm_property_type>& property_type);
 	void set_strong_type_name(property_info& _property_info);
 
-	::utility::string_t get_executor_name_from_edm_type(const std::shared_ptr<::odata::edm::edm_named_type>& type);
+	::odata::string_t get_executor_name_from_edm_type(const std::shared_ptr<::odata::edm::edm_named_type>& type);
 	void set_operation_info(property_info& operation_info, const std::shared_ptr<::odata::edm::edm_operation_type>& operation_type, schema_info& _schema_info);
 private:
 	friend class odata_codegen_writer;
@@ -171,6 +171,5 @@ private:
 	code_gen_configuration                   m_config;
 	code_gen_map                             m_code_gen_map;
 };
-
 
 }}}

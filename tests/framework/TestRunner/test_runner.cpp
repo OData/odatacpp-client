@@ -74,8 +74,8 @@ static std::vector<std::string> get_files_in_directory()
 
 #ifdef WIN32
 
-    char exe_directory_buffer[MAX_PATH]; 
-    GetModuleFileNameA(NULL, exe_directory_buffer, MAX_PATH); 
+    char exe_directory_buffer[MAX_PATH];
+    GetModuleFileNameA(NULL, exe_directory_buffer, MAX_PATH);
     std::string exe_directory = to_lower(exe_directory_buffer);
     auto location = exe_directory.rfind("testrunner");
     exe_directory.erase(location);
@@ -97,7 +97,7 @@ static std::vector<std::string> get_files_in_directory()
 
 #elif !defined(__APPLE__)
     using namespace boost::filesystem;
-    
+
     auto exe_directory = initial_path().string();
     for (auto it = directory_iterator(path(exe_directory)); it != directory_iterator(); ++it)
     {
@@ -108,10 +108,10 @@ static std::vector<std::string> get_files_in_directory()
     }
 #else
     auto exe_directory = getcwd(nullptr, 0);
-    
+
     DIR *dir = opendir(exe_directory);
     free(exe_directory);
-    
+
     if (dir != nullptr)
     {
         struct dirent *ent = readdir(dir);
@@ -147,7 +147,7 @@ static std::string replace_wildcard_for_regex(const std::string &str)
 static std::vector<std::string> get_matching_binaries(const std::string &dllName)
 {
     std::vector<std::string> matchingFiles;
-    
+
     // If starts with .\ remove it.
     std::string expandedDllName(dllName);
     if(expandedDllName.size() > 2 && expandedDllName[0] == '.' && expandedDllName[1] == '\\')
@@ -169,7 +169,7 @@ static std::vector<std::string> get_matching_binaries(const std::string &dllName
     expandedDllName = replace_wildcard_for_regex(expandedDllName);
 
     std::vector<std::string> allFiles = get_files_in_directory();
-    
+
     // Filter out any files that don't match.
     std::regex dllRegex(expandedDllName, std::regex_constants::icase);
 
@@ -383,7 +383,7 @@ if(pTest->m_properties.Has("Ignore:Linux")) return true;
 int CrtReportHandler(int reportType, char *message, int *returnValue)
 {
     std::cerr << "In CRT Report Handler. ReportType:" << reportType << ", message:" << message << std::endl;
-    
+
     // Cause break into debugger.
     *returnValue = 1;
     return TRUE;
@@ -438,7 +438,7 @@ int main(int argc, char* argv[])
     int totalTestCount = 0, failedTestCount = 0;
     std::vector<std::string> failedTests;
     UnitTest::TestReporterStdout testReporter;
-    
+
     bool breakOnError = false;
     if(UnitTest::GlobalSettings::Has("breakonerror"))
     {
@@ -462,7 +462,7 @@ int main(int argc, char* argv[])
     timer.Start();
 
     // Cycle through all the test binaries, load them, and perform the specified action.
-    
+
     for(auto iter = g_test_binaries.begin(); iter != g_test_binaries.end(); ++iter)
     {
         std::vector<std::string> matchingBinaries = get_matching_binaries(*iter);
@@ -527,7 +527,7 @@ int main(int argc, char* argv[])
                     else
                     {
                         testRunner.RunTestsIf(
-                            tests, 
+                            tests,
                             [&](UnitTest::Test *pTest) -> bool
                         {
                             // Combine suite and test name
@@ -538,7 +538,7 @@ int main(int argc, char* argv[])
                             if(IsTestIgnored(pTest) && !include_ignored_tests)
                                 return false;
                             else
-                                return matched_properties(pTest->m_properties) && 
+                                return matched_properties(pTest->m_properties) &&
                                 std::regex_match(fullTestName, nameRegex);
                         },
                             g_individual_test_timeout);
@@ -635,6 +635,6 @@ int main(int argc, char* argv[])
         FreeLibrary(hComBase);
     }
 #endif
-	
+
     return failedTestCount;
 }

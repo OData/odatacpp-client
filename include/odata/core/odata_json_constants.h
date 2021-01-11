@@ -6,19 +6,21 @@
 
 #pragma once
 
-#include "cpprest/basic_types.h"
+#include "cpprest/details/basic_types.h"
 #include "odata/common/platform.h"
+#include "odata/common/utility.h"
 
 namespace odata { namespace core
 {
 class odata_json_constants
 {
 public:
-    ODATACPP_CLIENT_API static const ::utility::string_t PAYLOAD_ANNOTATION_NAVIGATIONLINK;
-    ODATACPP_CLIENT_API static const ::utility::string_t PAYLOAD_ANNOTATION_READLINK;
-    ODATACPP_CLIENT_API static const ::utility::string_t PAYLOAD_ANNOTATION_EDITLINK;
-    ODATACPP_CLIENT_API static const ::utility::string_t PAYLOAD_ANNOTATION_TYPE;
-    ODATACPP_CLIENT_API static const ::utility::string_t PAYLOAD_ANNOTATION_ID;
+	ODATACPP_CLIENT_API static const ::odata::string_t PAYLOAD_ANNOTATION_NAVIGATIONLINK;
+	ODATACPP_CLIENT_API static const ::odata::string_t PAYLOAD_ANNOTATION_READLINK;
+	ODATACPP_CLIENT_API static const ::odata::string_t PAYLOAD_ANNOTATION_EDITLINK;
+	ODATACPP_CLIENT_API static const ::odata::string_t PAYLOAD_ANNOTATION_TYPE;
+	ODATACPP_CLIENT_API static const ::odata::string_t PAYLOAD_ANNOTATION_ID;
+	ODATACPP_CLIENT_API static const ::odata::string_t PAYLOAD_ANNOTATION_BIND;
 };
 
 }}

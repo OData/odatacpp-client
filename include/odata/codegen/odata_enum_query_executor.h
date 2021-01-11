@@ -25,57 +25,55 @@ public:
 	{
 	}
 
-	typedef typename std::vector<ElementType> return_type;
+	typedef typename std::pair<std::vector<ElementType>, ::odata::client::http_result> return_type;
 
-	::pplx::task<return_type> execute_query(const ::utility::string_t& query_expression)
+	::pplx::task<return_type> execute_query(const ::odata::string_t& query_expression)
 	{
 		if (!m_client_context || !m_client_context->get_client())
 		{
-			return ::pplx::task_from_result(std::vector<ElementType>());
+			return ::pplx::task_from_result(std::make_pair(return_type::first_type(), ::odata::client::http_result(::web::http::http_headers(), ::web::http::status_code(-1))));
 		}
 
 		return m_client_context->get_client()->get_data_from_server(query_expression).then(
-            [this] (const std::vector<std::shared_ptr<odata::core::odata_value>>& values) -> std::vector<ElementType>
+			[this] (const std::pair<std::vector<std::shared_ptr<odata::core::odata_value>>, ::odata::client::http_result>& values) -> return_type
 			{
-				std::vector<ElementType> vec;
+				return_type::first_type vec;
 
-				for(auto iter = values.cbegin(); iter != values.cend(); iter++)
+				for(auto iter = values.first.cbegin(); iter != values.first.cend(); ++iter)
 				{
 					auto enum_value = std::dynamic_pointer_cast<::odata::core::odata_enum_value>(*iter);
 					if (enum_value)
 					{
-						ElementType _value = Resolver::get_enum_type_from_string(enum_value->to_string(), ElementType());
-						vec.push_back(_value);
+						vec.emplace_back(Resolver::get_enum_type_from_string(enum_value->to_string(), ElementType()));
 					}
 				}
-			
-				return std::move(vec); 
+
+				return std::make_pair(std::move(vec), values.second);
 			});
 	}
 
-	::pplx::task<return_type> execute_operation_query(const ::utility::string_t& query_expression, const std::vector<std::shared_ptr<::odata::core::odata_parameter>>& parameters, bool is_function)
+	::pplx::task<return_type> execute_operation_query(const ::odata::string_t& query_expression, const std::vector<std::shared_ptr<::odata::core::odata_parameter>>& parameters, bool is_function)
 	{
 		if (!m_client_context || !m_client_context->get_client())
 		{
-			return ::pplx::task_from_result(return_type());
+			return ::pplx::task_from_result(std::make_pair(return_type::first_type(), ::odata::client::http_result(::web::http::http_headers(), ::web::http::status_code(-1))));
 		}
 
-		auto client_context = m_client_context;
+		auto &client_context = m_client_context;
 		std::vector<std::shared_ptr<::odata::core::odata_value>> ret_values;
-		m_client_context->get_client()->send_data_to_server(query_expression, parameters, ret_values, is_function ? HTTP_GET : HTTP_POST).get();
+		auto status_code = m_client_context->get_client()->send_data_to_server(query_expression, parameters, ret_values, is_function ? HTTP_GET : HTTP_POST).get().second;
 
-		std::vector<ElementType> vec;
-		for(auto iter = ret_values.cbegin(); iter != ret_values.cend(); iter++)
+		return_type::first_type vec;
+		for(auto iter = ret_values.cbegin(); iter != ret_values.cend(); ++iter)
 		{
 			auto enum_value = std::dynamic_pointer_cast<::odata::core::odata_enum_value>(*iter);
 			if (enum_value)
 			{
-				ElementType _value = Resolver::get_enum_type_from_string(enum_value->to_string(), ElementType());
-				vec.push_back(_value);
+				vec.emplace_back(Resolver::get_enum_type_from_string(enum_value->to_string(), ElementType()));
 			}
 		}
-			
-		return ::pplx::task_from_result(std::move(vec)); 
+
+		return ::pplx::task_from_result(std::make_pair(std::move(vec), std::move(status_code)));
 	}
 
 protected:

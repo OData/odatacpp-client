@@ -20,109 +20,103 @@ namespace odata { namespace common {
 class xmlstring_stream : public IStream
 {
 protected:
-    xmlstring_stream()
-        : m_refCount(1)
-    {
-    }
+	xmlstring_stream()
+		: m_refCount(1)
+	{
+	}
 
-    virtual ~xmlstring_stream()
-    {
-    }
+	virtual ~xmlstring_stream() = default;
 
 public:
+	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, void ** ppvObject)
+	{
+		if (iid == __uuidof(IUnknown)
+			|| iid == __uuidof(IStream)
+			|| iid == __uuidof(ISequentialStream))
+		{
+			*ppvObject = static_cast<IStream*>(this);
+			AddRef();
+			return S_OK;
+		} else
+			return E_NOINTERFACE;
+	}
 
-    virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, void ** ppvObject)
-    { 
-        if (iid == __uuidof(IUnknown)
-            || iid == __uuidof(IStream)
-            || iid == __uuidof(ISequentialStream))
-        {
-            *ppvObject = static_cast<IStream*>(this);
-            AddRef();
-            return S_OK;
-        } else
-            return E_NOINTERFACE; 
-    }
+	virtual ULONG STDMETHODCALLTYPE AddRef(void)
+	{
+		return (ULONG)_InterlockedIncrement(&m_refCount);
+	}
 
-    virtual ULONG STDMETHODCALLTYPE AddRef(void) 
-    { 
-        return (ULONG)_InterlockedIncrement(&m_refCount); 
-    }
+	virtual ULONG STDMETHODCALLTYPE Release(void)
+	{
+		ULONG res = (ULONG) _InterlockedDecrement(&m_refCount);
+		if (res == 0)
+		{
+			delete this;
+		}
+		return res;
+	}
 
-    virtual ULONG STDMETHODCALLTYPE Release(void) 
-    {
-        ULONG res = (ULONG) _InterlockedDecrement(&m_refCount);
-        if (res == 0) 
-        {
-            delete this;
-        }
-        return res;
-    }
-
-    // ISequentialStream Interface
+	// ISequentialStream Interface
 public:
+	virtual HRESULT STDMETHODCALLTYPE Read(void* , ULONG , ULONG*)
+	{
+		return E_NOTIMPL;
+	}
 
-    virtual HRESULT STDMETHODCALLTYPE Read(void* , ULONG , ULONG* )
-    {
-        return E_NOTIMPL;
-    }
+	virtual HRESULT STDMETHODCALLTYPE Write(void const* , ULONG , ULONG*)
+	{
+		return E_NOTIMPL;
+	}
 
-    virtual HRESULT STDMETHODCALLTYPE Write(void const* , ULONG , ULONG* )
-    {
-        return E_NOTIMPL;
-    }
-
-    // IStream Interface
+	// IStream Interface
 public:
-    virtual HRESULT STDMETHODCALLTYPE SetSize(ULARGE_INTEGER)
-    { 
-        return E_NOTIMPL;   
-    }
-    
-    virtual HRESULT STDMETHODCALLTYPE CopyTo(IStream*, ULARGE_INTEGER, ULARGE_INTEGER*,
-        ULARGE_INTEGER*) 
-    { 
-        return E_NOTIMPL;   
-    }
-    
-    virtual HRESULT STDMETHODCALLTYPE Commit(DWORD)                                      
-    { 
-        return E_NOTIMPL;   
-    }
-    
-    virtual HRESULT STDMETHODCALLTYPE Revert(void)                                       
-    { 
-        return E_NOTIMPL;   
-    }
-    
-    virtual HRESULT STDMETHODCALLTYPE LockRegion(ULARGE_INTEGER, ULARGE_INTEGER, DWORD)              
-    { 
-        return E_NOTIMPL;   
-    }
-    
-    virtual HRESULT STDMETHODCALLTYPE UnlockRegion(ULARGE_INTEGER, ULARGE_INTEGER, DWORD)            
-    { 
-        return E_NOTIMPL;   
-    }
-    
-    virtual HRESULT STDMETHODCALLTYPE Clone(IStream **)                                  
-    { 
-        return E_NOTIMPL;   
-    }
+	virtual HRESULT STDMETHODCALLTYPE SetSize(ULARGE_INTEGER)
+	{
+		return E_NOTIMPL;
+	}
 
-    virtual HRESULT STDMETHODCALLTYPE Seek(LARGE_INTEGER , DWORD , ULARGE_INTEGER* )
-    { 
-        return E_NOTIMPL;
-    }
+	virtual HRESULT STDMETHODCALLTYPE CopyTo(IStream*, ULARGE_INTEGER, ULARGE_INTEGER*, ULARGE_INTEGER*)
+	{
+		return E_NOTIMPL;
+	}
 
-    virtual HRESULT STDMETHODCALLTYPE Stat(STATSTG* , DWORD ) 
-    {
-        return E_NOTIMPL;  
-    }
+	virtual HRESULT STDMETHODCALLTYPE Commit(DWORD)
+	{
+		return E_NOTIMPL;
+	}
+
+	virtual HRESULT STDMETHODCALLTYPE Revert(void)
+	{
+		return E_NOTIMPL;
+	}
+
+	virtual HRESULT STDMETHODCALLTYPE LockRegion(ULARGE_INTEGER, ULARGE_INTEGER, DWORD)
+	{
+		return E_NOTIMPL;
+	}
+
+	virtual HRESULT STDMETHODCALLTYPE UnlockRegion(ULARGE_INTEGER, ULARGE_INTEGER, DWORD)
+	{
+		return E_NOTIMPL;
+	}
+
+	virtual HRESULT STDMETHODCALLTYPE Clone(IStream **)
+	{
+		return E_NOTIMPL;
+	}
+
+	virtual HRESULT STDMETHODCALLTYPE Seek(LARGE_INTEGER , DWORD , ULARGE_INTEGER* )
+	{
+		return E_NOTIMPL;
+	}
+
+	virtual HRESULT STDMETHODCALLTYPE Stat(STATSTG* , DWORD )
+	{
+		return E_NOTIMPL;
+	}
 
 private:
-
-    volatile long m_refCount;
+	volatile long m_refCount;
 };
 
 /// <summary>
@@ -131,34 +125,33 @@ private:
 class xmlstring_istream : public xmlstring_stream
 {
 public:
+	static xmlstring_istream* create(concurrency::streams::istream stream)
+	{
+		return new xmlstring_istream(stream);
+	}
 
-    static xmlstring_istream* create(concurrency::streams::istream stream)
-    {
-        return new xmlstring_istream(stream);
-    }
+	virtual HRESULT STDMETHODCALLTYPE Read(_Out_writes_ (cb) void* pv, _In_ ULONG cb, ULONG* pcbRead )
+	{
+		if (cb > 0)
+		{
+			// Synchronous for now.
+			concurrency::streams::rawptr_buffer<uint8_t> buf((uint8_t *)pv, static_cast<std::streamsize>(cb));
+			*pcbRead = (ULONG)m_stream.read(buf, static_cast<size_t>(cb)).get();
+			return S_OK;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE Read(_Out_writes_ (cb) void* pv, _In_ ULONG cb, ULONG* pcbRead )
-    {
-        if (cb > 0)
-        {
-            // Synchronous for now.
-            concurrency::streams::rawptr_buffer<uint8_t> buf((uint8_t *)pv, static_cast<std::streamsize>(cb));
-            *pcbRead = (ULONG)m_stream.read(buf, static_cast<size_t>(cb)).get();
-            return S_OK;
-        }
-
-        *pcbRead = cb;
-        return S_OK;
-    }
+		*pcbRead = cb;
+		return S_OK;
+	}
 
 protected:
 
-    xmlstring_istream(concurrency::streams::istream stream)
-        : m_stream(stream)
-    {
-    }
+	xmlstring_istream(concurrency::streams::istream stream)
+		: m_stream(stream)
+	{
+	}
 
-    concurrency::streams::istream m_stream;
+	concurrency::streams::istream m_stream;
 };
 
 /// <summary>
@@ -167,35 +160,33 @@ protected:
 class xmlstring_ostream : public xmlstring_stream
 {
 public:
+	static xmlstring_ostream* create(std::ostream& stream)
+	{
+		return new xmlstring_ostream(stream);
+	}
 
-    static xmlstring_ostream* create(std::ostream& stream)
-    {
-        return new xmlstring_ostream(stream);
-    }
+	virtual HRESULT STDMETHODCALLTYPE Write(void const* pv, ULONG cb, ULONG* pcbWritten)
+	{
+		// This method gets called when the XmlWriter is destroyed with cb == 0. We need this
+		// check to ensure that we do not access the underlying stream after finalize is called.
+		if (cb > 0)
+		{
+			const char * buf = (const char *) pv;
+			std::string s(buf, cb);
+			m_stream << s;
+		}
 
-    virtual HRESULT STDMETHODCALLTYPE Write(void const* pv, ULONG cb, ULONG* pcbWritten)
-    {
-        // This method gets called when the XmlWriter is destroyed with cb == 0. We need this
-        // check to ensure that we do not access the underlying stream after finalize is called.
-        if (cb > 0)
-        {
-            const char * buf = (const char *) pv;
-            std::string s(buf, cb);
-            m_stream << s;
-        }
-        
-        *pcbWritten = cb;
-        return S_OK;
-    }
+		*pcbWritten = cb;
+		return S_OK;
+	}
 
 protected:
+	xmlstring_ostream(std::ostream& stream)
+		: m_stream(stream)
+	{
+	}
 
-    xmlstring_ostream(std::ostream& stream)
-        : m_stream(stream)
-    {
-    }
-
-    std::ostream& m_stream;
+	std::ostream& m_stream;
 };
 
 }} // namespace odata::edm
