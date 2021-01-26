@@ -16,41 +16,41 @@ namespace odata { namespace edm
 class edm_model_reader : public ::odata::common::xml_reader
 {
 public:
-    edm_model_reader(concurrency::streams::istream stream) : 
-		xml_reader(stream), m_parsing_key(false), m_model(std::make_shared<edm_model>()), 
-		m_current_st(nullptr), m_current_enum(nullptr), m_current_operation(nullptr)
-    {
-    }
+	edm_model_reader(concurrency::streams::istream stream) :
+	xml_reader(stream), m_parsing_key(false), m_model(::odata::make_shared<edm_model>()),
+	m_current_st(nullptr), m_current_enum(nullptr), m_current_operation(nullptr)
+	{
+	}
 
-    std::shared_ptr<edm_model> get_model()
-    {
-        return m_model;
-    }
+	std::shared_ptr<edm_model> get_model()
+	{
+		return m_model;
+	}
 
 	ODATACPP_CLIENT_API bool parse();
 
 protected:
-    ODATACPP_CLIENT_API virtual void handle_begin_element(const ::utility::string_t& elementName);
-    ODATACPP_CLIENT_API virtual void handle_end_element(const ::utility::string_t& elementName);
-    ODATACPP_CLIENT_API virtual void handle_element(const ::utility::string_t& elementName);
+	ODATACPP_CLIENT_API virtual void handle_begin_element(const ::odata::string_t& elementName);
+	ODATACPP_CLIENT_API virtual void handle_end_element(const ::odata::string_t& elementName);
+	ODATACPP_CLIENT_API virtual void handle_element(const ::odata::string_t& elementName);
 
 
 private:
-    void _process_property();
+	void _process_property();
 	void _process_navigation_property();
 	void _process_operation_parameter();
 	void _process_operation_return_type();
 	void _process_navigation_property_binding();
 
-    bool m_parsing_key;
+	bool m_parsing_key;
 
-    // These variables are used to cache values for each entity
-    std::shared_ptr<edm_model> m_model;
-    std::shared_ptr<edm_schema> m_current_schema;
-    std::shared_ptr<edm_entity_container> m_current_container;
+	// These variables are used to cache values for each entity
+	std::shared_ptr<edm_model> m_model;
+	std::shared_ptr<edm_schema> m_current_schema;
+	std::shared_ptr<edm_entity_container> m_current_container;
 	std::shared_ptr<edm_entity_set> m_current_entity_set;
 	std::shared_ptr<edm_singleton> m_current_singleton;
-    edm_structured_type* m_current_st;
+	edm_structured_type* m_current_st;
 	edm_enum_type* m_current_enum;
 	edm_operation_type* m_current_operation;
 };

@@ -379,12 +379,12 @@ const char* test_model_string =
 ";
 
 std::shared_ptr<::odata::edm::edm_model> g_test_model;
-::utility::string_t g_service_root_url = U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
+::odata::string_t g_service_root_url = _XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
 std::shared_ptr<::odata::edm::edm_model> get_test_model()
 {
 	if (!g_test_model)
 	{
-		auto model_reader = std::make_shared<::odata::edm::edm_model_reader>(concurrency::streams::bytestream::open_istream(std::move(std::string(test_model_string))));
+		auto model_reader = ::odata::make_shared<::odata::edm::edm_model_reader>(concurrency::streams::bytestream::open_istream(std::move(std::string(test_model_string))));
 
 		model_reader->parse();
 		g_test_model = model_reader->get_model();

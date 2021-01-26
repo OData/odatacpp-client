@@ -17,8 +17,12 @@ class odata_complex_value : public odata_structured_value
 {
 public:
 	odata_complex_value(std::shared_ptr<::odata::edm::edm_named_type> type) : odata_structured_value(type)
-    {
-    }
+	{
+	}
+
+	odata_complex_value(std::shared_ptr<::odata::edm::edm_named_type> type, std::pair<odata_property_map, odata_property_map> properties) : odata_structured_value(type, properties)
+	{
+	}
 };
 
 }}

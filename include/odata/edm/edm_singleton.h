@@ -20,35 +20,35 @@ class edm_entity_container;
 class edm_singleton  : public edm_navigation_source
 {
 public:
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="name">The name of the entity set.</param>
-    edm_singleton(::utility::string_t name, ::utility::string_t type) 
-		: m_type_name(std::move(type)), edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_SINGLETON)
-    {}
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="name">The name of the entity set.</param>
+	edm_singleton(::odata::string_t name, ::odata::string_t type)
+	:	edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_SINGLETON), m_type_name(std::move(type)), m_entity_type()
+	{}
 
-	edm_singleton(::utility::string_t name, std::shared_ptr<edm_entity_type> type) 
-		: m_entity_type(std::move(type)), edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_SINGLETON)
-    {}
+	edm_singleton(::odata::string_t name, std::shared_ptr<edm_entity_type> type)
+	:	edm_navigation_source(std::move(name), container_resource_type::E_RESOURCE_SINGLETON), m_type_name(), m_entity_type(std::move(type))
+	{}
 
-    /// <summary>
-    /// Gets the name of the entity set
-    /// </summary>
-    /// <returns>The name of the entity set.</returns>
-    const ::utility::string_t& get_name() const 
-    {
-        return m_name;
-    }
+	/// <summary>
+	/// Gets the name of the entity set
+	/// </summary>
+	/// <returns>The name of the entity set.</returns>
+	const ::odata::string_t& get_name() const
+	{
+		return m_name;
+	}
 
-    /// <summary>
-    /// Gets the name of the type of the entity set
-    /// </summary>
-    /// <returns>The name of the type of the entity set.</returns>
-    const ::utility::string_t& get_entity_type_name() const 
-    {
-        return m_type_name;
-    }
+	/// <summary>
+	/// Gets the name of the type of the entity set
+	/// </summary>
+	/// <returns>The name of the type of the entity set.</returns>
+	const ::odata::string_t& get_entity_type_name() const
+	{
+		return m_type_name;
+	}
 
 	std::shared_ptr<edm_entity_type> get_entity_type() const
 	{
@@ -61,8 +61,8 @@ public:
 	}
 
 private:
-    friend class edm_entity_container;
-    ::utility::string_t m_type_name;
+	friend class edm_entity_container;
+	::odata::string_t m_type_name;
 	std::weak_ptr<edm_entity_type> m_entity_type;
 };
 

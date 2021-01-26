@@ -16,8 +16,8 @@ class exchange_test_case
 public:
 	std::shared_ptr<EntityContainer> service_context;
 
-    exchange_test_case() {
-		service_context = std::make_shared<EntityContainer>(U("http://odatae2etest.azurewebsites.net/cpptemp/DefaultService/"));
+	exchange_test_case() {
+		service_context = ::odata::make_shared<EntityContainer>(_XPLATSTR("http://odatae2etest.azurewebsites.net/cpptemp/DefaultService/"));
 	}
 };
 

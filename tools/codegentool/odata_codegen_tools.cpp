@@ -35,7 +35,6 @@ void print_help()
 		<< "[Example] - " << ::std::endl
 		<< "    " << "odata_codegen_tools.exe -f \"c:\\files\\test.xml\" -o \"test\""  << ::std::endl
 		<< "    " << "odata_codegen_tools.exe -m \"http://service/odata\" -o \"newfile\" [-u \"abc\" -p \"ppp\"]" << ::std::endl << ::std::endl;
-		
 };
 
 #ifdef WIN32
@@ -44,24 +43,24 @@ int _tmain(int argc, ::utility::char_t* argv[])
 int main(int argc, ::utility::char_t* argv[])
 #endif
 {
-	::utility::string_t metadata_url;
-	::utility::string_t metadata_file;
-	::utility::string_t output_file_name;
-	::utility::string_t user_name;
-	::utility::string_t password;
+	::odata::string_t metadata_url;
+	::odata::string_t metadata_file;
+	::odata::string_t output_file_name;
+	::odata::string_t user_name;
+	::odata::string_t password;
 
 	bool argument_error = false;
 	if (argc < 3)
 	{
 		argument_error = true;
 	}
-	else 
+	else
 	{
-		for (int i = 1; i < argc; i++)
+		for (int i = 1; i < argc; ++i)
 		{
-			::utility::string_t option = argv[i];
+			::odata::string_t option = argv[i];
 
-			if (option == U("-f") || option == U("-m") || option == U("-o") || option == U("-u") || option == U("-p"))
+			if (option == _XPLATSTR("-f") || option == _XPLATSTR("-m") || option == _XPLATSTR("-o") || option == _XPLATSTR("-u") || option == _XPLATSTR("-p"))
 			{
 				if (++i >= argc)
 				{
@@ -69,23 +68,23 @@ int main(int argc, ::utility::char_t* argv[])
 					break;
 				}
 
-				if (option == U("-f"))
+				if (option == _XPLATSTR("-f"))
 				{
 					metadata_file = argv[i];
 				}
-				else if (option == U("-m"))
+				else if (option == _XPLATSTR("-m"))
 				{
 					metadata_url = argv[i];
 				}
-				else if (option == U("-o"))
+				else if (option == _XPLATSTR("-o"))
 				{
 					output_file_name = argv[i];
 				}
-				else if (option == U("-u"))
+				else if (option == _XPLATSTR("-u"))
 				{
 					user_name = argv[i];
 				}
-				else if (option == U("-p"))
+				else if (option == _XPLATSTR("-p"))
 				{
 					password = argv[i];
 				}
@@ -112,26 +111,26 @@ int main(int argc, ::utility::char_t* argv[])
 
 	try
 	{
-		auto initializer = std::make_shared<odata_codegen_initializer>();
+		auto initializer = ::odata::make_shared<odata_codegen_initializer>();
 		if (!metadata_file.empty())
 		{
 			initializer->initialize_from_metadata_file(metadata_file, output_file_name).then(
-			   [initializer] (int) -> int
-			   {
-				   auto writer = std::make_shared<odata_codegen_writer>(initializer);
-				   return writer->begin_generate_file().wait();
-			   }).wait();;
+				[initializer] (int) -> int
+				{
+					auto writer = ::odata::make_shared<odata_codegen_writer>(initializer);
+					return writer->begin_generate_file().wait();
+				}).wait();
 		}
 		else if (!metadata_url.empty())
 		{
 			initializer->initialize_from_service_metadata(metadata_url, output_file_name, user_name, password).then(
-			   [initializer] (int) -> int
-			   {
-				   auto writer = std::make_shared<odata_codegen_writer>(initializer);
-				   return writer->begin_generate_file().wait();
-			   }).wait();
+				[initializer] (int) -> int
+				{
+					auto writer = ::odata::make_shared<odata_codegen_writer>(initializer);
+					return writer->begin_generate_file().wait();
+				}).wait();
 		}
-			
+
 	}
 	catch (const ::std::exception &e)
 	{
@@ -144,4 +143,3 @@ int main(int argc, ::utility::char_t* argv[])
 
 	return 0;
 }
-

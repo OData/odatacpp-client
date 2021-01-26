@@ -14,6 +14,6 @@
 
 extern const char* test_model_string;
 extern std::shared_ptr<::odata::edm::edm_model> g_test_model;
-extern ::utility::string_t g_service_root_url;
+extern ::odata::string_t g_service_root_url;
 
 std::shared_ptr<::odata::edm::edm_model> get_test_model();

@@ -32,9 +32,9 @@ protected:
     virtual unsigned long load_impl()
     {
         // Make sure ends in .dll
-        if(*(m_dllName.end() - 1) != 'l' 
-            || *(m_dllName.end() - 2) != 'l' 
-            || *(m_dllName.end() - 3) != 'd' 
+        if(*(m_dllName.end() - 1) != 'l'
+            || *(m_dllName.end() - 2) != 'l'
+            || *(m_dllName.end() - 3) != 'd'
             || *(m_dllName.end() - 4) != '.')
         {
             return (unsigned long)-1;

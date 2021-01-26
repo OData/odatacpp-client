@@ -9,69 +9,60 @@
 
 using namespace ::odata::common;
 
-namespace odata { namespace codegen { 
+namespace odata { namespace codegen {
 
-::utility::string_t odata_query_path::normalize_query_options()
+::odata::string_t odata_query_path::normalize_query_options()
 {
-	if (m_query_options.size() > 0)
+	if (!m_query_options.empty())
 	{
-		std::sort(m_query_options.begin(), m_query_options.end(), odata_query_option_comparator());
+		std::vector<odata_query_option> query_options = m_query_options;
+		std::sort(query_options.begin(), query_options.end(), odata_query_option_comparator());
+		m_query_options = query_options;
 
-		::utility::stringstream_t ostr;
+		::odata::string_t ss;
 
 		bool first = true;
-		for (auto iter = m_query_options.cbegin(); iter != m_query_options.cend(); iter++)
+		for (auto iter = m_query_options.cbegin(); iter != m_query_options.cend(); ++iter)
 		{
 			if (!first)
 			{
-				if (m_is_root)
-					ostr << U("&");
-				else
-					ostr << U(";");
+				ss += m_is_root ? _XPLATSTR("&") : _XPLATSTR(";");
 			}
 			else
 			{
 				first = false;
 			}
-			
-			ostr << iter->get_query_option_clause();	
+
+			ss += iter->get_query_option_clause();
 		}
 
-		return std::move(ostr.str());
+		return std::move(ss);
 	}
 	else
 	{
-		return U("");
+		return _XPLATSTR("");
 	}
 }
 
-::utility::string_t odata_query_path::evaluate_query_path()
+::odata::string_t odata_query_path::evaluate_query_path()
 {
-	::utility::stringstream_t ostr;
+	::odata::string_t ss(m_resource_path);
 
-	ostr << m_resource_path;
-
-	if (m_is_root && (m_query_options.size() > 0 || l_child_item))
+	if (!m_query_options.empty() || l_child_item)
 	{
-		ostr << U("?");
+		ss += m_is_root ? _XPLATSTR("?") : _XPLATSTR("(");
 	}
 
-	if (!m_is_root && (m_query_options.size() > 0 || l_child_item))
-		ostr << U("(");
-
-	ostr << normalize_query_options();
+	ss += normalize_query_options();
 
 	if (l_child_item)
 	{
-		if (m_query_options.size() > 0)
+		if (!m_query_options.empty())
 		{
-			if (m_is_root)
-				ostr << U("&");
-			else
-				ostr << U(";");
+			ss += m_is_root ? _XPLATSTR("&") : _XPLATSTR(";");
 		}
 
-		ostr << U("$expand=");
+		ss += _XPLATSTR("$expand=");
 
 		bool first = true;
 
@@ -80,23 +71,25 @@ namespace odata { namespace codegen {
 		{
 			if (!first)
 			{
-				ostr << U(",");
+				ss += _XPLATSTR(",");
 			}
 			else
 			{
 				first = false;
 			}
-			
-			ostr << child->evaluate_query_path();
+
+			ss += child->evaluate_query_path();
 
 			child = child->l_sibling_item;
 		}
 	}
 
-	if (!m_is_root && (m_query_options.size() > 0 || l_child_item))
-		ostr << U(")");
+	if (!m_is_root && (!m_query_options.empty() || l_child_item))
+	{
+		ss += _XPLATSTR(")");
+	}
 
-	return std::move(ostr.str());
+	return std::move(ss);
 }
 
 }}

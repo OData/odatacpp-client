@@ -268,8 +268,8 @@ BEGIN_COMPLEX_DESTRUCTOR(Recipient)
     ON_PROPERTY_IN_COMPLEX_DESTRUCTOR(address)
 END_COMPLEX_DESTRUCTOR(Recipient)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Recipient, name, Name, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Recipient, address, Address, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Recipient, name, Name, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Recipient, address, Address, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Recipient, Microsoft.Exchange.Services.OData.Model, Recipient)
 
@@ -352,7 +352,7 @@ BEGIN_COMPLEX_DESTRUCTOR(ItemBody)
 END_COMPLEX_DESTRUCTOR(ItemBody)
 
 IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_COMPLEX_MAPPING(ItemBody, contenttype, ContentType, BodyType);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(ItemBody, content, Content, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(ItemBody, content, Content, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(ItemBody, Microsoft.Exchange.Services.OData.Model, ItemBody)
 
@@ -374,7 +374,7 @@ BEGIN_COMPLEX_DESTRUCTOR(Location)
     ON_PROPERTY_IN_COMPLEX_DESTRUCTOR(displayname)
 END_COMPLEX_DESTRUCTOR(Location)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Location, displayname, DisplayName, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Location, displayname, DisplayName, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Location, Microsoft.Exchange.Services.OData.Model, Location)
 
@@ -416,7 +416,7 @@ END_ENTITY_CONSTRUCTOR(Entity, type_base)
 BEGIN_ENTITY_DESTRUCTOR(Entity)
 END_ENTITY_DESTRUCTOR(Entity)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Entity, id, Id, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Entity, id, Id, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Entity, Microsoft.Exchange.Services.OData.Model, Entity)
 
@@ -448,15 +448,15 @@ BEGIN_ENTITY_DESTRUCTOR(Item)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(bodypreview)
 END_ENTITY_DESTRUCTOR(Item)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, changekey, ChangeKey, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, classname, ClassName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, subject, Subject, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, changekey, ChangeKey, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, classname, ClassName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, subject, Subject, ::odata::string_t);
 IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_ENTITY_MAPPING(Item, importance, Importance, Importance);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Item, body, Body, ItemBody);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, hasattachments, HasAttachments, bool);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, bodypreview, BodyPreview, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, bodypreview, BodyPreview, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Item, attachments, Attachments, Attachment);
-IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, categories, Categories, ::utility::string_t);
+IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Item, categories, Categories, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Item, Microsoft.Exchange.Services.OData.Model, Item)
 
@@ -492,9 +492,9 @@ BEGIN_ENTITY_DESTRUCTOR(Calendar)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(changekey)
 END_ENTITY_DESTRUCTOR(Calendar)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Calendar, name, Name, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Calendar, name, Name, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Calendar, events, Events, Event);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Calendar, changekey, ChangeKey, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Calendar, changekey, ChangeKey, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Calendar, Microsoft.Exchange.Services.OData.Model, Calendar)
 
@@ -544,33 +544,33 @@ BEGIN_ENTITY_DESTRUCTOR(Message)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(datetimecreated)
 END_ENTITY_DESTRUCTOR(Message)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, parentfolderid, ParentFolderId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, parentfolderid, ParentFolderId, ::odata::string_t);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Message, from, From, Recipient);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Message, sender, Sender, Recipient);
 IMPLEMENT_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Message, torecipients, ToRecipients, Recipient);
-IMPLEMENT_ACTION_P1(Message, ReplyAll, odata_void_query_executor, Comment, ::utility::string_t, Comment);
+IMPLEMENT_ACTION_P1(Message, ReplyAll, odata_void_query_executor, Comment, ::odata::string_t, Comment);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Message, uniquebody, UniqueBody, ItemBody);
 IMPLEMENT_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Message, ccrecipients, CcRecipients, Recipient);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, conversationid, ConversationId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, conversationid, ConversationId, ::odata::string_t);
 IMPLEMENT_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Message, bccrecipients, BccRecipients, Recipient);
-IMPLEMENT_ACTION_P1(Message, Move, odata_entityset_query_executor<Message>, DestinationId, ::utility::string_t, DestinationId);
+IMPLEMENT_ACTION_P1(Message, Move, odata_entityset_query_executor<Message>, DestinationId, ::odata::string_t, DestinationId);
 IMPLEMENT_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Message, replyto, ReplyTo, Recipient);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, datetimereceived, DateTimeReceived, ::utility::datetime);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, lastmodifiedtime, LastModifiedTime, ::utility::datetime);
-IMPLEMENT_ACTION_P1(Message, Copy, odata_entityset_query_executor<Message>, DestinationId, ::utility::string_t, DestinationId);
+IMPLEMENT_ACTION_P1(Message, Copy, odata_entityset_query_executor<Message>, DestinationId, ::odata::string_t, DestinationId);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, datetimesent, DateTimeSent, ::utility::datetime);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, isdeliveryreceiptrequested, IsDeliveryReceiptRequested, bool);
 IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_ENTITY_MAPPING(Message, meetingmessagetype, MeetingMessageType, MeetingMessageType);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, isreadreceiptrequested, IsReadReceiptRequested, bool);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, isdraft, IsDraft, bool);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, isread, IsRead, bool);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, eventid, EventId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, eventid, EventId, ::odata::string_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Message, datetimecreated, DateTimeCreated, ::utility::datetime);
 IMPLEMENT_ACTION_P0(Message, CreateReply, odata_entityset_query_executor<Message>);
 IMPLEMENT_ACTION_P0(Message, CreateForward, odata_entityset_query_executor<Message>);
 IMPLEMENT_ACTION_P0(Message, CreateReplyAll, odata_entityset_query_executor<Message>);
-IMPLEMENT_ACTION_P1(Message, Reply, odata_void_query_executor, Comment, ::utility::string_t, Comment);
-IMPLEMENT_ACTION_P2(Message, Forward, odata_void_query_executor, Comment, ::utility::string_t, Comment, ToRecipients, std::vector<Recipient>, ToRecipients);
+IMPLEMENT_ACTION_P1(Message, Reply, odata_void_query_executor, Comment, ::odata::string_t, Comment);
+IMPLEMENT_ACTION_P2(Message, Forward, odata_void_query_executor, Comment, ::odata::string_t, Comment, ToRecipients, std::vector<Recipient>, ToRecipients);
 IMPLEMENT_ACTION_P0(Message, Send, odata_void_query_executor);
 
 IMPLEMENT_EDM_INFO(Message, Microsoft.Exchange.Services.OData.Model, Message)
@@ -632,8 +632,8 @@ BEGIN_ENTITY_DESTRUCTOR(Attachment)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(lastmodifiedtime)
 END_ENTITY_DESTRUCTOR(Attachment)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Attachment, name, Name, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Attachment, contenttype, ContentType, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Attachment, name, Name, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Attachment, contenttype, ContentType, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Attachment, size, Size, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Attachment, isinline, IsInline, bool);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Attachment, lastmodifiedtime, LastModifiedTime, ::utility::datetime);
@@ -673,11 +673,11 @@ BEGIN_ENTITY_DESTRUCTOR(User)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(mailboxguid)
 END_ENTITY_DESTRUCTOR(User)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(User, displayname, DisplayName, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(User, displayname, DisplayName, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(User, folders, Folders, Folder);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(User, alias, Alias, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(User, alias, Alias, ::odata::string_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(User, drafts, Drafts, Folder);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(User, mailboxguid, MailboxGuid, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(User, mailboxguid, MailboxGuid, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(User, messages, Messages, Message);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(User, rootfolder, RootFolder, Folder);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(User, inbox, Inbox, Folder);
@@ -734,12 +734,12 @@ BEGIN_ENTITY_DESTRUCTOR(Folder)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(totalcount)
 END_ENTITY_DESTRUCTOR(Folder)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, parentfolderid, ParentFolderId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, parentfolderid, ParentFolderId, ::odata::string_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, childfoldercount, ChildFolderCount, int32_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, unreaditemcount, UnreadItemCount, int32_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Folder, childfolders, ChildFolders, Folder);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, displayname, DisplayName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, classname, ClassName, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, displayname, DisplayName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, classname, ClassName, ::odata::string_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Folder, totalcount, TotalCount, int32_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Folder, messages, Messages, Message);
 
@@ -777,8 +777,8 @@ BEGIN_ENTITY_DESTRUCTOR(FileAttachment)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(contentbytes)
 END_ENTITY_DESTRUCTOR(FileAttachment)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(FileAttachment, contentid, ContentId, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(FileAttachment, contentlocation, ContentLocation, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(FileAttachment, contentid, ContentId, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(FileAttachment, contentlocation, ContentLocation, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(FileAttachment, iscontactphoto, IsContactPhoto, bool);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(FileAttachment, contentbytes, ContentBytes, std::vector<unsigned char>);
 
@@ -826,10 +826,10 @@ BEGIN_ENTITY_DESTRUCTOR(CalendarGroup)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(classid)
 END_ENTITY_DESTRUCTOR(CalendarGroup)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CalendarGroup, name, Name, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CalendarGroup, changekey, ChangeKey, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CalendarGroup, name, Name, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CalendarGroup, changekey, ChangeKey, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(CalendarGroup, calendars, Calendars, Calendar);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CalendarGroup, classid, ClassId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CalendarGroup, classid, ClassId, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(CalendarGroup, Microsoft.Exchange.Services.OData.Model, CalendarGroup)
 
@@ -883,13 +883,13 @@ IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_ENTITY_MAPPING(Event, showas, ShowAs, FreeBu
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Event, iscancelled, IsCancelled, bool);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Event, isorganizer, IsOrganizer, bool);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Event, responserequested, ResponseRequested, bool);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Event, seriesid, SeriesId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Event, seriesid, SeriesId, ::odata::string_t);
 IMPLEMENT_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Event, attendees, Attendees, Attendee);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Event, recurrence, Recurrence, PatternedRecurrence);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Event, calendar, Calendar, Calendar);
-IMPLEMENT_ACTION_P1(Event, Accept, odata_void_query_executor, Comment, ::utility::string_t, Comment);
-IMPLEMENT_ACTION_P1(Event, Decline, odata_void_query_executor, Comment, ::utility::string_t, Comment);
-IMPLEMENT_ACTION_P1(Event, TentativelyAccept, odata_void_query_executor, Comment, ::utility::string_t, Comment);
+IMPLEMENT_ACTION_P1(Event, Accept, odata_void_query_executor, Comment, ::odata::string_t, Comment);
+IMPLEMENT_ACTION_P1(Event, Decline, odata_void_query_executor, Comment, ::odata::string_t, Comment);
+IMPLEMENT_ACTION_P1(Event, TentativelyAccept, odata_void_query_executor, Comment, ::odata::string_t, Comment);
 
 IMPLEMENT_EDM_INFO(Event, Microsoft.Exchange.Services.OData.Model, Event)
 
@@ -995,37 +995,37 @@ BEGIN_ENTITY_DESTRUCTOR(Contact)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(lastmodifiedtime)
 END_ENTITY_DESTRUCTOR(Contact)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, parentfolderid, ParentFolderId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, parentfolderid, ParentFolderId, ::odata::string_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, birthday, Birthday, ::utility::datetime);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, fileas, FileAs, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, givenname, GivenName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, displayname, DisplayName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, mobilephone1, MobilePhone1, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, initials, Initials, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, homephone1, HomePhone1, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, middlename, MiddleName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, nickname, NickName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, surname, Surname, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, emailaddress1, EmailAddress1, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, title, Title, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, imaddress2, ImAddress2, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, generation, Generation, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, profession, Profession, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, emailaddress2, EmailAddress2, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, emailaddress3, EmailAddress3, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, imaddress1, ImAddress1, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, imaddress3, ImAddress3, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, jobtitle, JobTitle, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, companyname, CompanyName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, businessphone2, BusinessPhone2, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, department, Department, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, officelocation, OfficeLocation, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, businesshomepage, BusinessHomePage, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, assistantname, AssistantName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, manager, Manager, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, homephone2, HomePhone2, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, businessphone1, BusinessPhone1, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, otherphone, OtherPhone, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, fileas, FileAs, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, givenname, GivenName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, displayname, DisplayName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, mobilephone1, MobilePhone1, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, initials, Initials, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, homephone1, HomePhone1, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, middlename, MiddleName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, nickname, NickName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, surname, Surname, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, emailaddress1, EmailAddress1, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, title, Title, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, imaddress2, ImAddress2, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, generation, Generation, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, profession, Profession, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, emailaddress2, EmailAddress2, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, emailaddress3, EmailAddress3, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, imaddress1, ImAddress1, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, imaddress3, ImAddress3, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, jobtitle, JobTitle, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, companyname, CompanyName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, businessphone2, BusinessPhone2, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, department, Department, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, officelocation, OfficeLocation, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, businesshomepage, BusinessHomePage, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, assistantname, AssistantName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, manager, Manager, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, homephone2, HomePhone2, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, businessphone1, BusinessPhone1, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, otherphone, OtherPhone, ::odata::string_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, datetimecreated, DateTimeCreated, ::utility::datetime);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Contact, lastmodifiedtime, LastModifiedTime, ::utility::datetime);
 
@@ -1112,9 +1112,9 @@ BEGIN_ENTITY_DESTRUCTOR(ContactFolder)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(displayname)
 END_ENTITY_DESTRUCTOR(ContactFolder)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ContactFolder, parentfolderid, ParentFolderId, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ContactFolder, parentfolderid, ParentFolderId, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ContactFolder, childfolders, ChildFolders, ContactFolder);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ContactFolder, displayname, DisplayName, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ContactFolder, displayname, DisplayName, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ContactFolder, contacts, Contacts, Contact);
 
 IMPLEMENT_EDM_INFO(ContactFolder, Microsoft.Exchange.Services.OData.Model, ContactFolder)

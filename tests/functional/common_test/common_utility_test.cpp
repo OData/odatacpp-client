@@ -18,51 +18,51 @@ SUITE(common_utility_test)
 
 TEST(strip_string_empty_test)
 {
-	::utility::string_t case_string = U("");
+	::odata::string_t case_string = _XPLATSTR("");
 	auto ret = strip_string(case_string);
-	VERIFY_ARE_EQUAL(ret, U(""));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR(""));
 }
 
 TEST(strip_string_empty_quote_test)
 {
-	::utility::string_t case_string = U("\"\"");
+	::odata::string_t case_string = _XPLATSTR("\"\"");
 	auto ret = strip_string(case_string);
-	VERIFY_ARE_EQUAL(ret, U(""));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR(""));
 }
 
 TEST(strip_string_with_quote_test)
 {
-	::utility::string_t case_string = U("\"121232123\"");
+	::odata::string_t case_string = _XPLATSTR("\"121232123\"");
 	auto ret = strip_string(case_string);
-	VERIFY_ARE_EQUAL(ret, U("121232123"));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("121232123"));
 }
 
 TEST(strip_string_without_quote_test)
 {
-	::utility::string_t case_string = U("121232123");
+	::odata::string_t case_string = _XPLATSTR("121232123");
 	auto ret = strip_string(case_string);
-	VERIFY_ARE_EQUAL(ret, U("121232123"));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("121232123"));
 }
 
 TEST(strip_string_with_single_left_quote_test)
 {
-	::utility::string_t case_string = U("\"121232123");
+	::odata::string_t case_string = _XPLATSTR("\"121232123");
 	auto ret = strip_string(case_string);
-	VERIFY_ARE_EQUAL(ret, U("121232123"));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("121232123"));
 }
 
 TEST(strip_string_with_single_right_quote_test)
 {
-	::utility::string_t case_string = U("121232123\"");
+	::odata::string_t case_string = _XPLATSTR("121232123\"");
 	auto ret = strip_string(case_string);
-	VERIFY_ARE_EQUAL(ret, U("121232123"));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("121232123"));
 }
 
 TEST(split_string_empty_src_with_empty_delim_test)
 {
-	::utility::string_t case_string = U("");
-	::utility::string_t delim_string = U("");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("");
+	::odata::string_t delim_string = _XPLATSTR("");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 1);
@@ -70,14 +70,14 @@ TEST(split_string_empty_src_with_empty_delim_test)
 
 TEST(split_string_with_no_empty_input_test)
 {
-	::utility::string_t case_string = U("23123.23232.32323");
-	::utility::string_t delim_string = U(".");
-	std::list<::utility::string_t> ret;
-	ret.push_back(U("1"));
-	ret.push_back(U("2"));
-	ret.push_back(U("3"));
-	ret.push_back(U("4"));
-	ret.push_back(U("5"));
+	::odata::string_t case_string = _XPLATSTR("23123.23232.32323");
+	::odata::string_t delim_string = _XPLATSTR(".");
+	std::list<::odata::string_t> ret;
+	ret.push_back(_XPLATSTR("1"));
+	ret.push_back(_XPLATSTR("2"));
+	ret.push_back(_XPLATSTR("3"));
+	ret.push_back(_XPLATSTR("4"));
+	ret.push_back(_XPLATSTR("5"));
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 3);
@@ -85,9 +85,9 @@ TEST(split_string_with_no_empty_input_test)
 
 TEST(split_string_empty_src_with_delim_test)
 {
-	::utility::string_t case_string = U("");
-	::utility::string_t delim_string = U("..");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("");
+	::odata::string_t delim_string = _XPLATSTR("..");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 1);
@@ -95,9 +95,9 @@ TEST(split_string_empty_src_with_delim_test)
 
 TEST(split_string_src_with_empty_delim_test)
 {
-	::utility::string_t case_string = U("adfadfadfdas");
-	::utility::string_t delim_string = U("");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("adfadfadfdas");
+	::odata::string_t delim_string = _XPLATSTR("");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 1);
@@ -105,9 +105,9 @@ TEST(split_string_src_with_empty_delim_test)
 
 TEST(split_string_src_with_delim_notfind_test)
 {
-	::utility::string_t case_string = U("adfadfadfdas");
-	::utility::string_t delim_string = U("..");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("adfadfadfdas");
+	::odata::string_t delim_string = _XPLATSTR("..");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 1);
@@ -115,9 +115,9 @@ TEST(split_string_src_with_delim_notfind_test)
 
 TEST(split_string_src_with_delim_find_test)
 {
-	::utility::string_t case_string = U("..adf..ad..fa..dfdas..");
-	::utility::string_t delim_string = U("..");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("..adf..ad..fa..dfdas..");
+	::odata::string_t delim_string = _XPLATSTR("..");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 6);
@@ -125,9 +125,9 @@ TEST(split_string_src_with_delim_find_test)
 
 TEST(split_string_src_with_duplicated_delim_test)
 {
-	::utility::string_t case_string = U("...adf..ad....fa..dfdas...");
-	::utility::string_t delim_string = U("..");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("...adf..ad....fa..dfdas...");
+	::odata::string_t delim_string = _XPLATSTR("..");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 7);
@@ -135,9 +135,9 @@ TEST(split_string_src_with_duplicated_delim_test)
 
 TEST(split_string_src_with_single_char_delim_test)
 {
-	::utility::string_t case_string = U("...adf..ad....fa..dfdas...f");
-	::utility::string_t delim_string = U("f");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("...adf..ad....fa..dfdas...f");
+	::odata::string_t delim_string = _XPLATSTR("f");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 5);
@@ -145,9 +145,9 @@ TEST(split_string_src_with_single_char_delim_test)
 
 TEST(split_string_src_with_equal_delim_test)
 {
-	::utility::string_t case_string = U("...adf..ad....fa..dfdas...f");
-	::utility::string_t delim_string = U("...adf..ad....fa..dfdas...f");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("...adf..ad....fa..dfdas...f");
+	::odata::string_t delim_string = _XPLATSTR("...adf..ad....fa..dfdas...f");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 2);
@@ -155,19 +155,19 @@ TEST(split_string_src_with_equal_delim_test)
 
 TEST(split_string_src_with_exceed_length_delim_test)
 {
-	::utility::string_t case_string = U("...adf..ad....fa..dfdas...f");
-	::utility::string_t delim_string = U("...adf..ad....fa..dfdas...fdfdfdfdf");
-	std::list<::utility::string_t> ret;
+	::odata::string_t case_string = _XPLATSTR("...adf..ad....fa..dfdas...f");
+	::odata::string_t delim_string = _XPLATSTR("...adf..ad....fa..dfdas...fdfdfdfdf");
+	std::list<::odata::string_t> ret;
 
 	split_string(case_string, delim_string, ret);
 	VERIFY_ARE_EQUAL(ret.size(), 1);
-	VERIFY_ARE_EQUAL(ret.front(), U("...adf..ad....fa..dfdas...f"));
+	VERIFY_ARE_EQUAL(ret.front(), _XPLATSTR("...adf..ad....fa..dfdas...f"));
 }
 
 TEST(is_relative_path_empty_root_wity_empty_path)
 {
-	::utility::string_t root_string = U("");
-	::utility::string_t path_string = U("");
+	::odata::string_t root_string = _XPLATSTR("");
+	::odata::string_t path_string = _XPLATSTR("");
 
     bool ret = is_relative_path(root_string, path_string);
 	VERIFY_ARE_EQUAL(ret, false);
@@ -175,8 +175,8 @@ TEST(is_relative_path_empty_root_wity_empty_path)
 
 TEST(is_relative_path_empty_root)
 {
-	::utility::string_t root_string = U("");
-	::utility::string_t path_string = U("Accounts");
+	::odata::string_t root_string = _XPLATSTR("");
+	::odata::string_t path_string = _XPLATSTR("Accounts");
 
     bool ret = is_relative_path(root_string, path_string);
 	VERIFY_ARE_EQUAL(ret, false);
@@ -184,8 +184,8 @@ TEST(is_relative_path_empty_root)
 
 TEST(is_relative_path_empty_path)
 {
-	::utility::string_t root_string = U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
-	::utility::string_t path_string = U("");
+	::odata::string_t root_string = _XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
+	::odata::string_t path_string = _XPLATSTR("");
 
     bool ret = is_relative_path(root_string, path_string);
 	VERIFY_ARE_EQUAL(ret, false);
@@ -193,8 +193,8 @@ TEST(is_relative_path_empty_path)
 
 TEST(is_relative_path_valid_root_wity_full_path)
 {
-	::utility::string_t root_string = U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
-	::utility::string_t path_string = U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts");
+	::odata::string_t root_string = _XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
+	::odata::string_t path_string = _XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts");
 
     bool ret = is_relative_path(root_string, path_string);
 	VERIFY_ARE_EQUAL(ret, false);
@@ -202,8 +202,8 @@ TEST(is_relative_path_valid_root_wity_full_path)
 
 TEST(is_relative_path_valid_root_wity_relative_path)
 {
-	::utility::string_t root_string = U("http://http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
-	::utility::string_t path_string = U("http");
+	::odata::string_t root_string = _XPLATSTR("http://http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
+	::odata::string_t path_string = _XPLATSTR("http");
 
     bool ret = is_relative_path(root_string, path_string);
 	VERIFY_ARE_EQUAL(ret, true);
@@ -211,8 +211,8 @@ TEST(is_relative_path_valid_root_wity_relative_path)
 
 TEST(is_relative_path_valid_root_wity_uppercase_full_path)
 {
-	::utility::string_t root_string = U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
-	::utility::string_t path_string = U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts");
+	::odata::string_t root_string = _XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService");
+	::odata::string_t path_string = _XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService/Accounts");
 
     bool ret = is_relative_path(root_string, path_string);
 	VERIFY_ARE_EQUAL(ret, false);
@@ -221,93 +221,93 @@ TEST(is_relative_path_valid_root_wity_uppercase_full_path)
 TEST(print_double_zero_input)
 {
 	double zero = 0.0;
-	::utility::string_t ret = print_double(zero);
-	VERIFY_ARE_EQUAL(ret, U("0.0"));
+	::odata::string_t ret = print_double(zero);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("0.0"));
 }
 
 TEST(print_double_zero_input_2)
 {
 	double zero = 0;
-	::utility::string_t ret = print_double(zero);
-	VERIFY_ARE_EQUAL(ret, U("0.0"));
+	::odata::string_t ret = print_double(zero);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("0.0"));
 }
 
 TEST(print_double_minus_zero_input)
 {
 	double zero = -0.0;
-	::utility::string_t ret = print_double(zero);
-	VERIFY_ARE_EQUAL(ret, U("-0.0"));
+	::odata::string_t ret = print_double(zero);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("-0.0"));
 }
 
 TEST(print_double_minus_zero_input_2)
 {
 	double zero = -0;
-	::utility::string_t ret = print_double(zero);
-	VERIFY_ARE_EQUAL(ret, U("0.0"));
+	::odata::string_t ret = print_double(zero);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("0.0"));
 }
 
 TEST(print_double_valid_input)
 {
 	double zero = 212.1234;
-	::utility::string_t ret = print_double(zero, 4);
-	VERIFY_ARE_EQUAL(ret, U("212.1234"));
+	::odata::string_t ret = print_double(zero, 4);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("212.1234"));
 }
 
 TEST(print_double_right_exceed_precision_input)
 {
 	double zero = 123123123.1111222323;
-	::utility::string_t ret = print_double(zero, 8);
-	VERIFY_ARE_EQUAL(ret, U("123123123.11112224"));
+	::odata::string_t ret = print_double(zero, 8);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("123123123.11112224"));
 }
 
 TEST(print_double_set_right_precision_input)
 {
 	double zero = -4212.1111222323;
-	::utility::string_t ret = print_double(zero, 13);
-	VERIFY_ARE_EQUAL(ret, U("-4212.1111222322997"));
+	::odata::string_t ret = print_double(zero, 13);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("-4212.1111222322997"));
 }
 
 TEST(print_double_zero_precision_input)
 {
 	double zero = -4212.1111222323;
-	::utility::string_t ret = print_double(zero, 0);
-	VERIFY_ARE_EQUAL(ret, U("-4212"));
+	::odata::string_t ret = print_double(zero, 0);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("-4212"));
 }
 
 TEST(print_double_minux_precision_input)
 {
 	double zero = -4212.11;
-	::utility::string_t ret = print_double(zero, 9);
-	VERIFY_ARE_EQUAL(ret, U("-4212.11"));
+	::odata::string_t ret = print_double(zero, 9);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("-4212.11"));
 }
 
 TEST(print_double_large_double_input)
 {
 	double zero = -12123123123213124212.11;
-	::utility::string_t ret = print_double(zero, 1);
+	::odata::string_t ret = print_double(zero, 1);
 #ifdef WIN32
-	VERIFY_ARE_EQUAL(ret, U("-12123123123213124000.0"));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("-12123123123213124000.0"));
 #else
-    VERIFY_ARE_EQUAL(ret, U("-12123123123213123584.0"));
+    VERIFY_ARE_EQUAL(ret, _XPLATSTR("-12123123123213123584.0"));
 #endif
 }
 
 TEST(print_double_large_double_input_2)
 {
 	double zero = 1234567891234567.7674567611117999;
-	::utility::string_t ret = print_double(zero, 1);
+	::odata::string_t ret = print_double(zero, 1);
 #ifdef WIN32
-	VERIFY_ARE_EQUAL(ret, U("1234567891234567.7"));
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("1234567891234567.7"));
 #else
-    VERIFY_ARE_EQUAL(ret, U("1234567891234567.8"));
+    VERIFY_ARE_EQUAL(ret, _XPLATSTR("1234567891234567.8"));
 #endif
 }
 
 TEST(print_double_large_double_input_3)
 {
 	double zero = -12345.7674567611117999;
-	::utility::string_t ret = print_double(zero, 12);
-	VERIFY_ARE_EQUAL(ret, U("-12345.767456761112"));
+	::odata::string_t ret = print_double(zero, 12);
+	VERIFY_ARE_EQUAL(ret, _XPLATSTR("-12345.767456761112"));
 }
 
 }

@@ -15,18 +15,17 @@ namespace odata { namespace core
 class odata_enum_value : public odata_value
 {
 public:
-    odata_enum_value(std::shared_ptr<::odata::edm::edm_named_type>type, ::utility::string_t stringRep) : odata_value(type), m_string_rep(std::move(stringRep))
-    {
-    }
+	odata_enum_value(std::shared_ptr<::odata::edm::edm_named_type>type, ::odata::string_t stringRep) : odata_value(type), m_string_rep(std::move(stringRep))
+	{
+	}
 
-    const ::utility::string_t& to_string() const
-    {
-        return m_string_rep; 
-    }
+	const ::odata::string_t& to_string() const
+	{
+		return m_string_rep;
+	}
 
 private:
-	::utility::string_t    m_string_rep;
-
+	::odata::string_t m_string_rep;
 };
 
 }}

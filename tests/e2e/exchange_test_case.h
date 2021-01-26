@@ -19,9 +19,9 @@ class e2e_raw_client
 public:
 	odata_client client;
 
-    e2e_raw_client() : client(U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService")) {
+    e2e_raw_client() : client(_XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService")) {
 		//Reset data source first.
-		client.send_data_to_server(U("ResetDataSource")).get();
+		client.send_data_to_server(_XPLATSTR("ResetDataSource")).get();
 	}
 };
 
@@ -32,10 +32,10 @@ public:
 	std::shared_ptr<InMemoryEntities> service_context;
 
     e2e_test_case() {
-		service_context = std::make_shared<InMemoryEntities>(U("http://odatae2etest.azurewebsites.net/cpptest/DefaultService"));
+		service_context = ::odata::make_shared<InMemoryEntities>(_XPLATSTR("http://odatae2etest.azurewebsites.net/cpptest/DefaultService"));
 
 		//Reset data source first.
-		service_context->get_client()->send_data_to_server(U("ResetDataSource")).get(); //TODO: [tiano] use API instead of odata_client
+		service_context->get_client()->send_data_to_server(_XPLATSTR("ResetDataSource")).get(); //TODO: [tiano] use API instead of odata_client
 	}
 };
 }}}

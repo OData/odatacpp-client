@@ -18,338 +18,337 @@ bool edm_model_reader::parse()
 	return ret;
 }
 
-void edm_model_reader::handle_begin_element(const ::utility::string_t& elementName)
+void edm_model_reader::handle_begin_element(const ::odata::string_t& elementName)
 {
-	if (elementName == U("Edmx"))
+	if (elementName == _XPLATSTR("Edmx"))
 	{
 		while (move_to_next_attribute())
 		{
-			if(get_current_element_name() == U("Version"))
+			if(get_current_element_name() == _XPLATSTR("Version"))
 			{
 				m_model->set_version(get_current_element_text());
 			}
 		}
 	}
-    else if (elementName == U("Schema"))
-    {
-        ::utility::string_t namesp;
-        ::utility::string_t alias;
+	else if (elementName == _XPLATSTR("Schema"))
+	{
+		::odata::string_t namesp;
+		::odata::string_t alias;
 
-        while (move_to_next_attribute())
-        {
-            if(get_current_element_name() == U("Namespace"))
-            {
-                namesp = get_current_element_text();
-            }
+		while (move_to_next_attribute())
+		{
+			if(get_current_element_name() == _XPLATSTR("Namespace"))
+			{
+				namesp = get_current_element_text();
+			}
 
-            if(get_current_element_name() == U("Alias"))
-            {
-                alias = get_current_element_text();
-            }
-        }
+			if(get_current_element_name() == _XPLATSTR("Alias"))
+			{
+				alias = get_current_element_text();
+			}
+		}
 
-        m_current_schema = m_model->add_schema(namesp, alias);
-    }
-    else if (elementName == U("EntityContainer"))
-    {
-        ::utility::string_t name;
-		::utility::string_t extends;
-        bool is_default = true;
+		m_current_schema = m_model->add_schema(namesp, alias);
+	}
+	else if (elementName == _XPLATSTR("EntityContainer"))
+	{
+		::odata::string_t name;
+		::odata::string_t extends;
+		bool is_default = true;
 
-        while (move_to_next_attribute())
-        {
-            if (get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("Extends"))
+		while (move_to_next_attribute())
+		{
+			if (get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("Extends"))
 			{
 				extends = get_current_element_text();
 			}
-        }
+		}
 
-        m_current_container = std::make_shared<edm_entity_container>(name, is_default);
-    }
-    else if (elementName == U("EntitySet"))
-    {
-        ::utility::string_t name;
-        ::utility::string_t type;
-
-        while (move_to_next_attribute())
-        {
-            if(get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-            else if (get_current_element_name() == U("EntityType"))
-            {
-                type = get_current_element_text();
-            }
-        }
-
-        m_current_entity_set = std::make_shared<edm_entity_set>(name, type);
-    }
-    else if (elementName == U("Singleton"))
-    {
-        ::utility::string_t name;
-        ::utility::string_t type;
-
-        while (move_to_next_attribute())
-        {
-            if(get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-            else if (get_current_element_name() == U("Type"))
-            {
-                type = get_current_element_text();
-            }
-        }
-
-		m_current_singleton = std::make_shared<edm_singleton>(name, type);
-    }
-	else if (elementName == U("FunctionImport") || elementName == U("ActionImport"))
+		m_current_container = ::odata::make_shared<edm_entity_container>(name, is_default);
+	}
+	else if (elementName == _XPLATSTR("EntitySet"))
 	{
-		::utility::string_t name;
-		::utility::string_t entity_set_path;
-		bool is_in_service_document;
-		OperationImportKind operation_import_kind = elementName == U("FunctionImport") ? OperationImportKind::FunctionImport : OperationImportKind::ActionImport;
-		::utility::string_t operation_name;
+		::odata::string_t name;
+		::odata::string_t type;
 
-        while (move_to_next_attribute())
-        {
-            if(get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-            else if (get_current_element_name() == U("EntitySet"))
-            {
-                entity_set_path = get_current_element_text();
-            }
-            else if (get_current_element_name() == U("IncludeInServiceDocument"))
-            {
-                is_in_service_document = get_current_element_text()  == U("true") ? true : false;;
-            }
-            else if (get_current_element_name() == U("Function") || get_current_element_name() == U("Action"))
-            {
-                operation_name = get_current_element_text();
-            }
-        }
-
-        if (m_current_container)
+		while (move_to_next_attribute())
 		{
-			m_current_container->add_operation_import(std::make_shared<edm_operation_import>(name, operation_name, entity_set_path, is_in_service_document, operation_import_kind));
+			if(get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("EntityType"))
+			{
+				type = get_current_element_text();
+			}
+		}
+
+		m_current_entity_set = ::odata::make_shared<edm_entity_set>(name, type);
+	}
+	else if (elementName == _XPLATSTR("Singleton"))
+	{
+		::odata::string_t name;
+		::odata::string_t type;
+
+		while (move_to_next_attribute())
+		{
+			if(get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("Type"))
+			{
+				type = get_current_element_text();
+			}
+		}
+
+		m_current_singleton = ::odata::make_shared<edm_singleton>(name, type);
+	}
+	else if (elementName == _XPLATSTR("FunctionImport") || elementName == _XPLATSTR("ActionImport"))
+	{
+		::odata::string_t name;
+		::odata::string_t entity_set_path;
+		bool is_in_service_document;
+		OperationImportKind operation_import_kind = elementName == _XPLATSTR("FunctionImport") ? OperationImportKind::FunctionImport : OperationImportKind::ActionImport;
+		::odata::string_t operation_name;
+
+		while (move_to_next_attribute())
+		{
+			if(get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("EntitySet"))
+			{
+				entity_set_path = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("IncludeInServiceDocument"))
+			{
+				is_in_service_document = get_current_element_text() == _XPLATSTR("true");
+			}
+			else if (get_current_element_name() == _XPLATSTR("Function") || get_current_element_name() == _XPLATSTR("Action"))
+			{
+				operation_name = get_current_element_text();
+			}
+		}
+
+		if (m_current_container)
+		{
+			m_current_container->add_operation_import(::odata::make_shared<edm_operation_import>(name, operation_name, entity_set_path, is_in_service_document, operation_import_kind));
 		}
 	}
-    else if (elementName == U("EntityType"))
-    {
-        ::utility::string_t name;
-		::utility::string_t baseType;
+	else if (elementName == _XPLATSTR("EntityType"))
+	{
+		::odata::string_t name;
+		::odata::string_t baseType;
 		bool isAbstract = false;
 		bool isOpenType = false;
 		bool hasStream = false;
 
-        while (move_to_next_attribute())
-        {
-            if (get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("BaseType"))
-            {
-                baseType = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("Abstract"))
-            {
-                isAbstract = get_current_element_text() == U("true") ? true : false;
-            }
-			else if (get_current_element_name() == U("OpenType"))
-            {
-                isOpenType = get_current_element_text() == U("true") ? true : false;
-            }
-			else if (get_current_element_name() == U("HasStream"))
-            {
-                hasStream = get_current_element_text() == U("true") ? true : false;
-            }
-        }
+		while (move_to_next_attribute())
+		{
+			if (get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("BaseType"))
+			{
+				baseType = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("Abstract"))
+			{
+				isAbstract = get_current_element_text() == _XPLATSTR("true");
+			}
+			else if (get_current_element_name() == _XPLATSTR("OpenType"))
+			{
+				isOpenType = get_current_element_text() == _XPLATSTR("true");
+			}
+			else if (get_current_element_name() == _XPLATSTR("HasStream"))
+			{
+				hasStream = get_current_element_text() == _XPLATSTR("true");
+			}
+		}
 
 		m_current_st = new edm_entity_type(name, m_current_schema->get_name(), baseType, isAbstract, isOpenType, hasStream);
-    }
-    else if (elementName == U("ComplexType"))
+	}
+	else if (elementName == _XPLATSTR("ComplexType"))
 	{
-        ::utility::string_t name;
-		::utility::string_t baseType;
+		::odata::string_t name;
+		::odata::string_t baseType;
 		bool isAbstract = false;
 		bool isOpenType = false;
 
-        while (move_to_next_attribute())
-        {
-            if (get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("BaseType"))
-            {
-                baseType = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("Abstract"))
-            {
-                isAbstract = get_current_element_text() == U("true") ? true : false;
-            }
-			else if (get_current_element_name() == U("OpenType"))
-            {
-                isOpenType = get_current_element_text() == U("true") ? true : false;
-            }
-        }
+		while (move_to_next_attribute())
+		{
+			if (get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("BaseType"))
+			{
+				baseType = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("Abstract"))
+			{
+				isAbstract = get_current_element_text() == _XPLATSTR("true");
+			}
+			else if (get_current_element_name() == _XPLATSTR("OpenType"))
+			{
+				isOpenType = get_current_element_text() == _XPLATSTR("true");
+			}
+		}
 
-        m_current_st = new edm_complex_type(name, m_current_schema->get_name(), baseType, isAbstract, isOpenType);
-    }
-	else if (elementName == U("EnumType"))
+		m_current_st = new edm_complex_type(name, m_current_schema->get_name(), baseType, isAbstract, isOpenType);
+	}
+	else if (elementName == _XPLATSTR("EnumType"))
 	{
-		::utility::string_t name;
-		::utility::string_t underlying_type = U("Edm.Int32");
+		::odata::string_t name;
+		::odata::string_t underlying_type = _XPLATSTR("Edm.Int32");
 		bool is_flag = false;
 
-        while (move_to_next_attribute())
-        {
-            if (get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("UnderlyingType"))
-            {
-                underlying_type = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("IsFlags"))
-            {
-                is_flag = get_current_element_text() == U("true") ? true : false;
-            }
-        }
+		while (move_to_next_attribute())
+		{
+			if (get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("UnderlyingType"))
+			{
+				underlying_type = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("IsFlags"))
+			{
+				is_flag = get_current_element_text() == _XPLATSTR("true");
+			}
+		}
 
 		m_current_enum = new edm_enum_type(name, m_current_schema->get_name(), underlying_type, is_flag);
 	}
-	else if (elementName == U("Function") || elementName == U("Action"))
+	else if (elementName == _XPLATSTR("Function") || elementName == _XPLATSTR("Action"))
 	{
-		::utility::string_t name;
-		::utility::string_t path;
+		::odata::string_t name;
+		::odata::string_t path;
 		bool is_bound = false;
 		bool is_composable = false;
-		EdmOperationKind operation_kind = elementName == U("Function") ? EdmOperationKind::Function : EdmOperationKind::Action;
+		EdmOperationKind operation_kind = elementName == _XPLATSTR("Function") ? EdmOperationKind::Function : EdmOperationKind::Action;
 
-        while (move_to_next_attribute())
-        {
-            if (get_current_element_name() == U("Name"))
-            {
-                name = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("EntitySetPath"))
-            {
-                path = get_current_element_text();
-            }
-			else if (get_current_element_name() == U("IsBound"))
-            {
-                is_bound = get_current_element_text() == U("true") ? true : false;
-            }
-			else if (get_current_element_name() == U("IsComposable"))
-            {
-                is_composable = get_current_element_text() == U("true") ? true : false;
-            }
-        }
+		while (move_to_next_attribute())
+		{
+			if (get_current_element_name() == _XPLATSTR("Name"))
+			{
+				name = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("EntitySetPath"))
+			{
+				path = get_current_element_text();
+			}
+			else if (get_current_element_name() == _XPLATSTR("IsBound"))
+			{
+				is_bound = get_current_element_text() == _XPLATSTR("true");
+			}
+			else if (get_current_element_name() == _XPLATSTR("IsComposable"))
+			{
+				is_composable = get_current_element_text() == _XPLATSTR("true");
+			}
+		}
 
 		m_current_operation = new edm_operation_type(name, m_current_schema->get_name(),  is_bound, path, operation_kind, is_composable);
 	}
-    else if (elementName == U("Property") || elementName == U("Member"))
-    {
-        _process_property();
-    }
-    else if (elementName == U("NavigationPropertyBinding"))
-    {
-        _process_navigation_property_binding();
-    }
-    else if (elementName == U("NavigationProperty"))
-    {
-        _process_navigation_property();
-    }
-	else if (elementName == U("Parameter"))
+	else if (elementName == _XPLATSTR("Property") || elementName == _XPLATSTR("Member"))
+	{
+		_process_property();
+	}
+	else if (elementName == _XPLATSTR("NavigationPropertyBinding"))
+	{
+		_process_navigation_property_binding();
+	}
+	else if (elementName == _XPLATSTR("NavigationProperty"))
+	{
+		_process_navigation_property();
+	}
+	else if (elementName == _XPLATSTR("Parameter"))
 	{
 		_process_operation_parameter();
 	}
-	else if (elementName == U("ReturnType"))
+	else if (elementName == _XPLATSTR("ReturnType"))
 	{
 		_process_operation_return_type();
 	}
-    else if (m_parsing_key && elementName == U("PropertyRef"))
-    {
-        while (move_to_next_attribute())
-        {
-            if (get_current_element_name() == U("Name"))
-            {
-                dynamic_cast<edm_entity_type*>(m_current_st)->add_key_property(get_current_element_text());
-                break;
-            }
-        }
-        
-    }
-    else if (elementName == U("Key"))
-    {
-        m_parsing_key = true;
-    }
+	else if (m_parsing_key && elementName == _XPLATSTR("PropertyRef"))
+	{
+		while (move_to_next_attribute())
+		{
+			if (get_current_element_name() == _XPLATSTR("Name"))
+			{
+				dynamic_cast<edm_entity_type*>(m_current_st)->add_key_property(get_current_element_text());
+				break;
+			}
+		}
+	}
+	else if (elementName == _XPLATSTR("Key"))
+	{
+		m_parsing_key = true;
+	}
 #ifdef WIN32
-    m_reader->MoveToElement();
+	m_reader->MoveToElement();
 #endif
-	
+
 }
 
-void edm_model_reader::handle_end_element(const ::utility::string_t& elementName)
+void edm_model_reader::handle_end_element(const ::odata::string_t& elementName)
 {
-    if (elementName == U("EntityContainer"))
-    {
-        m_current_schema->add_container(m_current_container);
-        m_current_container.reset();
-    }
-
-    if (elementName == U("EntityType"))
-    {
-        m_current_schema->add_entity_type(std::shared_ptr<edm_entity_type>(static_cast<edm_entity_type*>(m_current_st)));
-        m_current_st = nullptr;
-    }
-
-    if (elementName == U("ComplexType"))
-    {
-        m_current_schema->add_complex_type(std::shared_ptr<edm_complex_type>(static_cast<edm_complex_type*>(m_current_st)));
-        m_current_st = nullptr;
-    }
-
-    if (elementName == U("Key"))
-    {
-        m_parsing_key = false;
-    }
-
-	if (elementName == U("EnumType"))
+	if (elementName == _XPLATSTR("EntityContainer"))
 	{
-		m_current_schema->add_enum_type(std::shared_ptr<edm_enum_type>(static_cast<edm_enum_type*>(m_current_enum)));
-        m_current_enum = nullptr;
+		m_current_schema->add_container(m_current_container);
+		m_current_container.reset();
 	}
 
-	if (elementName == U("Function") || elementName == U("Action"))
+	if (elementName == _XPLATSTR("EntityType"))
+	{
+		m_current_schema->add_entity_type(std::shared_ptr<edm_entity_type>(static_cast<edm_entity_type*>(m_current_st)));
+		m_current_st = nullptr;
+	}
+
+	if (elementName == _XPLATSTR("ComplexType"))
+	{
+		m_current_schema->add_complex_type(std::shared_ptr<edm_complex_type>(static_cast<edm_complex_type*>(m_current_st)));
+		m_current_st = nullptr;
+	}
+
+	if (elementName == _XPLATSTR("Key"))
+	{
+		m_parsing_key = false;
+	}
+
+	if (elementName == _XPLATSTR("EnumType"))
+	{
+		m_current_schema->add_enum_type(std::shared_ptr<edm_enum_type>(static_cast<edm_enum_type*>(m_current_enum)));
+		m_current_enum = nullptr;
+	}
+
+	if (elementName == _XPLATSTR("Function") || elementName == _XPLATSTR("Action"))
 	{
 		m_current_schema->add_operation_type(std::shared_ptr<edm_operation_type>(static_cast<edm_operation_type*>(m_current_operation)));
 		m_current_operation = nullptr;
 	}
 
-	if (elementName == U("EntitySet"))
+	if (elementName == _XPLATSTR("EntitySet"))
 	{
-        if (m_current_container)
+		if (m_current_container)
 		{
 			m_current_container->add_entity_set(m_current_entity_set);
 		}
 
-		m_current_entity_set = nullptr;		
+		m_current_entity_set = nullptr;
 	}
 
-	if (elementName == U("Singleton"))
+	if (elementName == _XPLATSTR("Singleton"))
 	{
-        if (m_current_container)
+		if (m_current_container)
 		{
 			m_current_container->add_singleton(m_current_singleton);
 		}
@@ -358,7 +357,7 @@ void edm_model_reader::handle_end_element(const ::utility::string_t& elementName
 	}
 }
 
-void edm_model_reader::handle_element(const ::utility::string_t&)
+void edm_model_reader::handle_element(const ::odata::string_t&)
 {
 }
 
@@ -366,81 +365,81 @@ void edm_model_reader::_process_property()
 {
 	if (m_current_st)
 	{
-        ::utility::string_t property_name;
-        bool is_nullable = false;
-        std::shared_ptr<edm_named_type> type;
-        unsigned int max_length = undefined_value;
-        bool is_unicode = false;
-	    unsigned int scale = undefined_value;
-	    unsigned int precision = undefined_value;
+		::odata::string_t property_name;
+		bool is_nullable = false;
+		std::shared_ptr<edm_named_type> type;
+		unsigned int max_length = undefined_value;
+		bool is_unicode = false;
+		unsigned int scale = undefined_value;
+		unsigned int precision = undefined_value;
 
 		while (move_to_next_attribute())
 		{
 			auto name  = get_current_element_name();
 			auto value = get_current_element_text();
 
-			if (name == U("Name"))
+			if (name == _XPLATSTR("Name"))
 			{
 				property_name = value;
 			}
-			else if (name == U("Nullable"))
+			else if (name == _XPLATSTR("Nullable"))
 			{
-				is_nullable = (value == U("true"));
+				is_nullable = (value == _XPLATSTR("true"));
 			}
-			else if (name == U("Type"))
-			{           
+			else if (name == _XPLATSTR("Type"))
+			{
 				type = edm_model_utility::get_edm_type_from_name(value);
-				
+
 				if (!type)
 				{
 					// we have to parse the real type after first round parsing
-				    type = std::make_shared<edm_named_type>(value, U(""), edm_type_kind_t::Unknown);
+					type = ::odata::make_shared<edm_named_type>(value, _XPLATSTR(""), edm_type_kind_t::Unknown);
 				}
 			}
-			else if (name == U("MaxLength"))
+			else if (name == _XPLATSTR("MaxLength"))
 			{
 				web::http::bind(value.c_str(), max_length);
 			}
-			else if (name == U("Unicode"))
+			else if (name == _XPLATSTR("Unicode"))
 			{
-				is_unicode = (value == U("true"));
+				is_unicode = (value == _XPLATSTR("true"));
 			}
-			else if (name == U("Scale"))
+			else if (name == _XPLATSTR("Scale"))
 			{
 				web::http::bind(value.c_str(), scale);
 			}
-			else if (name == U("Precision"))
+			else if (name == _XPLATSTR("Precision"))
 			{
 				web::http::bind(value.c_str(), precision);
 			}
 		}
 
-        auto prop = std::make_shared<edm_property_type>(property_name, is_nullable, max_length, is_unicode, scale);
-        prop->set_property_type(type);
-        prop->set_precision(precision);
+		auto prop = ::odata::make_shared<edm_property_type>(property_name, is_nullable, max_length, is_unicode, scale);
+		prop->set_property_type(type);
+		prop->set_precision(precision);
 		m_current_st->add_property(prop);
 	}
 	else if (m_current_enum)
 	{
-        ::utility::string_t enum_name;
-        unsigned long enum_value;
+		::odata::string_t enum_name;
+		unsigned long enum_value = (std::numeric_limits<unsigned long>::max)(); // max signifies that no explicit value was specified!
 
 		while (move_to_next_attribute())
 		{
 			auto name  = get_current_element_name();
 			auto value = get_current_element_text();
 
-			if (name == U("Name"))
+			if (name == _XPLATSTR("Name"))
 			{
 				enum_name = value;
 			}
-			else if (name == U("Value"))
+			else if (name == _XPLATSTR("Value"))
 			{
 				web::http::bind(value.c_str(), enum_value);
 			}
 		}
 
-        auto prop = std::make_shared<edm_enum_member>(enum_name, enum_value);
+		auto prop = ::odata::make_shared<edm_enum_member>(enum_name, enum_value);
 		m_current_enum->add_enum_member(prop);
 	}
 }
@@ -449,67 +448,66 @@ void edm_model_reader::_process_navigation_property()
 {
 	if (m_current_st)
 	{
-        ::utility::string_t property_name;
-		::utility::string_t partner_name;
-		::utility::string_t type_name;
+		::odata::string_t property_name;
+		::odata::string_t partner_name;
+		::odata::string_t type_name;
 		bool is_contained = false;
-        bool is_nullable = false;
+		bool is_nullable = false;
 
 		while (move_to_next_attribute())
 		{
 			auto name  = get_current_element_name();
 			auto value = get_current_element_text();
 
-			if (name == U("Name"))
+			if (name == _XPLATSTR("Name"))
 			{
 				property_name = value;
 			}
-			else if (name == U("Nullable"))
+			else if (name == _XPLATSTR("Nullable"))
 			{
-				is_nullable = (value == U("true"));
+				is_nullable = (value == _XPLATSTR("true"));
 			}
-			else if (name == U("Partner"))
+			else if (name == _XPLATSTR("Partner"))
 			{
 				partner_name = value;
 			}
-			else if (name == U("Type"))
+			else if (name == _XPLATSTR("Type"))
 			{
 				type_name = value;
 			}
-			else if (name == U("ContainsTarget"))
+			else if (name == _XPLATSTR("ContainsTarget"))
 			{
-				is_contained = (value == U("true"));
+				is_contained = (value == _XPLATSTR("true"));
 			}
 		}
 
-        
-		auto type = std::make_shared<edm_navigation_type>(type_name, partner_name, is_contained); 
-        auto prop = std::make_shared<edm_property_type>(property_name, is_nullable, type);
+		auto type = ::odata::make_shared<edm_navigation_type>(type_name, partner_name, is_contained);
+		auto prop = ::odata::make_shared<edm_property_type>(property_name, is_nullable, type);
 		m_current_st->add_property(prop);
 	}
 }
 
 void edm_model_reader::_process_navigation_property_binding()
 {
-	::utility::string_t property_path_name;
-	::utility::string_t target_name;
+	::odata::string_t property_path_name;
+	::odata::string_t target_name;
 
 	while (move_to_next_attribute())
 	{
 		auto name  = get_current_element_name();
 		auto value = get_current_element_text();
 
-		if (name == U("Path"))
+		if (name == _XPLATSTR("Path"))
 		{
 			property_path_name = value;
 		}
-		else if (name == U("Target"))
+		else if (name == _XPLATSTR("Target"))
 		{
 			target_name = value;
 		}
 	}
 
-    if (m_current_entity_set)
+	if (m_current_entity_set)
 	{
 		m_current_entity_set->add_navigation_source(property_path_name, target_name);
 	}
@@ -523,25 +521,25 @@ void edm_model_reader::_process_operation_parameter()
 {
 	if (m_current_operation)
 	{
-        ::utility::string_t param_name;
-        std::shared_ptr<edm_named_type> param_type;
+		::odata::string_t param_name;
+		std::shared_ptr<edm_named_type> param_type;
 
 		while (move_to_next_attribute())
 		{
 			auto name  = get_current_element_name();
 			auto value = get_current_element_text();
 
-			if (name == U("Name"))
+			if (name == _XPLATSTR("Name"))
 			{
 				param_name = value;
 			}
-			else if (name == U("Type"))
+			else if (name == _XPLATSTR("Type"))
 			{
-				param_type = std::make_shared<edm_named_type>(value, U(""), edm_type_kind_t::Unknown);
+				param_type = ::odata::make_shared<edm_named_type>(value, _XPLATSTR(""), edm_type_kind_t::Unknown);
 			}
 		}
 
-        auto param = std::make_shared<edm_operation_parameter>(param_name, param_type);
+		auto param = ::odata::make_shared<edm_operation_parameter>(param_name, param_type);
 
 		m_current_operation->add_operation_parameter(param);
 	}
@@ -551,18 +549,18 @@ void edm_model_reader::_process_operation_return_type()
 {
 	if (m_current_operation)
 	{
-		auto return_type = std::make_shared<edm_named_type>();
+		auto return_type = ::odata::make_shared<edm_named_type>();
 
 		while (move_to_next_attribute())
 		{
 			auto name  = get_current_element_name();
 			auto value = get_current_element_text();
 
-			if (name == U("Type"))
+			if (name == _XPLATSTR("Type"))
 			{
-				return_type = std::make_shared<edm_named_type>(value, U(""), edm_type_kind_t::Unknown);
+				return_type = ::odata::make_shared<edm_named_type>(value, _XPLATSTR(""), edm_type_kind_t::Unknown);
 			}
-		}		
+		}
 
 		m_current_operation->set_return_type(return_type);
 	}

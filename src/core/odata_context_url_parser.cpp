@@ -12,24 +12,22 @@ using namespace ::odata::edm;
 namespace odata { namespace core
 {
 
-std::shared_ptr<edm_named_type> odata_contex_url_parser::get_payload_content_type(const ::utility::string_t& context_url)
+std::shared_ptr<edm_named_type> odata_contex_url_parser::get_payload_content_type(const ::odata::string_t& context_url)
 {
 	if (!m_model || m_service_root_url.empty())
 	{
 		return nullptr;
 	}
 
-	::utility::string_t root = m_service_root_url + U("/$metadata#");
+	::odata::string_t path(context_url, context_url.find(_XPLATSTR("$metadata#")) + 10);
 
-	::utility::string_t path = context_url.substr(context_url.find(U("$metadata#")) + 10);
-
-	std::list<::utility::string_t> paths;
-	::odata::common::split_string(path, U("/"), paths);
+	std::list<::odata::string_t> paths;
+	::odata::common::split_string(path, _XPLATSTR("/"), paths);
 
 	return parse_context_url(paths, nullptr);
 }
 
-std::shared_ptr<edm_named_type> odata_contex_url_parser::parse_complex_or_primitive(const ::utility::string_t& current_path)
+std::shared_ptr<edm_named_type> odata_contex_url_parser::parse_complex_or_primitive(const ::odata::string_t& current_path)
 {
 	std::shared_ptr<edm_named_type> current_type = edm_model_utility::get_edm_primitive_type_from_name(current_path);
 
@@ -38,57 +36,62 @@ std::shared_ptr<edm_named_type> odata_contex_url_parser::parse_complex_or_primit
 		current_type = m_model->find_complex_type(current_path);
 	}
 
+	if (!current_type)
+	{
+		current_type = m_model->find_entity_type(current_path);
+	}
+
 	return current_type;
 }
 
-std::shared_ptr<edm_named_type> odata_contex_url_parser::parse_context_url(std::list<::utility::string_t>& paths, const std::shared_ptr<edm_named_type>& prev_type)
+std::shared_ptr<edm_named_type> odata_contex_url_parser::parse_context_url(std::list<::odata::string_t>& paths, const std::shared_ptr<edm_named_type>& prev_type)
 {
-	if (paths.size() <= 0)
+	if (paths.empty())
 	{
 		return prev_type;
 	}
 
-	::utility::string_t current_path = paths.front();
+	::odata::string_t current_path = std::move(paths.front());
 	paths.pop_front();
 
 	// check if current path segment is an end word like $entity collection or edm. of primitive type
-	if (current_path == U("$entity"))
+	if (current_path == _XPLATSTR("$entity"))
 	{
 		return prev_type;
 	}
 
-	size_t index_collection = current_path.find(U("Collection"));
+	size_t index_collection = current_path.find(_XPLATSTR("Collection"));
 	if (index_collection == 0)
 	{
 		current_path = current_path.substr(11, current_path.length() - 12);
 
-		auto return_type = std::make_shared<edm_collection_type>(U(""));
+		auto return_type = ::odata::make_shared<edm_collection_type>(_XPLATSTR(""));
 		return_type->set_element_type(parse_complex_or_primitive(current_path));
 
 		return return_type;
 	}
 
-    index_collection = current_path.find(U("collection"));
+	index_collection = current_path.find(_XPLATSTR("collection"));
 	if (index_collection == 0)
 	{
 		current_path = current_path.substr(11, current_path.length() - 12);
 
-		auto return_type = std::make_shared<edm_collection_type>(U(""));
+		auto return_type = ::odata::make_shared<edm_collection_type>(_XPLATSTR(""));
 		return_type->set_element_type(parse_complex_or_primitive(current_path));
 
 		return return_type;
 	}
 
-	if (current_path.substr(0, 4) == U("Edm."))
+	if (current_path.compare(0, 4, _XPLATSTR("Edm.")) == 0)
 	{
 		return parse_complex_or_primitive(current_path);
 	}
-		
+
 	// delete content that is in '()'
-	size_t index = current_path.find_first_of(U("("));
-	if (index != -1)
+	size_t index = current_path.find_first_of(_XPLATSTR("("));
+	if (index != ::odata::string_t::npos)
 	{
-		current_path = current_path.substr(0, index);
+		current_path.erase(index);
 	}
 
 	// first check if current path segemnt is entity type
@@ -121,7 +124,7 @@ std::shared_ptr<edm_named_type> odata_contex_url_parser::parse_context_url(std::
 		{
 			return parse_context_url(paths, m_model->find_entity_type(current_set->get_entity_type_name()));
 		}
-		
+
 		std::shared_ptr<edm_singleton> current_singleton = container->find_singleton(current_path);
 		if (current_singleton)
 		{
@@ -162,6 +165,5 @@ std::shared_ptr<edm_named_type> odata_contex_url_parser::parse_context_url(std::
 
 	return nullptr;
 }
-
 
 }}

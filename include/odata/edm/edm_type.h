@@ -8,7 +8,7 @@
 
 #include "odata/common/utility.h"
 
-namespace odata { namespace edm 
+namespace odata { namespace edm
 {
 
 #define undefined_value 0xffffffff
@@ -22,11 +22,11 @@ class edm_model_reader;
 enum edm_type_kind_t
 {
 	None,
-    Primitive,
-    Entity,
-    Complex,
-    Collection,
-    Enum,
+	Primitive,
+	Entity,
+	Complex,
+	Collection,
+	Enum,
 	Link,
 	Navigation,
 	Operation,
@@ -41,75 +41,71 @@ enum edm_primitive_type_kind_t
 {
 	NoneVal,
 	Binary,
-    Boolean,
+	Boolean,
 	Byte,
-    DateTimeOffset,
+	DateTimeOffset,
 	Duration,
-    Decimal,
-    Double,
-    Guid,
-    Int16,
-    Int32,
-    Int64,
-    SByte,
-    Single,
-    String,
-    Stream,
+	Decimal,
+	Double,
+	Guid,
+	Int16,
+	Int32,
+	Int64,
+	SByte,
+	Single,
+	String,
+	Stream,
 };
 
 class edm_named_type
 {
 public:
-	edm_named_type() :  m_type_kind(edm_type_kind_t::None), m_name(U("")), m_namespace(U(""))
+	edm_named_type() :  m_name(), m_namespace(), m_type_kind(edm_type_kind_t::None)
 	{
 	}
 
-	edm_named_type(edm_type_kind_t type_kind) :  m_type_kind(type_kind), m_name(U("")), m_namespace(U(""))
+	edm_named_type(edm_type_kind_t type_kind) :  m_name(), m_namespace(), m_type_kind(type_kind)
 	{
 	}
 
-	edm_named_type(::utility::string_t name, ::utility::string_t name_space, edm_type_kind_t type_kind)
-		: m_type_kind(type_kind), m_name(std::move(name)), m_namespace(std::move(name_space))
+	edm_named_type(::odata::string_t name, ::odata::string_t name_space, edm_type_kind_t type_kind)
+		: m_name(std::move(name)), m_namespace(std::move(name_space)), m_type_kind(type_kind)
 	{
 	}
 
-    virtual ~edm_named_type()
+	virtual ~edm_named_type() = default;
+
+	const ::odata::string_t& get_name() const
 	{
+		return m_name;
 	}
 
-    const ::utility::string_t& get_name() const 
-    {
-        return m_name;
-    }
-
-	::utility::string_t get_full_name()
+	::odata::string_t get_full_name() const
 	{
 		if (m_namespace.empty())
 		{
 			return m_name;
 		}
-		else
-		{
-		    return m_namespace + U(".") + m_name;
-		}
+
+		return m_namespace + _XPLATSTR(".") + m_name;
 	}
 
-	void set_name(::utility::string_t name)
+	void set_name(::odata::string_t name)
 	{
 		m_name = std::move(name);
 	}
 
-    const ::utility::string_t& get_namespace() const 
-    {
-        return m_namespace;
-    }
+	const ::odata::string_t& get_namespace() const
+	{
+		return m_namespace;
+	}
 
-	void set_namespace(::utility::string_t name_space)
+	void set_namespace(::odata::string_t name_space)
 	{
 		m_namespace = std::move(name_space);
 	}
 
-	const edm_type_kind_t& get_type_kind() const 
+	const edm_type_kind_t& get_type_kind() const
 	{
 		return m_type_kind;
 	}
@@ -125,10 +121,10 @@ protected:
 	static std::mutex &mutex();
 
 protected:
-    friend class edm_schema;
+	friend class edm_schema;
 
-	::utility::string_t m_name;
-	::utility::string_t m_namespace;
+	::odata::string_t m_name;
+	::odata::string_t m_namespace;
 	edm_type_kind_t m_type_kind;
 
 	static std::shared_ptr<edm_named_type> _EDM_UNKNOWN;
@@ -143,13 +139,8 @@ public:
 	}
 
 	bool type_equal(std::shared_ptr<edm_named_type> type) const
-    {
-        if (!type)
-		{
-			return false;
-		}
-
-		if (type->get_type_kind() == edm_type_kind_t::Primitive)
+	{
+		if (type && type->get_type_kind() == edm_type_kind_t::Primitive)
 		{
 			edm_primitive_type *p_primitive_type = (edm_primitive_type*)type.get();
 			if (p_primitive_type && p_primitive_type->m_primitive_kind == m_primitive_kind)
@@ -159,7 +150,7 @@ public:
 		}
 
 		return false;
-    }
+	}
 
 	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> BINARY();
 	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> BOOLEAN();
@@ -179,8 +170,8 @@ public:
 	ODATACPP_CLIENT_API static std::shared_ptr<edm_primitive_type> UNKNOWN();
 
 private:
-	edm_primitive_type(::utility::string_t name, edm_primitive_type_kind_t primitive_kind)
-		: edm_named_type(name, U(""), edm_type_kind_t::Primitive), m_primitive_kind(primitive_kind)
+	edm_primitive_type(::odata::string_t name, edm_primitive_type_kind_t primitive_kind)
+		: edm_named_type(name, _XPLATSTR(""), edm_type_kind_t::Primitive), m_primitive_kind(primitive_kind)
 	{
 	}
 
@@ -213,48 +204,53 @@ private:
 class edm_property_type
 {
 public:
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    edm_property_type() : m_is_nullable(true), m_is_unicode(false), m_maxLength(undefined_value), m_scale(0), m_precision(undefined_value)
-    {
-    }
-
-	edm_property_type(const ::utility::string_t& name) : m_name(name), 
-		m_is_nullable(true), m_is_unicode(false), m_maxLength(undefined_value), m_scale(0), m_precision(undefined_value)
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	edm_property_type()
+	:	m_is_nullable(true), m_is_unicode(false), m_name(), m_default(), m_maxLength(undefined_value), m_scale(0), m_precision(undefined_value), m_type()
 	{
 	}
 
-    edm_property_type(const ::utility::string_t& name, bool is_nullable, unsigned int max_length, bool is_unicode, unsigned int scale) : 
-        m_name(name), m_is_nullable(is_nullable), m_is_unicode(is_unicode), m_maxLength(max_length), m_scale(scale), m_precision(undefined_value)
-    {
-    }
+	edm_property_type(const ::odata::string_t& name)
+	:	m_is_nullable(true), m_is_unicode(false), m_name(name), m_default(), m_maxLength(undefined_value), m_scale(0), m_precision(undefined_value), m_type()
+	{
+	}
 
-    edm_property_type(const ::utility::string_t& name, bool is_nullable, std::shared_ptr<edm_named_type> type) : 
-        m_name(name), m_is_nullable(is_nullable), m_type(type), m_is_unicode(false), m_maxLength(undefined_value), m_scale(0), m_precision(undefined_value)
-    {
-    }
+	edm_property_type(const ::odata::string_t& name, bool is_nullable, unsigned int max_length, bool is_unicode, unsigned int scale) :
+		m_is_nullable(is_nullable), m_is_unicode(is_unicode), m_name(name), m_default(), m_maxLength(max_length), m_scale(scale), m_precision(undefined_value), m_type()
+	{
+	}
 
+	edm_property_type(const ::odata::string_t& name, bool is_nullable, std::shared_ptr<edm_named_type> type) :
+		m_is_nullable(is_nullable), m_is_unicode(false), m_name(name), m_default(), m_maxLength(undefined_value), m_scale(0), m_precision(undefined_value), m_type(type)
+	{
+	}
 
-    /// <summary>
-    /// Gets the (unqualified) name of the property.
-    /// </summary>
-    /// <returns>The name of the property.</returns>
-    const ::utility::string_t& get_name() const 
-    {
-        return m_name;
-    }
+	/// <summary>
+	/// Gets the (unqualified) name of the property.
+	/// </summary>
+	/// <returns>The name of the property.</returns>
+	const ::odata::string_t& get_name() const
+	{
+		return m_name;
+	}
 
-    /// <summary>
-    /// Gets the nullable property of the property
-    /// </summary>
-    /// <returns>true if the property can be absent in a entity, false otherwise</returns>
-    bool is_nullable() const
-    {
-        return m_is_nullable;
-    }
+	/// <summary>
+	/// Gets the nullable property of the property
+	/// </summary>
+	/// <returns>true if the property can be absent in a entity, false otherwise</returns>
+	bool is_nullable() const
+	{
+		return m_is_nullable;
+	}
 
 	std::shared_ptr<edm_named_type> get_property_type()
+	{
+		return m_type;
+	}
+
+	std::shared_ptr<edm_named_type const> const& get_property_type() const
 	{
 		return m_type;
 	}
@@ -264,27 +260,27 @@ public:
 		m_type = type;
 	}
 
-    void set_precision(unsigned int precision)
+	void set_precision(unsigned int precision)
 	{
 		m_precision = precision;
 	}
 
-    /// <summary>
-    /// Gets the default value of the property, as represented in the CSDL.
-    /// </summary>
-    /// <returns>A string representing the default value of the property.</returns>
-    const ::utility::string_t& default_value() const
-    {
-        return m_default;
-    }
+	/// <summary>
+	/// Gets the default value of the property, as represented in the CSDL.
+	/// </summary>
+	/// <returns>A string representing the default value of the property.</returns>
+	const ::odata::string_t& default_value() const
+	{
+		return m_default;
+	}
 
 private:
-    friend class edm_structured_type;
+	friend class edm_structured_type;
 
-    bool m_is_nullable;
+	bool m_is_nullable;
 	bool m_is_unicode;
-    ::utility::string_t m_name;
-    ::utility::string_t m_default;
+	::odata::string_t m_name;
+	::odata::string_t m_default;
 	unsigned int m_maxLength;
 	unsigned int m_scale;
 	unsigned int m_precision;
@@ -295,13 +291,13 @@ private:
 class edm_collection_type : public edm_named_type
 {
 public:
-	edm_collection_type(::utility::string_t name)
-		: edm_named_type(name, U(""), edm_type_kind_t::Collection)
+	edm_collection_type(::odata::string_t name)
+		: edm_named_type(name, _XPLATSTR(""), edm_type_kind_t::Collection)
 	{
 	}
 
-	edm_collection_type(::utility::string_t name, std::shared_ptr<edm_named_type> element_type)
-		: edm_named_type(name, U(""), edm_type_kind_t::Collection), m_element_type(element_type)
+	edm_collection_type(::odata::string_t name, std::shared_ptr<edm_named_type> element_type)
+		: edm_named_type(name, _XPLATSTR(""), edm_type_kind_t::Collection), m_element_type(element_type)
 	{
 	}
 
@@ -322,8 +318,8 @@ protected:
 class edm_payload_annotation_type : public edm_named_type
 {
 public:
-	edm_payload_annotation_type(::utility::string_t name) 
-		: edm_named_type(name, U(""), edm_type_kind_t::PayloadAnnotation)
+	edm_payload_annotation_type(::odata::string_t name)
+		: edm_named_type(name, _XPLATSTR(""), edm_type_kind_t::PayloadAnnotation)
 	{
 	}
 };
@@ -334,51 +330,52 @@ public:
 class edm_structured_type : public edm_named_type
 {
 public:
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="name">The name of the type.</param>
-    edm_structured_type(::utility::string_t name, ::utility::string_t name_space, edm_type_kind_t type_kind, ::utility::string_t basetype, bool isAbstract, bool isOpenType)
-		: edm_named_type(name, name_space, type_kind) , m_baseTypeName(basetype), m_is_abstract(isAbstract), m_is_openType(isOpenType), m_base_type(nullptr)
-    {
-    }
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="name">The name of the type.</param>
+	edm_structured_type(::odata::string_t name, ::odata::string_t name_space, edm_type_kind_t type_kind, ::odata::string_t basetype, bool isAbstract, bool isOpenType)
+		: edm_named_type(name, name_space, type_kind), m_baseTypeName(basetype), m_base_type(nullptr), m_is_abstract(isAbstract), m_is_openType(isOpenType), m_properties()
+	{
+	}
 
-    /// <summary>
-    /// Adds a property to the type.
-    /// </summary>
-    /// <param name="prop">A pointer to the property to add.</param>
-    void add_property(std::shared_ptr<edm_property_type> prop)
-    {
+	/// <summary>
+	/// Adds a property to the type.
+	/// </summary>
+	/// <param name="prop">A pointer to the property to add.</param>
+	void add_property(std::shared_ptr<edm_property_type> prop)
+	{
 		m_properties[prop->get_name()] = prop;
-    }
+	}
 
-    /// <summary>
-    /// Gets the beginning iterator of the properties of the type
-    /// </summary>
-    std::unordered_map<::utility::string_t, std::shared_ptr<edm_property_type>>::const_iterator begin() const
-    {
+	/// <summary>
+	/// Gets the beginning iterator of the properties of the type
+	/// </summary>
+	std::unordered_map<::odata::string_t, std::shared_ptr<edm_property_type>>::const_iterator begin() const
+	{
 		return m_properties.cbegin();
-    }
+	}
 
-    /// <summary>
-    /// Gets the end iterator of the properties of the type
-    /// </summary>
-    std::unordered_map<::utility::string_t, std::shared_ptr<edm_property_type>>::const_iterator end() const
-    {
-        return m_properties.cend();
-    }
+	/// <summary>
+	/// Gets the end iterator of the properties of the type
+	/// </summary>
+	std::unordered_map<::odata::string_t, std::shared_ptr<edm_property_type>>::const_iterator end() const
+	{
+		return m_properties.cend();
+	}
 
-    std::vector<std::shared_ptr<edm_property_type>> get_properties_vector() const
+	std::vector<std::shared_ptr<edm_property_type>> get_properties_vector() const
 	{
 		std::vector<std::shared_ptr<edm_property_type>> ret;
+		ret.reserve(m_properties.size());
 		for (auto it : m_properties)
 		{
-			ret.push_back(it.second);
+			ret.emplace_back(it.second);
 		}
 		return ret;
 	}
 
-	const ::utility::string_t get_base_type_name() const
+	const ::odata::string_t get_base_type_name() const
 	{
 		return m_baseTypeName;
 	}
@@ -393,49 +390,59 @@ public:
 		return m_base_type;
 	}
 
-    /// <summary>
-    /// Looks up a property of the type by name.
-    /// </summary>
-    /// <param name="name">The name of the property.</param>
-    /// <returns>A pointer to the property if found, an empty pointer otherwise.</returns>
-    ODATACPP_CLIENT_API std::shared_ptr<edm_property_type> find_property(::utility::string_t name) const;
+	bool is_abstract() const
+	{
+		return m_is_abstract;
+	}
+
+	bool is_open() const
+	{
+		return m_is_openType;
+	}
+
+	/// <summary>
+	/// Looks up a property of the type by name.
+	/// </summary>
+	/// <param name="name">The name of the property.</param>
+	/// <returns>A pointer to the property if found, an empty pointer otherwise.</returns>
+	ODATACPP_CLIENT_API std::shared_ptr<edm_property_type> find_property(::odata::string_t name) const;
 
 protected:
-    friend class edm_schema;
+	friend class edm_schema;
 
-	::utility::string_t m_baseTypeName;	
+	::odata::string_t m_baseTypeName;
 	std::shared_ptr<edm_structured_type> m_base_type;
 
 	bool m_is_abstract;
 	bool m_is_openType;
 
-	std::unordered_map<::utility::string_t, std::shared_ptr<edm_property_type>> m_properties;
+	std::unordered_map<::odata::string_t, std::shared_ptr<edm_property_type>> m_properties;
 };
 
 class edm_enum_member
 {
 public:
-    /// <summary>
-    /// Constructor
-    /// </summary>
-	edm_enum_member()
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	edm_enum_member() : m_name(_XPLATSTR("")), m_value(0)
 	{
 	}
 
-
-    edm_enum_member(::utility::string_t name, unsigned long value) : m_name(name), m_value(value)
+	edm_enum_member(::odata::string_t name, unsigned long value) : m_name(name), m_value(value)
 	{
 	}
-	
-	const ::utility::string_t& get_enum_member_name() const
+
+	const ::odata::string_t& get_enum_member_name() const
 	{
 		return m_name;
 	}
-	void set_enum_member_name(const ::utility::string_t& name)
+
+	void set_enum_member_name(const ::odata::string_t& name)
 	{
 		m_name = name;
 	}
-	
+
 	unsigned long get_enum_member_value() const
 	{
 		return m_value;
@@ -449,31 +456,31 @@ public:
 private:
 	friend class edm_enum_type;
 
-	::utility::string_t m_name;
+	::odata::string_t m_name;
 	unsigned long m_value;
 };
 
 /// <summary>
-/// 
+///
 /// </summary>
 class edm_enum_type : public edm_named_type
 {
 public:
-    /// <summary>
-    /// Constructor
-    /// </summary>
-	edm_enum_type(::utility::string_t name, ::utility::string_t name_space, ::utility::string_t underlying_type, bool is_flag)
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	edm_enum_type(::odata::string_t name, ::odata::string_t name_space, ::odata::string_t underlying_type, bool is_flag)
 		: edm_named_type(name, name_space, edm_type_kind_t::Enum), m_underlying_type(underlying_type), m_is_flag(is_flag)
 	{
 	}
 
 	/// <summary>
-    /// 
-    /// </summary>
-    void add_enum_member(std::shared_ptr<edm_enum_member> member)
-    {
-        m_members.push_back(member);
-    }
+	///
+	/// </summary>
+	void add_enum_member(std::shared_ptr<edm_enum_member> member)
+	{
+		m_members.emplace_back(member);
+	}
 
 	const std::vector<std::shared_ptr<edm_enum_member>>& get_enum_members()
 	{
@@ -486,46 +493,45 @@ public:
 	}
 
 private:
-    friend class edm_schema;
+	friend class edm_schema;
 
-	::utility::string_t m_underlying_type;
+	::odata::string_t m_underlying_type;
 	bool m_is_flag;
 
 	std::vector<std::shared_ptr<edm_enum_member>> m_members;
 };
 
 /// <summary>
-/// 
+///
 /// </summary>
 class edm_complex_type : public edm_structured_type
 {
 public:
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="name">The name of the type.</param>
-    edm_complex_type(::utility::string_t name, ::utility::string_t name_space, 
-		::utility::string_t basetype = U(""), bool isAbstract = false, bool isOpenType = false) 
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="name">The name of the type.</param>
+	edm_complex_type(::odata::string_t name, ::odata::string_t name_space, ::odata::string_t basetype = _XPLATSTR(""), bool isAbstract = false, bool isOpenType = false)
 		: edm_structured_type(name, name_space, edm_type_kind_t::Complex, basetype, isAbstract, isOpenType)
-    {
-    }
+	{
+	}
 
 private:
-    friend class edm_schema;
+	friend class edm_schema;
 };
 
 /// <summary>
-/// 
+///
 /// </summary>
 class edm_navigation_source;
 
 class edm_navigation_type : public edm_named_type
 {
 public:
-	edm_navigation_type(::utility::string_t naviagtion_type, ::utility::string_t partner_name, bool is_contained = false) 
-		: edm_named_type(naviagtion_type, U(""), edm_type_kind_t::Navigation), m_partner_name(partner_name), m_is_contained(is_contained)
+	edm_navigation_type(::odata::string_t naviagtion_type, ::odata::string_t partner_name, bool is_contained = false)
+		: edm_named_type(naviagtion_type, _XPLATSTR(""), edm_type_kind_t::Navigation), m_partner_name(partner_name), m_is_contained(is_contained)
 	{
-		m_naviagtion_type = std::make_shared<edm_named_type>(naviagtion_type, U(""), edm_type_kind_t::Unknown);
+		m_naviagtion_type = ::odata::make_shared<edm_named_type>(naviagtion_type, _XPLATSTR(""), edm_type_kind_t::Unknown);
 	}
 
 	std::shared_ptr<edm_named_type> get_navigation_type() const
@@ -560,14 +566,14 @@ private:
 	friend class edm_schema;
 
 	std::weak_ptr<edm_named_type> m_naviagtion_type;
-	::utility::string_t m_partner_name;
+	::odata::string_t m_partner_name;
 	bool m_is_contained;
 	// only works for navigation that has m_is_contained = false
 	std::weak_ptr<edm_navigation_source> m_binded_navigation_source;
 };
 
 /// <summary>
-/// 
+///
 /// </summary>
 enum EdmOperationKind
 {
@@ -576,20 +582,19 @@ enum EdmOperationKind
 };
 
 /// <summary>
-/// 
+///
 /// </summary>
 class edm_operation_parameter
 {
 public:
-	edm_operation_parameter()
+	edm_operation_parameter() :
+		m_param_name(_XPLATSTR("")), m_param_type(nullptr), m_is_nullable(false)
 	{
-		
 	}
 
-    edm_operation_parameter(::utility::string_t param_name, std::shared_ptr<edm_named_type> param_type) :
-        m_param_name(param_name), m_param_type(param_type)
+	edm_operation_parameter(::odata::string_t param_name, std::shared_ptr<edm_named_type> param_type) :
+		m_param_name(param_name), m_param_type(param_type), m_is_nullable(false)
 	{
-		
 	}
 
 	const std::shared_ptr<edm_named_type>& get_param_type() const
@@ -602,7 +607,7 @@ public:
 		m_param_type = type;
 	}
 
-	const ::utility::string_t& get_param_name() const
+	const ::odata::string_t& get_param_name() const
 	{
 		return m_param_name;
 	}
@@ -610,19 +615,19 @@ public:
 private:
 	friend class edm_operation_type;
 
-	::utility::string_t m_param_name;
+	::odata::string_t m_param_name;
 	std::shared_ptr<edm_named_type> m_param_type;
 	bool m_is_nullable;
 };
 
 /// <summary>
-/// 
+///
 /// </summary>
 class edm_operation_type : public edm_named_type
 {
 public:
-	edm_operation_type(::utility::string_t name, ::utility::string_t name_space, bool is_bound, ::utility::string_t path, EdmOperationKind operation_kind, bool is_composable) 
-		: edm_named_type(name, name_space, edm_type_kind_t::Operation), m_path(path), m_is_bound(is_bound), m_operation_kind(operation_kind), m_is_composable(is_composable)
+	edm_operation_type(::odata::string_t name, ::odata::string_t name_space, bool is_bound, ::odata::string_t path, EdmOperationKind operation_kind, bool is_composable)
+	:	edm_named_type(name, name_space, edm_type_kind_t::Operation), m_is_bound(is_bound), m_path(path), m_parameters(), m_return_type(), m_operation_kind(operation_kind), m_is_composable(is_composable)
 	{
 		if (operation_kind == EdmOperationKind::Action)
 		{
@@ -632,7 +637,7 @@ public:
 
 	void add_operation_parameter(std::shared_ptr<edm_operation_parameter> parameter)
 	{
-		m_parameters.push_back(parameter);
+		m_parameters.emplace_back(parameter);
 	}
 
 	void set_return_type(std::shared_ptr<edm_named_type> return_type)
@@ -645,12 +650,12 @@ public:
 		return m_parameters;
 	}
 
-	void set_return_type_name(const ::utility::string_t& return_type_name)
+	void set_return_type_name(const ::odata::string_t& return_type_name)
 	{
 		m_return_type_name = return_type_name;
 	}
 
-	const ::utility::string_t& get_return_type_name() const
+	const ::odata::string_t& get_return_type_name() const
 	{
 		return m_return_type_name;
 	}
@@ -660,25 +665,25 @@ public:
 		return m_return_type;
 	}
 
-	bool is_bound()
+	bool is_bound() const
 	{
 		return m_is_bound;
 	}
 
-	bool is_function()
+	bool is_function() const
 	{
 		return m_operation_kind == EdmOperationKind::Function;
 	}
 
 private:
-    friend class edm_schema;
+	friend class edm_schema;
 	friend class edm_model;
 
 	bool m_is_bound;
-	::utility::string_t m_path;
+	::odata::string_t m_path;
 	std::vector<std::shared_ptr<edm_operation_parameter>> m_parameters;
 	std::shared_ptr<edm_named_type> m_return_type;
-	::utility::string_t m_return_type_name;
+	::odata::string_t m_return_type_name;
 	EdmOperationKind m_operation_kind;
 	bool m_is_composable;
 };
@@ -690,42 +695,42 @@ private:
 class edm_entity_type : public edm_structured_type
 {
 public:
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="name">The name of the type.</param>
-    edm_entity_type(::utility::string_t name, ::utility::string_t name_space, 
-		::utility::string_t basetype = U(""), bool isAbstract = false, bool isOpenType = false, bool hasStream = false) 
+	/// <summary>
+	/// Constructor
+	/// </summary>
+	/// <param name="name">The name of the type.</param>
+	edm_entity_type(::odata::string_t name, ::odata::string_t name_space, ::odata::string_t basetype = _XPLATSTR(""), bool isAbstract = false, bool isOpenType = false, bool hasStream = false)
 		: edm_structured_type(name, name_space, edm_type_kind_t::Entity, basetype, isAbstract, isOpenType), m_HasStream(hasStream)
-    {
-    }
-
-    /// <summary>
-    /// Adds a property name to the key of the entity type
-    /// </summary>
-    void add_key_property(const ::utility::string_t& property_ref)
-    {
-        m_key.push_back(property_ref);
-    }
-
-    /// <summary>
-    /// Gets the key, a collection of names of properties in the entity.
-    /// </summary>
-    const std::vector<::utility::string_t>& key() const
-    {
-        return m_key;
-    }
-
-	std::vector<::utility::string_t> get_key_with_parents() const
 	{
-		std::vector<::utility::string_t> ret = m_key;
+	}
+
+	/// <summary>
+	/// Adds a property name to the key of the entity type
+	/// </summary>
+	void add_key_property(const ::odata::string_t& property_ref)
+	{
+		m_key.emplace_back(property_ref);
+	}
+
+	/// <summary>
+	/// Gets the key, a collection of names of properties in the entity.
+	/// </summary>
+	const std::vector<::odata::string_t>& key() const
+	{
+		return m_key;
+	}
+
+	std::vector<::odata::string_t> get_key_with_parents() const
+	{
+		std::vector<::odata::string_t> ret = m_key;
 
 		if (m_base_type && std::dynamic_pointer_cast<edm_entity_type>(m_base_type))
 		{
-			auto parent_keys = (std::dynamic_pointer_cast<edm_entity_type>(m_base_type))->get_key_with_parents();
-			if (parent_keys.size() > 0)
+			auto parent_keys = std::dynamic_pointer_cast<edm_entity_type>(m_base_type)->get_key_with_parents();
+			if (!parent_keys.empty())
 			{
-				ret.insert(ret.end(), parent_keys.begin(), parent_keys.end());
+				ret.reserve(ret.size() + parent_keys.size());
+				std::copy(parent_keys.begin(), parent_keys.end(), std::back_inserter(ret));
 			}
 		}
 
@@ -733,9 +738,9 @@ public:
 	}
 
 private:
-    friend class edm_schema;
+	friend class edm_schema;
 
-    std::vector<::utility::string_t> m_key;
+	std::vector<::odata::string_t> m_key;
 	bool m_HasStream;
 };
 

@@ -11,32 +11,31 @@ using namespace ::odata::edm;
 namespace odata { namespace core
 {
 
-::utility::string_t odata_json_operation_url_parameter_writer::serialize(std::vector<std::shared_ptr<odata_parameter>> parameters)
+::odata::string_t odata_json_operation_url_parameter_writer::serialize(std::vector<std::shared_ptr<odata_parameter>> parameters)
 {
 	if (parameters.empty())
 	{
-		return U("()");
+		return _XPLATSTR("()");
 	}
 
 	::utility::stringstream_t ss;
-	ss << U("(");
+	ss << _XPLATSTR("(");
 
 	auto iter = parameters.cbegin();
-	handle_serialize_odata_parameter(ss, *iter, U('\0'), U('='));
-	iter++;
-	for(; iter != parameters.cend(); iter++)
+	handle_serialize_odata_parameter(ss, *iter, _XPLATSTR('\0'), _XPLATSTR('='));
+	++iter;
+	for(; iter != parameters.cend(); ++iter)
 	{
 		ss << ",";
-		handle_serialize_odata_parameter(ss, *iter, U('\0'), U('='));
+		handle_serialize_odata_parameter(ss, *iter, _XPLATSTR('\0'), _XPLATSTR('='));
 	}
 
-	ss << U(")");
+	ss << _XPLATSTR(")");
 
 	return ss.str();
 }
 
-void odata_json_operation_url_parameter_writer::handle_serialize_odata_parameter(
-	::utility::stringstream_t& ss, const std::shared_ptr<::odata::core::odata_parameter>& parameter, ::utility::char_t mark, ::utility::char_t separator)
+void odata_json_operation_url_parameter_writer::handle_serialize_odata_parameter(::utility::stringstream_t& ss, const std::shared_ptr<::odata::core::odata_parameter>& parameter, ::utility::char_t mark, ::utility::char_t separator)
 {
 	if (parameter && parameter->get_value() && !parameter->get_name().empty())
 	{
@@ -55,9 +54,9 @@ void odata_json_operation_url_parameter_writer::handle_serialize_odata_parameter
 	}
 }
 
-void odata_json_operation_url_parameter_writer::handle_serialize_odata_value(
-	::utility::stringstream_t& ss, const std::shared_ptr<::odata::edm::edm_named_type>& property_type, const std::shared_ptr<odata_value>& property_value)
+void odata_json_operation_url_parameter_writer::handle_serialize_odata_value(::utility::stringstream_t& ss, const std::shared_ptr<::odata::edm::edm_named_type>& property_type, const std::shared_ptr<odata_value>& property_value)
 {
+	// @TODO: Check if this is really needed! Cnsider that odata_enum_value is again handled below but depends on what get_type_kind() returned! Dealing with odata_enum_value twice appears illogical and inconsistent!
 	auto p_value = std::dynamic_pointer_cast<odata_enum_value>(property_value);
 	if (p_value)
 	{
@@ -68,10 +67,10 @@ void odata_json_operation_url_parameter_writer::handle_serialize_odata_value(
 	{
 		ss << "null";
 
-		return ;
+		return;
 	}
 
-    switch(property_type->get_type_kind())
+	switch(property_type->get_type_kind())
 	{
 	case edm_type_kind_t::Primitive:
 		{
@@ -91,7 +90,7 @@ void odata_json_operation_url_parameter_writer::handle_serialize_odata_value(
 	case edm_type_kind_t::Enum:
 		{
 			auto p_value = std::dynamic_pointer_cast<odata_enum_value>(property_value);
-			
+
 			if (p_value)
 			{
 				handle_serialize_enum_value(ss, p_value);
@@ -104,33 +103,32 @@ void odata_json_operation_url_parameter_writer::handle_serialize_odata_value(
 		break;
 	case edm_type_kind_t::Complex:
 		{
-			throw std::runtime_error("writer unsupported type!");  
+			throw std::runtime_error("writer unsupported type!");
 		}
 		break;
 	case edm_type_kind_t::Collection:
 		{
-			throw std::runtime_error("writer unsupported type!");  
+			throw std::runtime_error("writer unsupported type!");
 		}
 		break;
 	case edm_type_kind_t::Entity:
 		{
-			throw std::runtime_error("writer unsupported type!");  
+			throw std::runtime_error("writer unsupported type!");
 		}
 		break;
 	default:
 		{
-			throw std::runtime_error("writer unsupported type!");  
+			throw std::runtime_error("writer unsupported type!");
 		}
 		break;
 	}
 }
 
-void odata_json_operation_url_parameter_writer::handle_serialize_primitive_value(
-	::utility::stringstream_t& ss, const std::shared_ptr<::odata::edm::edm_primitive_type>& p_primitive_type, const std::shared_ptr<odata_primitive_value>& p_value)
+void odata_json_operation_url_parameter_writer::handle_serialize_primitive_value(::utility::stringstream_t& ss, const std::shared_ptr<::odata::edm::edm_primitive_type>& p_primitive_type, const std::shared_ptr<odata_primitive_value>& p_value)
 {
 	if (!p_primitive_type || !p_value)
 	{
-		return ;
+		return;
 	}
 
 	switch(p_primitive_type->get_primitive_kind())
@@ -139,11 +137,11 @@ void odata_json_operation_url_parameter_writer::handle_serialize_primitive_value
 		{
 			if (p_value->as<bool>())
 			{
-				ss << U("true");
+				ss << _XPLATSTR("true");
 			}
 			else
 			{
-				ss << U("false");
+				ss << _XPLATSTR("false");
 			}
 		}
 		break;
@@ -158,24 +156,24 @@ void odata_json_operation_url_parameter_writer::handle_serialize_primitive_value
 		{
 			ss << p_value->to_string();
 		}
-	    break;
+		break;
 	case edm_primitive_type_kind_t::Guid:
 	case edm_primitive_type_kind_t::String:
 	case edm_primitive_type_kind_t::Binary:
 	case edm_primitive_type_kind_t::DateTimeOffset:
 	case edm_primitive_type_kind_t::Duration:
 		{
-			ss << U('\'') << p_value->to_string() << U('\'');
+			ss << _XPLATSTR('\'') << p_value->to_string() << _XPLATSTR('\'');
 		}
 		break;
 	case edm_primitive_type_kind_t::Stream:
 		{
-			throw std::runtime_error("stream primitive value not implemented!");  
+			throw std::runtime_error("stream primitive value not implemented!");
 		}
 		break;
 	default:
 		{
-			throw std::runtime_error("unknown value not implemented!");  
+			throw std::runtime_error("unknown value not implemented!");
 		}
 		break;
 	}
@@ -185,7 +183,7 @@ void odata_json_operation_url_parameter_writer::handle_serialize_enum_value(::ut
 {
 	if (!p_value)
 	{
-		return ;
+		return;
 	}
 
 	ss << p_value->to_string();

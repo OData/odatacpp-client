@@ -16,28 +16,28 @@ namespace tests { namespace functional { namespace _odata {
 
 struct edm_type_comparision_object
 {
-	::utility::string_t primitive_name;
+	::odata::string_t primitive_name;
 	edm_primitive_type_kind_t expected_primitive_type;
 };
 
 #define edm_primitive_type_test_contents_size 15
-static edm_type_comparision_object edm_primitive_type_test_contents[edm_primitive_type_test_contents_size] = 
+static edm_type_comparision_object edm_primitive_type_test_contents[edm_primitive_type_test_contents_size] =
 {
-	{U("Edm.Binary"), edm_primitive_type_kind_t::Binary},
-	{U("Edm.Boolean"), edm_primitive_type_kind_t::Boolean},
-	{U("Edm.Byte"), edm_primitive_type_kind_t::Byte},
-	{U("Edm.Duration"), edm_primitive_type_kind_t::Duration},
-	{U("Edm.DateTimeOffset"), edm_primitive_type_kind_t::DateTimeOffset},
-	{U("Edm.Double"), edm_primitive_type_kind_t::Double},
-	{U("Edm.Decimal"), edm_primitive_type_kind_t::Decimal},
-	{U("Edm.Guid"), edm_primitive_type_kind_t::Guid},
-	{U("Edm.Int16"), edm_primitive_type_kind_t::Int16},
-	{U("Edm.Int32"), edm_primitive_type_kind_t::Int32},
-	{U("Edm.Int64"), edm_primitive_type_kind_t::Int64},
-	{U("Edm.SByte"), edm_primitive_type_kind_t::SByte},
-	{U("Edm.Single"), edm_primitive_type_kind_t::Single},
-	{U("Edm.Stream"), edm_primitive_type_kind_t::Stream},
-	{U("Edm.String"), edm_primitive_type_kind_t::String},
+	{_XPLATSTR("Edm.Binary"), edm_primitive_type_kind_t::Binary},
+	{_XPLATSTR("Edm.Boolean"), edm_primitive_type_kind_t::Boolean},
+	{_XPLATSTR("Edm.Byte"), edm_primitive_type_kind_t::Byte},
+	{_XPLATSTR("Edm.Duration"), edm_primitive_type_kind_t::Duration},
+	{_XPLATSTR("Edm.DateTimeOffset"), edm_primitive_type_kind_t::DateTimeOffset},
+	{_XPLATSTR("Edm.Double"), edm_primitive_type_kind_t::Double},
+	{_XPLATSTR("Edm.Decimal"), edm_primitive_type_kind_t::Decimal},
+	{_XPLATSTR("Edm.Guid"), edm_primitive_type_kind_t::Guid},
+	{_XPLATSTR("Edm.Int16"), edm_primitive_type_kind_t::Int16},
+	{_XPLATSTR("Edm.Int32"), edm_primitive_type_kind_t::Int32},
+	{_XPLATSTR("Edm.Int64"), edm_primitive_type_kind_t::Int64},
+	{_XPLATSTR("Edm.SByte"), edm_primitive_type_kind_t::SByte},
+	{_XPLATSTR("Edm.Single"), edm_primitive_type_kind_t::Single},
+	{_XPLATSTR("Edm.Stream"), edm_primitive_type_kind_t::Stream},
+	{_XPLATSTR("Edm.String"), edm_primitive_type_kind_t::String},
 };
 
 SUITE(odata_edm_model_utility_tests)
@@ -58,39 +58,39 @@ TEST(get_edm_primitive_type_from_name)
 
 TEST(get_edm_primitive_type_from_name_nagative_case)
 {
-	auto return_type = edm_model_utility::get_edm_primitive_type_from_name(U(""));
+	auto return_type = edm_model_utility::get_edm_primitive_type_from_name(_XPLATSTR(""));
 	VERIFY_IS_NULL(return_type);
-    return_type = edm_model_utility::get_edm_primitive_type_from_name(U("Edm."));
+    return_type = edm_model_utility::get_edm_primitive_type_from_name(_XPLATSTR("Edm."));
 	VERIFY_IS_NULL(return_type);
-    return_type = edm_model_utility::get_edm_primitive_type_from_name(U("Edm.Nothing"));
+    return_type = edm_model_utility::get_edm_primitive_type_from_name(_XPLATSTR("Edm.Nothing"));
 	VERIFY_IS_NULL(return_type);
 }
 
 struct get_edm_type_from_name_test_object
 {
-	::utility::string_t input_name;
+	::odata::string_t input_name;
 	edm_type_kind_t expected_edm_type;
 	edm_primitive_type_kind_t expected_primitive_type;
 };
 
 #define get_edm_type_from_name_test_size 15
-static get_edm_type_from_name_test_object get_edm_type_from_name_test_content[get_edm_type_from_name_test_size] = 
+static get_edm_type_from_name_test_object get_edm_type_from_name_test_content[get_edm_type_from_name_test_size] =
 {
-	{U("Collection(Edm.Binary)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Binary},
-	{U("Collection(Edm.Boolean)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Boolean},
-	{U("Collection(Edm.Byte)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Byte},
-	{U("Collection(Edm.Duration)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Duration},
-	{U("Collection(Edm.DateTimeOffset)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::DateTimeOffset},
-	{U("Collection(Edm.Double)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Double},
-	{U("Collection(Edm.Decimal)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Decimal},
-	{U("Collection(Edm.Guid)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Guid},
-	{U("Collection(Edm.Int16)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Int16},
-	{U("Collection(Edm.Int32)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Int32},
-	{U("Collection(Edm.Int64)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Int64},
-	{U("Collection(Edm.SByte)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::SByte},
-	{U("Collection(Edm.Single)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Single},
-	{U("Collection(Edm.Stream)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Stream},
-	{U("Collection(Edm.String)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::String},
+	{_XPLATSTR("Collection(Edm.Binary)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Binary},
+	{_XPLATSTR("Collection(Edm.Boolean)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Boolean},
+	{_XPLATSTR("Collection(Edm.Byte)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Byte},
+	{_XPLATSTR("Collection(Edm.Duration)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Duration},
+	{_XPLATSTR("Collection(Edm.DateTimeOffset)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::DateTimeOffset},
+	{_XPLATSTR("Collection(Edm.Double)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Double},
+	{_XPLATSTR("Collection(Edm.Decimal)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Decimal},
+	{_XPLATSTR("Collection(Edm.Guid)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Guid},
+	{_XPLATSTR("Collection(Edm.Int16)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Int16},
+	{_XPLATSTR("Collection(Edm.Int32)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Int32},
+	{_XPLATSTR("Collection(Edm.Int64)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Int64},
+	{_XPLATSTR("Collection(Edm.SByte)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::SByte},
+	{_XPLATSTR("Collection(Edm.Single)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Single},
+	{_XPLATSTR("Collection(Edm.Stream)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::Stream},
+	{_XPLATSTR("Collection(Edm.String)"), edm_type_kind_t::Collection, edm_primitive_type_kind_t::String},
 };
 
 TEST(get_edm_type_from_name_collection_primitive_case)
@@ -111,7 +111,7 @@ TEST(get_edm_type_from_name_collection_primitive_case)
 
 TEST(get_edm_type_from_name_collection_undetermined_case)
 {
-    auto return_type = edm_model_utility::get_edm_type_from_name(U("Collection(OData.Test)"));
+    auto return_type = edm_model_utility::get_edm_type_from_name(_XPLATSTR("Collection(OData.Test)"));
 	VERIFY_IS_NOT_NULL(return_type);
 	VERIFY_ARE_EQUAL(return_type->get_type_kind(), edm_type_kind_t::Collection);
 	auto collection_type = std::dynamic_pointer_cast<edm_collection_type>(return_type);
@@ -122,15 +122,15 @@ TEST(get_edm_type_from_name_collection_undetermined_case)
 
 TEST(get_edm_type_from_name_nagative_case)
 {
-    auto return_type = edm_model_utility::get_edm_type_from_name(U("OData.Test"));
+    auto return_type = edm_model_utility::get_edm_type_from_name(_XPLATSTR("OData.Test"));
 	VERIFY_IS_NULL(return_type);
 }
 
 TEST(get_primitive_kind_from_edm_type)
 {
 	auto primitive_type = edm_primitive_type::BINARY();
-	auto complex_type = std::make_shared<edm_complex_type>(U(""), U(""));
-	auto entity_type = std::make_shared<edm_entity_type>(U(""), U(""));
+	auto complex_type = ::odata::make_shared<edm_complex_type>(_XPLATSTR(""), _XPLATSTR(""));
+	auto entity_type = ::odata::make_shared<edm_entity_type>(_XPLATSTR(""), _XPLATSTR(""));
 
 	edm_primitive_type_kind_t out_put;
 	bool ok = edm_model_utility::get_primitive_kind_from_edm_type(primitive_type, out_put);
@@ -139,26 +139,26 @@ TEST(get_primitive_kind_from_edm_type)
 
 	ok = edm_model_utility::get_primitive_kind_from_edm_type(complex_type, out_put);
 	VERIFY_ARE_EQUAL(ok, false);
-	
+
 	ok = edm_model_utility::get_primitive_kind_from_edm_type(entity_type, out_put);
 	VERIFY_ARE_EQUAL(ok, false);
 }
 
 TEST(resolve_edm_types_after_parsing_type_in_entity)
 {
-	::utility::string_t name_space = U("odata.functional.test");
-	auto model = std::make_shared<edm_model>();
-	auto schema = model->add_schema(U("schema"), name_space);
-	auto complex_address = std::make_shared<edm_complex_type>(U("complex_address"), name_space);
-	auto entity_account = std::make_shared<edm_entity_type>(U("entity_account"), name_space);
-	auto property_address = std::make_shared<edm_property_type>(U("Address"));
-	property_address->set_property_type(std::make_shared<edm_named_type>(U("complex_address"), U(""), edm_type_kind_t::Unknown));
+	::odata::string_t name_space = _XPLATSTR("odata.functional.test");
+	auto model = ::odata::make_shared<edm_model>();
+	auto schema = model->add_schema(_XPLATSTR("schema"), name_space);
+	auto complex_address = ::odata::make_shared<edm_complex_type>(_XPLATSTR("complex_address"), name_space);
+	auto entity_account = ::odata::make_shared<edm_entity_type>(_XPLATSTR("entity_account"), name_space);
+	auto property_address = ::odata::make_shared<edm_property_type>(_XPLATSTR("Address"));
+	property_address->set_property_type(::odata::make_shared<edm_named_type>(_XPLATSTR("complex_address"), _XPLATSTR(""), edm_type_kind_t::Unknown));
 	entity_account->add_property(property_address);
 	schema->add_complex_type(complex_address);
 	schema->add_entity_type(entity_account);
 	edm_model_utility::resolve_edm_types_after_parsing(model);
 
-	auto prop = entity_account->find_property(U("Address"));
+	auto prop = entity_account->find_property(_XPLATSTR("Address"));
 	VERIFY_IS_NOT_NULL(prop);
 	auto prop_type = prop->get_property_type();
 	VERIFY_IS_NOT_NULL(prop_type);
@@ -167,19 +167,19 @@ TEST(resolve_edm_types_after_parsing_type_in_entity)
 
 TEST(resolve_edm_types_after_parsing_type_in_complex)
 {
-	::utility::string_t name_space = U("odata.functional.test");
-	auto model = std::make_shared<edm_model>();
-	auto schema = model->add_schema(U("schema"), name_space);
-	auto complex_address = std::make_shared<edm_complex_type>(U("complex_address"), name_space);
-	auto complex_account = std::make_shared<edm_complex_type>(U("complex_account"), name_space);
-	auto property_address = std::make_shared<edm_property_type>(U("Address"));
-	property_address->set_property_type(std::make_shared<edm_named_type>(U("complex_address"), U(""), edm_type_kind_t::Unknown));
+	::odata::string_t name_space = _XPLATSTR("odata.functional.test");
+	auto model = ::odata::make_shared<edm_model>();
+	auto schema = model->add_schema(_XPLATSTR("schema"), name_space);
+	auto complex_address = ::odata::make_shared<edm_complex_type>(_XPLATSTR("complex_address"), name_space);
+	auto complex_account = ::odata::make_shared<edm_complex_type>(_XPLATSTR("complex_account"), name_space);
+	auto property_address = ::odata::make_shared<edm_property_type>(_XPLATSTR("Address"));
+	property_address->set_property_type(::odata::make_shared<edm_named_type>(_XPLATSTR("complex_address"), _XPLATSTR(""), edm_type_kind_t::Unknown));
 	complex_account->add_property(property_address);
 	schema->add_complex_type(complex_address);
 	schema->add_complex_type(complex_account);
 	edm_model_utility::resolve_edm_types_after_parsing(model);
 
-	auto prop = complex_account->find_property(U("Address"));
+	auto prop = complex_account->find_property(_XPLATSTR("Address"));
 	VERIFY_IS_NOT_NULL(prop);
 	auto prop_type = prop->get_property_type();
 	VERIFY_IS_NOT_NULL(prop_type);
@@ -188,16 +188,16 @@ TEST(resolve_edm_types_after_parsing_type_in_complex)
 
 TEST(resolve_edm_types_after_parsing_type_in_operation)
 {
-	::utility::string_t name_space = U("odata.functional.test");
-	auto model = std::make_shared<edm_model>();
-	auto schema = model->add_schema(U("schema"), name_space);
+	::odata::string_t name_space = _XPLATSTR("odata.functional.test");
+	auto model = ::odata::make_shared<edm_model>();
+	auto schema = model->add_schema(_XPLATSTR("schema"), name_space);
 	std::shared_ptr<edm_operation_type>  operation;
-	operation.reset(new edm_operation_type(U("operation"), name_space, false, U(""), EdmOperationKind::Function, false));
-	auto complex_address = std::make_shared<edm_complex_type>(U("complex_address"), name_space);
-	auto complex_account = std::make_shared<edm_complex_type>(U("complex_account"), name_space);
-	operation->set_return_type(std::make_shared<edm_named_type>(U("complex_address"), U(""), edm_type_kind_t::Unknown));
-	auto param = std::make_shared<edm_operation_parameter>();
-	param->set_param_type(std::make_shared<edm_named_type>(U("complex_account"), U(""), edm_type_kind_t::Unknown));
+	operation.reset(new edm_operation_type(_XPLATSTR("operation"), name_space, false, _XPLATSTR(""), EdmOperationKind::Function, false));
+	auto complex_address = ::odata::make_shared<edm_complex_type>(_XPLATSTR("complex_address"), name_space);
+	auto complex_account = ::odata::make_shared<edm_complex_type>(_XPLATSTR("complex_account"), name_space);
+	operation->set_return_type(::odata::make_shared<edm_named_type>(_XPLATSTR("complex_address"), _XPLATSTR(""), edm_type_kind_t::Unknown));
+	auto param = ::odata::make_shared<edm_operation_parameter>();
+	param->set_param_type(::odata::make_shared<edm_named_type>(_XPLATSTR("complex_account"), _XPLATSTR(""), edm_type_kind_t::Unknown));
 	operation->add_operation_parameter(param);
 	schema->add_complex_type(complex_address);
 	schema->add_complex_type(complex_account);

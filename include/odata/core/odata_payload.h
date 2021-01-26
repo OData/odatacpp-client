@@ -34,44 +34,44 @@ enum odata_payload_kind
 class odata_payload
 {
 public:
-	odata_payload() {}
+	odata_payload() = default;
 
 	void add_value(std::shared_ptr<odata_value> value)
 	{
-		m_odata_values.push_back(value);
+		m_odata_values.emplace_back(value);
 	}
 
 	void insert_values(const std::vector<std::shared_ptr<odata_value>>& values)
 	{
-		m_odata_values.insert(m_odata_values.end(), values.begin(), values.end()); 
+		m_odata_values.insert(m_odata_values.end(), values.begin(), values.end());
 	}
 
-	const int value_count() const
+	const size_t value_count() const
 	{
 		return m_odata_values.size();
 	}
 
-	const std::vector<std::shared_ptr<odata_value>>& get_values() const 
+	const std::vector<std::shared_ptr<odata_value>>& get_values() const
 	{
 		return m_odata_values;
 	}
 
-	const ::utility::string_t& get_next_link() const
+	const ::odata::string_t& get_next_link() const
 	{
 		return m_next_link;
 	}
 
-	void set_next_link(::utility::string_t next_link)
+	void set_next_link(::odata::string_t next_link)
 	{
 		m_next_link = std::move(next_link);
 	}
 
-	const ::utility::string_t& get_context_url() const
+	const ::odata::string_t& get_context_url() const
 	{
 		return m_context_url;
 	}
 
-	void set_context_url(::utility::string_t context_ur)
+	void set_context_url(::odata::string_t context_ur)
 	{
 		m_context_url = std::move(context_ur);
 	}
@@ -82,9 +82,9 @@ public:
 	}
 
 private:
-	std::vector<std::shared_ptr<odata_value>>   m_odata_values;
-	::utility::string_t               m_next_link;
-	::utility::string_t               m_context_url;
+	std::vector<std::shared_ptr<odata_value>> m_odata_values;
+	::odata::string_t                         m_next_link;
+	::odata::string_t                         m_context_url;
 };
 
 }}

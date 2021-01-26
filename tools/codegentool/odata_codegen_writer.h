@@ -26,10 +26,10 @@ public:
 
 private:
 	void generate_declare_include_files(::utility::ofstream_t& out);
-    void generate_declare_include_files_end(::utility::ofstream_t& out);
+	void generate_declare_include_files_end(::utility::ofstream_t& out);
 	void generate_implement_include_files(::utility::ofstream_t& out);
-	void generate_declare_namespace_begin(::utility::ofstream_t& out, const ::utility::string_t& _namespace);
-	void generate_implement_namespace_begin(::utility::ofstream_t& out, const ::utility::string_t& _namespace);
+	void generate_declare_namespace_begin(::utility::ofstream_t& out, const ::odata::string_t& _namespace);
+	void generate_implement_namespace_begin(::utility::ofstream_t& out, const ::odata::string_t& _namespace);
 	void generate_declare_namespace_end(::utility::ofstream_t& out);
 	void generate_implement_namespace_end(::utility::ofstream_t& out);
 
@@ -47,11 +47,11 @@ private:
 	void generate_implement_operation_imports_in_entity_container(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info);
 
 	// common headers for complex and entity
-	void generate_declare_class_begin(::utility::ofstream_t& out, const ::utility::string_t& class_name, const ::utility::string_t& base_class_name);
+	void generate_declare_class_begin(::utility::ofstream_t& out, const ::odata::string_t& class_name, const ::odata::string_t& base_class_name);
 	void generate_declare_class_end(::utility::ofstream_t& out);
 
 	// complex type
-	void generate_declare_common_functions_in_complex(::utility::ofstream_t& out, const ::utility::string_t& class_name);
+	void generate_declare_common_functions_in_complex(::utility::ofstream_t& out, const ::odata::string_t& class_name);
 	void generate_declare_class_member_in_complex(::utility::ofstream_t& out, const property_info& _property_info);
 	void generate_implement_common_functions_in_complex(::utility::ofstream_t& out, const class_info& _class_info);
 	void generate_implement_class_member_in_complex(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info);
@@ -69,7 +69,7 @@ private:
 	void generate_implement_end_serialize_in_complex(::utility::ofstream_t& out, const class_info& _class_info);
 
 	// entity type
-	void generate_declare_common_functions_in_entity(::utility::ofstream_t& out, const ::utility::string_t& class_name);
+	void generate_declare_common_functions_in_entity(::utility::ofstream_t& out, const ::odata::string_t& class_name);
 	void generate_declare_class_keys_in_entity(::utility::ofstream_t& out, const class_info& _class_info, const std::vector<property_info>& keys);
 	void generate_declare_class_member_in_entity(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info);
 	void generate_declare_operation_in_entity(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info);
@@ -103,12 +103,11 @@ private:
 	void generate_implement_string_to_enum_type_member(::utility::ofstream_t& out, const class_info& _class_info, const property_info& _property_info);
 	void generate_implement_string_to_enum_type_end(::utility::ofstream_t& out, const class_info& _class_info);
 
-	void output_line_content(::utility::ostream_t& out, const ::utility::string_t& content, unsigned int indent_number = 0);
+	void output_line_content(::utility::ostream_t& out, const ::odata::string_t& content, unsigned int indent_number = 0);
 	void output_empty_line(::utility::ostream_t& out, unsigned int line_number = 1);
 
 private:
 	std::shared_ptr<odata_codegen_initializer> m_initializer;
 };
-
 
 }}}

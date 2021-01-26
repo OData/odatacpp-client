@@ -15,7 +15,7 @@ namespace odata { namespace codegen {
 class odata_query_builder : public std::enable_shared_from_this<odata_query_builder>
 {
 public:
-	odata_query_builder(const ::utility::string_t& entity_set_name) 
+	odata_query_builder(const ::odata::string_t& entity_set_name)
 	{
 		m_root_query_path.reset(odata_query_path::creat_query_path(entity_set_name, true));
 	}
@@ -23,7 +23,7 @@ public:
 	std::shared_ptr<odata_query_builder> top(int count)
 	{
 		m_root_query_path->top(count);
-	
+
 		return this->shared_from_this();
 	}
 
@@ -34,35 +34,35 @@ public:
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_query_builder> key(const ::utility::string_t& key)
+	std::shared_ptr<odata_query_builder> key(const ::odata::string_t& key)
 	{
 		m_root_query_path->key(key);
 
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_query_builder> orderby(const ::utility::string_t& orderby_clause)
+	std::shared_ptr<odata_query_builder> orderby(const ::odata::string_t& orderby_clause)
 	{
 		m_root_query_path->orderby(orderby_clause);
 
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_query_builder> filter(const ::utility::string_t& filter_clause)
+	std::shared_ptr<odata_query_builder> filter(const ::odata::string_t& filter_clause)
 	{
 		m_root_query_path->filter(filter_clause);
 
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_query_builder> select(const ::utility::string_t& select_clause)
+	std::shared_ptr<odata_query_builder> select(const ::odata::string_t& select_clause)
 	{
 		m_root_query_path->select(select_clause);
 
 		return this->shared_from_this();
 	}
 
-	std::shared_ptr<odata_query_builder> expand(const ::utility::string_t& expand_path)
+	std::shared_ptr<odata_query_builder> expand(const ::odata::string_t& expand_path)
 	{
 		m_root_query_path->expand(expand_path);
 
@@ -76,14 +76,21 @@ public:
 		return this->shared_from_this();
 	}
 
-	::utility::string_t get_query_expression()
+		std::shared_ptr<odata_query_builder> search(const ::odata::string_t& search_clause)
+	{
+		m_root_query_path->search(search_clause);
+
+		return this->shared_from_this();
+	}
+
+	::odata::string_t get_query_expression()
 	{
 		if (m_root_query_path)
 		{
 			return std::move(::web::http::uri::encode_uri((m_root_query_path->evaluate_query_path())));
 		}
 
-		return U("");
+		return _XPLATSTR("");
 	}
 
 private:

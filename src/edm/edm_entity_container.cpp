@@ -9,31 +9,31 @@
 namespace odata { namespace edm
 {
 
-std::shared_ptr<edm_entity_set> edm_entity_container::find_entity_set(::utility::string_t name) const
+std::shared_ptr<edm_entity_set> edm_entity_container::find_entity_set(::odata::string_t name) const
 {
-    auto find_iter = m_entity_sets.find(name);
+	auto find_iter = m_entity_sets.find(name);
 	if (find_iter != m_entity_sets.end())
 	{
 		return find_iter->second;
 	}
 
-    return nullptr;
+	return nullptr;
 }
 
-std::shared_ptr<edm_singleton> edm_entity_container::find_singleton(::utility::string_t name) const
+std::shared_ptr<edm_singleton> edm_entity_container::find_singleton(::odata::string_t name) const
 {
-    auto find_iter = m_singletons.find(name);
+	auto find_iter = m_singletons.find(name);
 	if (find_iter != m_singletons.end())
 	{
 		return find_iter->second;
 	}
 
-    return nullptr;
+	return nullptr;
 }
 
-std::shared_ptr<edm_operation_import> edm_entity_container::find_operation_import(::utility::string_t name) const
+std::shared_ptr<edm_operation_import> edm_entity_container::find_operation_import(::odata::string_t name) const
 {
-    auto find_iter = m_operation_imports.find(name);
+	auto find_iter = m_operation_imports.find(name);
 	if (find_iter != m_operation_imports.end())
 	{
 		return find_iter->second;

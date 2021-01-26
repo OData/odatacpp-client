@@ -7,7 +7,7 @@
 #include "codegen_test_service.h"
 #include "odata/core/odata_json_writer.h"
 
-namespace tests { namespace functional { namespace _odata { 
+namespace tests { namespace functional { namespace _odata {
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, productid, ProductID, int32_t);
 IMPLEMENT_ENUM_PROPERTY_IN_ENTITY_MAPPING(Product, useraccess, UserAccess, AccessLevel);
@@ -17,23 +17,23 @@ IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, pic, Picture, std::vecto
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, nullpic, NullPicture, std::vector<unsigned char>);
 
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, firstname, FirstName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname, LastName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, firstname, FirstName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname, LastName, ::odata::string_t);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardid, GiftCardID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardno, GiftCardNO, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardno, GiftCardNO, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, amount, Amount, double);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, experationdate, ExperationDate, ::utility::datetime);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, paymentinstrumentid, PaymentInstrumentID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, friendlyname, FriendlyName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, friendlyname, FriendlyName, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, createdate, CreatedDate, ::utility::datetime);
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber, CardNumber, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv, CVV, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber, CardNumber, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv, CVV, ::odata::string_t);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, accountid, AccountID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion, CountryRegion, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion, CountryRegion, ::odata::string_t);
 IMPLEMENT_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo, AccountInfo, AccountInfo);
 IMPLEMENT_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Account, vipinfo, VIPAccountInfo, VipAccountInfo);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, giftcard, MyGiftCard, GiftCard);
@@ -42,33 +42,33 @@ IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, mypaymentins
 void Account::get_mypaymentinstruments_from_entity(const shared_ptr<::odata::core::odata_entity_value>& pentity)
 {
     std::shared_ptr<::odata::core::odata_value> property_value;
-    
+
     if (!pentity->get_property_value(L"MyPaymentInstruments", property_value) || !property_value)
     { return ; }
-    
+
     auto property_collection_value = static_pointer_cast<::odata::core::odata_collection_value>(property_value);
     if (!property_collection_value) { return ; }
-    
+
     for (auto iter = property_collection_value->get_collection_values().cbegin(); iter != property_collection_value->get_collection_values().cend(); iter++)
     {
         auto entity_value = std::dynamic_pointer_cast<::odata::core::odata_entity_value>(*iter);
         if (!entity_value) { continue ; }
-        ::utility::string_t real_type_name = entity_value->get_value_type()->get_name();
-        ::utility::string_t expected_type_name = PaymentInstrument::get_type_name();
+        ::odata::string_t real_type_name = entity_value->get_value_type()->get_name();
+        ::odata::string_t expected_type_name = PaymentInstrument::get_type_name();
         if (expected_type_name != real_type_name)
         {
             auto create_pfn = PaymentInstrument::_derived_entity_creator_map[real_type_name];
             if (!create_pfn) return ;
-            
+
             auto p_derived = (*create_pfn)(m_service_context);
             if (!p_derived) return ;
-            p_derived->set_edit_link(odata_entity_model_builder::compute_edit_link(get_root_url(), entity_value, m_edit_link + U("/MyPaymentInstruments"), true));
+            p_derived->set_edit_link(odata_entity_model_builder::compute_edit_link(get_root_url(), entity_value, m_edit_link + _XPLATSTR("/MyPaymentInstruments"), true));
             p_derived->from_value(entity_value); mypaymentinstruments.push_back(std::dynamic_pointer_cast<PaymentInstrument>(p_derived));
         }
         else
         {
-            auto collection_element = std::make_shared<PaymentInstrument>(m_service_context);
-            collection_element->set_edit_link(odata_entity_model_builder::compute_edit_link(get_root_url(), entity_value, m_edit_link + U("/") + U("MyPaymentInstruments"), true));
+            auto collection_element = ::odata::make_shared<PaymentInstrument>(m_service_context);
+            collection_element->set_edit_link(odata_entity_model_builder::compute_edit_link(get_root_url(), entity_value, m_edit_link + _XPLATSTR("/") + _XPLATSTR("MyPaymentInstruments"), true));
             collection_element->from_value(entity_value);
             mypaymentinstruments.push_back(collection_element);
         }
@@ -78,15 +78,15 @@ void Account::get_mypaymentinstruments_from_entity(const shared_ptr<::odata::cor
 {
     if (m_service_context)
     {
-        ::utility::string_t path = m_service_context->get_relative_path(m_edit_link) + L"/" + L"MyPaymentInstruments";
-        ::utility::string_t edit_link = m_edit_link + L"/" + L"MyPaymentInstruments";
+        ::odata::string_t path = m_service_context->get_relative_path(m_edit_link) + L"/" + L"MyPaymentInstruments";
+        ::odata::string_t edit_link = m_edit_link + L"/" + L"MyPaymentInstruments";
         auto query = m_service_context->create_query<odata_entityset_query_executor<PaymentInstrument>, odata_query_builder>(path);
         if (builder) { query->set_query_builder(builder); }
         return query->execute_query().then( [this, edit_link] (const std::vector<std::shared_ptr<PaymentInstrument>>& ret_values) -> void
         {
             for (auto iter = ret_values.cbegin(); iter != ret_values.cend(); iter++)
             {
-                ::utility::string_t edit_link_placeholder = L"{edit_link}";
+                ::odata::string_t edit_link_placeholder = L"{edit_link}";
                 if ((*iter)->get_edit_link().empty() || (*iter)->get_edit_link().substr(0, edit_link_placeholder.size()) == edit_link_placeholder)
                 {
                     if ((*iter)->get_edit_link().empty()) { (*iter)->set_edit_link(edit_link + L"(" + (*iter)->get_key_property_string() + L")");
@@ -100,11 +100,11 @@ void Account::get_mypaymentinstruments_from_entity(const shared_ptr<::odata::cor
     return ::pplx::task_from_result();
 };
 */
-    
-    
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, street, Street, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, city, City, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, postalcode, PostalCode, ::utility::string_t);
+
+
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, street, Street, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, city, City, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, postalcode, PostalCode, ::odata::string_t);
 IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, numbers, Numbers, int32_t);
 IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, code, Code, int32_t);
 IMPLEMENT_ENUM_PROPERTY_IN_COMPLEX_MAPPING(Address, color, Color, Color);
@@ -112,43 +112,43 @@ IMPLEMENT_COLLECTION_ENUM_PROPERTY_IN_COMPLEX_MAPPING(Address, covercolors, Cove
 IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_COMPLEX_MAPPING(Address, skincolor, SkinColor, Color);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, personid, PersonID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname, FirstName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, middlename, MiddleName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname, FirstName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, middlename, MiddleName, ::odata::string_t);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Person, address, HomeAddress, Address);
-IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, numbers, Numbers, ::utility::string_t);
-IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, emails, Emails, ::utility::string_t);
+IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, numbers, Numbers, ::odata::string_t);
+IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, emails, Emails, ::odata::string_t);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Employee, datehired, DateHired, ::utility::datetime);
 IMPLEMENT_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Employee, addresses, WorkAddresses, Address);
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, city, City, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, city, City, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday, Birthday, ::utility::datetime);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid, ProductID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailedid, ProductDetailID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname, ProductName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description, Description, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname, ProductName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description, Description, ::odata::string_t);
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(VipCustomer, vipid, VIPID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(VipCustomer, viptype, VIPType, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(VipCustomer, viptype, VIPType, ::odata::string_t);
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(VipAccountInfo, vipinfo, VIP_Info, ::utility::string_t);
- //   void VipAccountInfo::get_vipinfo_from_complex(const shared_ptr<::odata::core::odata_complex_value>& pcomplex) 
-	//{ 
-	//    std::shared_ptr<::odata::core::odata_value> property_value; 
- //       if (!pcomplex->get_property_value(U("VIP_Info"), property_value) || !property_value) 
-	//    { 
-	//		return ; 
-	//	} 
-	//	auto primitive_value = std::dynamic_pointer_cast<odata_primitive_value>(property_value); 
-	//    if (primitive_value) 
-	//    { 
- //           vipinfo = primitive_value->as<::utility::string_t>(); 
- //       } 
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(VipAccountInfo, vipinfo, VIP_Info, ::odata::string_t);
+ //   void VipAccountInfo::get_vipinfo_from_complex(const shared_ptr<::odata::core::odata_complex_value>& pcomplex)
+	//{
+	//    std::shared_ptr<::odata::core::odata_value> property_value;
+ //       if (!pcomplex->get_property_value(_XPLATSTR("VIP_Info"), property_value) || !property_value)
+	//    {
+	//		return ;
+	//	}
+	//	auto primitive_value = std::dynamic_pointer_cast<odata_primitive_value>(property_value);
+	//    if (primitive_value)
+	//    {
+ //           vipinfo = primitive_value->as<::odata::string_t>();
+ //       }
  //   }
-	//void VipAccountInfo::set_vipinfo_to_complex(const shared_ptr<::odata::core::odata_complex_value>& pcomplex) 
-	//{ 
+	//void VipAccountInfo::set_vipinfo_to_complex(const shared_ptr<::odata::core::odata_complex_value>& pcomplex)
+	//{
 	//}
 
 BEGIN_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo)
@@ -310,8 +310,8 @@ BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Person)
 
 BEGIN_ENTITY_CONSTRUCTOR(Person, type_base)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(middlename, nullptr) 
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(address, nullptr)   
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(middlename, nullptr)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(address, nullptr)
 END_ENTITY_CONSTRUCTOR(Person, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Person)
@@ -339,9 +339,9 @@ BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Product)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Product)
 
 BEGIN_ENTITY_CONSTRUCTOR(Product, type_base)
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(useraccess, AccessLevel::None) 
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(skincolor, nullptr)  
-    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productid, 0)  
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(useraccess, AccessLevel::None)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(skincolor, nullptr)
+    ON_PROPERTY_IN_ENTITY_CONSTRUCTOR(productid, 0)
 END_ENTITY_CONSTRUCTOR(Product, type_base)
 
 BEGIN_ENTITY_DESTRUCTOR(Product)

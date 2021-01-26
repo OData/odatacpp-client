@@ -33,18 +33,18 @@ web::json::value odata_json_writer::serialize(std::shared_ptr<odata_value> value
 	}
 
 	::utility::stringstream_t ss;
-	ss << U("{");
-	
+	ss << _XPLATSTR("{");
+
 	auto iter = parameters.cbegin();
-	handle_serialize_odata_parameter(ss, *iter, U('"'), U(':'));
-	iter++;
-	for(; iter != parameters.cend(); iter++)
+	handle_serialize_odata_parameter(ss, *iter, _XPLATSTR('"'), _XPLATSTR(':'));
+	++iter;
+	for(; iter != parameters.cend(); ++iter)
 	{
 		ss << ",";
-		handle_serialize_odata_parameter(ss, *iter, U('"'), U(':'));
+		handle_serialize_odata_parameter(ss, *iter, _XPLATSTR('"'), _XPLATSTR(':'));
 	}
-	
-	ss << U("}");
+
+	ss << _XPLATSTR("}");
 
 	return web::json::value::parse(ss);
 }
@@ -69,29 +69,29 @@ void odata_json_writer::handle_serialize_odata_parameter(::utility::stringstream
 	}
 }
 
-void odata_json_writer::handle_serialize_odata_properties(::utility::stringstream_t& ss, const odata_property_map& properties)
+void odata_json_writer::handle_serialize_odata_properties(::utility::stringstream_t& ss, const std::pair<odata_property_map, odata_property_map>& properties)
 {
-	if (properties.size() <= 0)
+	if (properties.first.empty() && properties.second.empty())
 	{
 		ss << "null";
 
-		return ;
+		return;
 	}
 
-	ss << U("{");
+	ss << _XPLATSTR("{");
 
 	bool first = true;
 
-	for (auto iter = properties.cbegin(); iter != properties.cend(); iter++)
-	{	
+	for (auto iter = properties.first.cbegin(); iter != properties.first.cend(); ++iter)
+	{
 		if (!iter->second)
 		{
 			if (!first)
 			{
-				ss << U(",");
+				ss << _XPLATSTR(",");
 			}
 
-			ss << U('"') << iter->first << U('"') << U(":") << U("null");
+			ss << _XPLATSTR('"') << iter->first << _XPLATSTR('"') << _XPLATSTR(":") << _XPLATSTR("null");
 
 			first = false;
 		}
@@ -106,32 +106,65 @@ void odata_json_writer::handle_serialize_odata_properties(::utility::stringstrea
 
 			if (!first)
 			{
-				ss << U(",");
+				ss << _XPLATSTR(",");
 			}
 
-			ss << U('"') << iter->first << U('"') << U(":");
+			ss << _XPLATSTR('"') << iter->first << _XPLATSTR('"') << _XPLATSTR(":");
 
 			handle_serialize_odata_value(ss, property_type, iter->second);
 
 			first = false;
 		}
-		
 	}
 
-	ss << U("}");
+	for (auto iter = properties.second.cbegin(); iter != properties.second.cend(); ++iter)
+	{
+		if (!iter->second)
+		{
+			if (!first)
+			{
+				ss << _XPLATSTR(",");
+			}
+
+			ss << _XPLATSTR('"') << iter->first << _XPLATSTR('"') << _XPLATSTR(":") << _XPLATSTR("null");
+
+			first = false;
+		}
+		else
+		{
+			auto property_type = iter->second->get_value_type();
+
+			if (!is_type_serializable(property_type))
+			{
+				continue;
+			}
+
+			if (!first)
+			{
+				ss << _XPLATSTR(",");
+			}
+
+			ss << _XPLATSTR('"') << iter->first << _XPLATSTR('"') << _XPLATSTR(":");
+
+			handle_serialize_odata_value(ss, property_type, iter->second);
+
+			first = false;
+		}
+	}
+
+	ss << _XPLATSTR("}");
 }
 
-void odata_json_writer::handle_serialize_odata_value(::utility::stringstream_t& ss, 
-    const std::shared_ptr<edm_named_type>& property_type, const std::shared_ptr<odata_value>& property_value)
+void odata_json_writer::handle_serialize_odata_value(::utility::stringstream_t& ss, const std::shared_ptr<edm_named_type>& property_type, const std::shared_ptr<odata_value>& property_value)
 {
 	if (!property_type || !property_value)
 	{
 		ss << "null";
 
-		return ;
+		return;
 	}
 
-    switch(property_type->get_type_kind())
+	switch(property_type->get_type_kind())
 	{
 	case edm_type_kind_t::Primitive:
 		{
@@ -151,7 +184,7 @@ void odata_json_writer::handle_serialize_odata_value(::utility::stringstream_t& 
 	case edm_type_kind_t::Enum:
 		{
 			auto p_value = std::dynamic_pointer_cast<odata_enum_value>(property_value);
-			
+
 			if (p_value)
 			{
 				handle_serialize_enum_value(ss, p_value);
@@ -168,7 +201,7 @@ void odata_json_writer::handle_serialize_odata_value(::utility::stringstream_t& 
 
 			if (p_value)
 			{
-				ss << U('"') << p_value->to_string() << U('"');
+				ss << _XPLATSTR('"') << p_value->to_string() << _XPLATSTR('"');
 			}
 			else
 			{
@@ -182,18 +215,17 @@ void odata_json_writer::handle_serialize_odata_value(::utility::stringstream_t& 
 
 			if (p_value)
 			{
-				::utility::string_t type_link;
+				::odata::string_t type_link;
 				if (p_value->try_get(odata_json_constants::PAYLOAD_ANNOTATION_TYPE, type_link) && !type_link.empty())
 				{
-					if (type_link.find(U("#")) != 0)
+					if (type_link.front() != _XPLATSTR('#'))
 					{
-						type_link = U("#") + type_link;
-						p_value->set_value(odata_json_constants::PAYLOAD_ANNOTATION_TYPE, 
-							std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(odata_json_constants::PAYLOAD_ANNOTATION_TYPE), type_link));
+						type_link.insert(type_link.begin(), _XPLATSTR('#'));
+						p_value->set_value(odata_json_constants::PAYLOAD_ANNOTATION_TYPE, ::odata::make_shared<odata_primitive_value>(::odata::make_shared<edm_payload_annotation_type>(odata_json_constants::PAYLOAD_ANNOTATION_TYPE), type_link));
 					}
 				}
 
-				handle_serialize_odata_properties(ss, p_value->properties());
+				handle_serialize_odata_properties(ss, p_value->all_properties());
 			}
 			else
 			{
@@ -221,18 +253,17 @@ void odata_json_writer::handle_serialize_odata_value(::utility::stringstream_t& 
 
 			if (p_value)
 			{
-				::utility::string_t type_link;
+				::odata::string_t type_link;
 				if (p_value->try_get(odata_json_constants::PAYLOAD_ANNOTATION_TYPE, type_link) && !type_link.empty())
 				{
-					if (type_link.find(U("#")) != 0)
+					if (type_link.front() != _XPLATSTR('#'))
 					{
-						type_link = U("#") + type_link;
-						p_value->set_value(odata_json_constants::PAYLOAD_ANNOTATION_TYPE, 
-							std::make_shared<odata_primitive_value>(std::make_shared<edm_payload_annotation_type>(odata_json_constants::PAYLOAD_ANNOTATION_TYPE), type_link));
+						type_link.insert(type_link.begin(), _XPLATSTR('#'));
+						p_value->set_value(odata_json_constants::PAYLOAD_ANNOTATION_TYPE, ::odata::make_shared<odata_primitive_value>(::odata::make_shared<edm_payload_annotation_type>(odata_json_constants::PAYLOAD_ANNOTATION_TYPE), type_link));
 					}
 				}
 
-				handle_serialize_odata_properties(ss, p_value->properties());
+				handle_serialize_odata_properties(ss, p_value->all_properties());
 			}
 			else
 			{
@@ -242,18 +273,17 @@ void odata_json_writer::handle_serialize_odata_value(::utility::stringstream_t& 
 		break;
 	default:
 		{
-			throw std::runtime_error("write unsupported property type!");  
+			throw std::runtime_error("write unsupported property type!");
 		}
 		break;
 	}
 }
 
-void odata_json_writer::handle_serialize_primitive_value(::utility::stringstream_t& ss, 
-    const std::shared_ptr<edm_primitive_type>& p_primitive_type, const std::shared_ptr<odata_primitive_value>& p_value)
+void odata_json_writer::handle_serialize_primitive_value(::utility::stringstream_t& ss, const std::shared_ptr<edm_primitive_type>& p_primitive_type, const std::shared_ptr<odata_primitive_value>& p_value)
 {
 	if (!p_primitive_type || !p_value)
 	{
-		return ;
+		return;
 	}
 
 	switch(p_primitive_type->get_primitive_kind())
@@ -262,11 +292,11 @@ void odata_json_writer::handle_serialize_primitive_value(::utility::stringstream
 		{
 			if (p_value->as<bool>())
 			{
-				ss << U("true");
+				ss << _XPLATSTR("true");
 			}
 			else
 			{
-				ss << U("false");
+				ss << _XPLATSTR("false");
 			}
 		}
 		break;
@@ -281,28 +311,28 @@ void odata_json_writer::handle_serialize_primitive_value(::utility::stringstream
 		{
 			ss << p_value->to_string();
 		}
-	    break;
+		break;
 	case edm_primitive_type_kind_t::Guid:
 	case edm_primitive_type_kind_t::Binary:
 	case edm_primitive_type_kind_t::DateTimeOffset:
 	case edm_primitive_type_kind_t::Duration:
 		{
-			ss << U('"') << p_value->to_string() << U('"');
+			ss << _XPLATSTR('"') << p_value->to_string() << _XPLATSTR('"');
 		}
 		break;
 	case edm_primitive_type_kind_t::String:
 		{
-			ss << U('"') << p_value->to_string() << U('"');
+			ss << _XPLATSTR('"') << p_value->to_string() << _XPLATSTR('"');
 		}
 		break;
 	case edm_primitive_type_kind_t::Stream:
 		{
-			throw std::runtime_error("stream primitive value not implemented!");  
+			throw std::runtime_error("stream primitive value not implemented!");
 		}
 		break;
 	default:
 		{
-			throw std::runtime_error("unknown value not implemented!");  
+			throw std::runtime_error("unknown value not implemented!");
 		}
 		break;
 	}
@@ -313,33 +343,33 @@ void odata_json_writer::handle_serialize_enum_value(::utility::stringstream_t& s
 {
 	if (!p_value)
 	{
-		return ;
+		return;
 	}
 
-	ss << U('"') << p_value->to_string() << U('"');
+	ss << _XPLATSTR('"') << p_value->to_string() << _XPLATSTR('"');
 }
 
 void odata_json_writer::handle_serialize_collection_value(::utility::stringstream_t& ss, const std::shared_ptr<odata_collection_value>& p_value)
 {
 	if (!p_value)
 	{
-		return ;
+		return;
 	}
 
-	if (p_value->get_collection_values().size() == 0)
+	if (p_value->get_collection_values().empty())
 	{
-		ss << U("[]");
+		ss << _XPLATSTR("[]");
 
-		return ;
+		return;
 	}
 
-	ss << U("[");
+	ss << _XPLATSTR("[");
 
 	bool first = true;
 
-	auto element_type = p_value->get_collection_values()[0]->get_value_type();
+	auto element_type = p_value->get_collection_values().front()->get_value_type();
 
-	for (auto iter = p_value->get_collection_values().cbegin(); iter != p_value->get_collection_values().cend(); iter++)
+	for (auto iter = p_value->get_collection_values().cbegin(); iter != p_value->get_collection_values().cend(); ++iter)
 	{
 		if (!is_type_serializable(element_type))
 		{
@@ -348,7 +378,7 @@ void odata_json_writer::handle_serialize_collection_value(::utility::stringstrea
 
 		if (!first)
 		{
-			ss << U(",");
+			ss << _XPLATSTR(",");
 		}
 
 		handle_serialize_odata_value(ss, element_type, *iter);
@@ -356,26 +386,40 @@ void odata_json_writer::handle_serialize_collection_value(::utility::stringstrea
 		first = false;
 	}
 
-	ss << U("]");
+	ss << _XPLATSTR("]");
 }
 
 bool odata_json_writer::is_type_serializable(const std::shared_ptr<edm_named_type>& property_type)
 {
-	if (property_type)
+	if (!property_type)
 	{
-		if (property_type->get_type_kind() == edm_type_kind_t::Collection
-			|| property_type->get_type_kind() == edm_type_kind_t::Entity
-			|| property_type->get_type_kind() == edm_type_kind_t::Complex
-			|| property_type->get_type_kind() == edm_type_kind_t::Primitive
-			|| property_type->get_type_kind() == edm_type_kind_t::Enum
-	        || (property_type->get_type_kind() == edm_type_kind_t::PayloadAnnotation) 
-			&& (property_type->get_name() == odata_json_constants::PAYLOAD_ANNOTATION_TYPE || property_type->get_name() == odata_json_constants::PAYLOAD_ANNOTATION_ID))
-		{
-			return true;
-		}
+		return false;
 	}
 
-	return false;
+	// These are always serializable
+	if ((property_type->get_type_kind() == edm_type_kind_t::Collection) ||
+	    (property_type->get_type_kind() == edm_type_kind_t::Entity)     ||
+	    (property_type->get_type_kind() == edm_type_kind_t::Complex)    ||
+	    (property_type->get_type_kind() == edm_type_kind_t::Primitive)  ||
+	    (property_type->get_type_kind() == edm_type_kind_t::Enum))
+	{
+		return true;
+	}
+
+	// Everything except PayloadAnnotation is never serializable
+	if ((property_type->get_type_kind() != edm_type_kind_t::PayloadAnnotation))
+	{
+		return false;
+	}
+
+	// PAYLOAD_ANNOTATION_ID is always serializable
+	if (property_type->get_name() == odata_json_constants::PAYLOAD_ANNOTATION_ID)
+	{
+		return true;
+	}
+
+	// Serialize PAYLOAD_ANNOTATION_TYPE only if it shall not be suppressed
+	return !m_options.get_suppress_odata_type() && (property_type->get_name() == odata_json_constants::PAYLOAD_ANNOTATION_TYPE);
 }
 
 }}

@@ -44,7 +44,7 @@ public:
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(keyprop, KeyProp, int32_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(valueprop, ValueProp, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(valueprop, ValueProp, ::odata::string_t);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, KeyProp, keyprop);
 };
@@ -52,13 +52,13 @@ public:
 class DefaultContainer : public odata_service_context
 {
 public:
-    DefaultContainer(const ::utility::string_t& baseAddress, client_options options = client_options()) : odata_service_context(baseAddress, options)
+    DefaultContainer(const ::odata::string_t& baseAddress, client_options options = client_options()) : odata_service_context(baseAddress, options)
     {
     }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<TestType>, odata_query_builder>> create_testtypeset_query()
     {
-        return create_query<odata_entityset_query_executor<TestType>, odata_query_builder>(U("TestTypeSet"));
+        return create_query<odata_entityset_query_executor<TestType>, odata_query_builder>(_XPLATSTR("TestTypeSet"));
     }
 
 };

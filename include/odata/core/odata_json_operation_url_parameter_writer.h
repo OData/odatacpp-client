@@ -22,14 +22,14 @@ public:
 	{
 	}
 
-	ODATACPP_CLIENT_API ::utility::string_t serialize(std::vector<std::shared_ptr<odata_parameter>> parameters);
+	ODATACPP_CLIENT_API ::odata::string_t serialize(std::vector<std::shared_ptr<odata_parameter>> parameters);
 
 private:
 	void handle_serialize_odata_parameter(::utility::stringstream_t& ss, const std::shared_ptr<::odata::core::odata_parameter>& parameter, ::utility::char_t mark, ::utility::char_t separator);
 	void handle_serialize_odata_value(::utility::stringstream_t& ss, const std::shared_ptr<::odata::edm::edm_named_type>& property_type, const std::shared_ptr<odata_value>& property_value);
 	void handle_serialize_primitive_value(::utility::stringstream_t& ss, const std::shared_ptr<::odata::edm::edm_primitive_type>& p_primitive_type, const std::shared_ptr<odata_primitive_value>& p_value);
-	void handle_serialize_enum_value(::utility::stringstream_t& ss, const std::shared_ptr<odata_enum_value>& p_value);	
-	
+	void handle_serialize_enum_value(::utility::stringstream_t& ss, const std::shared_ptr<odata_enum_value>& p_value);
+
 	std::shared_ptr<::odata::edm::edm_model> m_model;
 };
 

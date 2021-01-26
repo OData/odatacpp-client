@@ -60,8 +60,8 @@ END_COMPLEX_CONSTRUCTOR(AccountInfo, type_base)
 BEGIN_COMPLEX_DESTRUCTOR(AccountInfo)
 END_COMPLEX_DESTRUCTOR(AccountInfo)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, firstname, FirstName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname, LastName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, firstname, FirstName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(AccountInfo, lastname, LastName, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(AccountInfo, Microsoft.Test.OData.Services.ODataWCFService, AccountInfo)
 
@@ -81,9 +81,9 @@ END_COMPLEX_CONSTRUCTOR(Address, type_base)
 BEGIN_COMPLEX_DESTRUCTOR(Address)
 END_COMPLEX_DESTRUCTOR(Address)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, street, Street, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, city, City, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, postalcode, PostalCode, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, street, Street, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, city, City, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(Address, postalcode, PostalCode, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Address, Microsoft.Test.OData.Services.ODataWCFService, Address)
 
@@ -106,7 +106,7 @@ BEGIN_COMPLEX_DESTRUCTOR(HomeAddress)
     ON_PROPERTY_IN_COMPLEX_DESTRUCTOR(familyname)
 END_COMPLEX_DESTRUCTOR(HomeAddress)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(HomeAddress, familyname, FamilyName, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(HomeAddress, familyname, FamilyName, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(HomeAddress, Microsoft.Test.OData.Services.ODataWCFService, HomeAddress)
 
@@ -123,7 +123,7 @@ END_COMPLEX_CONSTRUCTOR(CompanyAddress, Address)
 BEGIN_COMPLEX_DESTRUCTOR(CompanyAddress)
 END_COMPLEX_DESTRUCTOR(CompanyAddress)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(CompanyAddress, companyname, CompanyName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(CompanyAddress, companyname, CompanyName, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(CompanyAddress, Microsoft.Test.OData.Services.ODataWCFService, CompanyAddress)
 
@@ -141,7 +141,7 @@ END_COMPLEX_CONSTRUCTOR(CityInformation, type_base)
 BEGIN_COMPLEX_DESTRUCTOR(CityInformation)
 END_COMPLEX_DESTRUCTOR(CityInformation)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, countryregion, CountryRegion, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, countryregion, CountryRegion, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(CityInformation, iscapital, IsCapital, bool);
 
 IMPLEMENT_EDM_INFO(CityInformation, Microsoft.Test.OData.Services.ODataWCFService, CityInformation)
@@ -166,12 +166,12 @@ BEGIN_ENTITY_DESTRUCTOR(Person)
 END_ENTITY_DESTRUCTOR(Person)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, personid, PersonID, int32_t);
-IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, numbers, Numbers, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname, FirstName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::utility::string_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, middlename, MiddleName, ::utility::string_t);
+IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, numbers, Numbers, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, firstname, FirstName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, lastname, LastName, ::odata::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, middlename, MiddleName, ::odata::string_t);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Person, homeaddress, HomeAddress, Address);
-IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, emails, Emails, ::utility::string_t);
+IMPLEMENT_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Person, emails, Emails, ::odata::string_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Person, parent, Parent, Person);
 IMPLEMENT_ACTION_P2(Person, ResetAddress, odata_entityset_query_executor<Person>, addresses, std::vector<Address>, addresses, index, int32_t, index);
 IMPLEMENT_FUNCTION_P0(Person, GetHomeAddress, odata_complex_query_executor<HomeAddress>);
@@ -208,9 +208,9 @@ BEGIN_ENTITY_DESTRUCTOR(Statement)
 END_ENTITY_DESTRUCTOR(Statement)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, statementid, StatementID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiontype, TransactionType, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiontype, TransactionType, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, amount, Amount, double);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiondescription, TransactionDescription, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Statement, transactiondescription, TransactionDescription, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Statement, Microsoft.Test.OData.Services.ODataWCFService, Statement)
 
@@ -241,8 +241,8 @@ BEGIN_ENTITY_DESTRUCTOR(Product)
 END_ENTITY_DESTRUCTOR(Product)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, productid, ProductID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, name, Name, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, quantityperunit, QuantityPerUnit, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, name, Name, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, quantityperunit, QuantityPerUnit, ::odata::string_t);
 IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_ENTITY_MAPPING(Product, skincolor, SkinColor, Color);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, unitprice, UnitPrice, float);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Product, discontinued, Discontinued, bool);
@@ -289,9 +289,9 @@ BEGIN_ENTITY_DESTRUCTOR(Department)
 END_ENTITY_DESTRUCTOR(Department)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentid, DepartmentID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, name, Name, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, name, Name, ::odata::string_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Department, company, Company, Company);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno, DepartmentNO, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Department, departmentno, DepartmentNO, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Department, Microsoft.Test.OData.Services.ODataWCFService, Department)
 
@@ -314,7 +314,7 @@ END_ENTITY_CONSTRUCTOR(Customer, Person)
 BEGIN_ENTITY_DESTRUCTOR(Customer)
 END_ENTITY_DESTRUCTOR(Customer)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, city, City, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, city, City, ::odata::string_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Customer, company, Company, Company);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, birthday, Birthday, ::utility::datetime);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Customer, timebetweenlasttwoorders, TimeBetweenLastTwoOrders, ::utility::seconds);
@@ -344,9 +344,9 @@ BEGIN_ENTITY_DESTRUCTOR(ProductDetail)
 END_ENTITY_DESTRUCTOR(ProductDetail)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productid, ProductID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description, Description, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, description, Description, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productdetailid, ProductDetailID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname, ProductName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, productname, ProductName, ::odata::string_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, relatedproduct, RelatedProduct, Product);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(ProductDetail, reviews, Reviews, ProductReview);
 IMPLEMENT_FUNCTION_P0(ProductDetail, GetRelatedProduct, odata_entityset_query_executor<Product>);
@@ -400,9 +400,9 @@ END_ENTITY_DESTRUCTOR(ProductReview)
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productid, ProductID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, revisionid, RevisionID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, productdetailid, ProductDetailID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, reviewtitle, ReviewTitle, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, comment, Comment, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, author, Author, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, reviewtitle, ReviewTitle, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, comment, Comment, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(ProductReview, author, Author, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(ProductReview, Microsoft.Test.OData.Services.ODataWCFService, ProductReview)
 
@@ -511,7 +511,7 @@ END_ENTITY_DESTRUCTOR(Company)
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Company, companyid, CompanyID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Company, revenue, Revenue, int64_t);
 IMPLEMENT_NULLABLE_ENUM_PROPERTY_IN_ENTITY_MAPPING(Company, companycategory, CompanyCategory, CompanyCategory);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Company, name, Name, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Company, name, Name, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Company, departments, Departments, Department);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Company, coredepartment, CoreDepartment, Department);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Company, address, Address, Address);
@@ -549,7 +549,7 @@ BEGIN_ENTITY_DESTRUCTOR(PublicCompany)
     ON_PROPERTY_IN_ENTITY_DESTRUCTOR(stockexchange)
 END_ENTITY_DESTRUCTOR(PublicCompany)
 
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, stockexchange, StockExchange, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, stockexchange, StockExchange, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, assets, Assets, Asset);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, club, Club, Club);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PublicCompany, labourunion, LabourUnion, LabourUnion);
@@ -576,7 +576,7 @@ BEGIN_ENTITY_DESTRUCTOR(Asset)
 END_ENTITY_DESTRUCTOR(Asset)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Asset, assetid, AssetID, int32_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Asset, name, Name, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Asset, name, Name, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Asset, number, Number, int32_t);
 
 IMPLEMENT_EDM_INFO(Asset, Microsoft.Test.OData.Services.ODataWCFService, Asset)
@@ -603,11 +603,11 @@ BEGIN_ENTITY_DESTRUCTOR(GiftCard)
 END_ENTITY_DESTRUCTOR(GiftCard)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardid, GiftCardID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardno, GiftCardNO, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, giftcardno, GiftCardNO, ::odata::string_t);
 IMPLEMENT_FUNCTION_P1(GiftCard, GetActualAmount, odata_primitive_query_executor<double>, bonusRate, double, bonusRate);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, amount, Amount, double);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, experationdate, ExperationDate, ::utility::datetime);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, ownername, OwnerName, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(GiftCard, ownername, OwnerName, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(GiftCard, Microsoft.Test.OData.Services.ODataWCFService, GiftCard)
 
@@ -636,7 +636,7 @@ BEGIN_ENTITY_DESTRUCTOR(Club)
 END_ENTITY_DESTRUCTOR(Club)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Club, clubid, ClubID, int32_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Club, name, Name, ::utility::string_t);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Club, name, Name, ::odata::string_t);
 
 IMPLEMENT_EDM_INFO(Club, Microsoft.Test.OData.Services.ODataWCFService, Club)
 
@@ -659,8 +659,8 @@ BEGIN_ENTITY_DESTRUCTOR(LabourUnion)
 END_ENTITY_DESTRUCTOR(LabourUnion)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(LabourUnion, labourunionid, LabourUnionID, int32_t);
-IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(LabourUnion, name, Name, ::utility::string_t);
-IMPLEMENT_ACTION_P1(LabourUnion, ChangeLabourUnionName, odata_void_query_executor, name, ::utility::string_t, name);
+IMPLEMENT_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(LabourUnion, name, Name, ::odata::string_t);
+IMPLEMENT_ACTION_P1(LabourUnion, ChangeLabourUnionName, odata_void_query_executor, name, ::odata::string_t, name);
 
 IMPLEMENT_EDM_INFO(LabourUnion, Microsoft.Test.OData.Services.ODataWCFService, LabourUnion)
 
@@ -686,7 +686,7 @@ IMPLEMENT_FUNCTION_P0(Account, GetDefaultPI, odata_entityset_query_executor<Paym
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, accountid, AccountID, int32_t);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, mygiftcard, MyGiftCard, GiftCard);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, activesubscriptions, ActiveSubscriptions, Subscription);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion, CountryRegion, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Account, countryregion, CountryRegion, ::odata::string_t);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(Account, mypaymentinstruments, MyPaymentInstruments, PaymentInstrument);
 IMPLEMENT_ACTION_P1(Account, RefreshDefaultPI, odata_entityset_query_executor<PaymentInstrument>, newDate, ::utility::datetime, newDate);
 IMPLEMENT_NULLABLE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(Account, accountinfo, AccountInfo, AccountInfo);
@@ -719,7 +719,7 @@ BEGIN_ENTITY_DESTRUCTOR(PaymentInstrument)
 END_ENTITY_DESTRUCTOR(PaymentInstrument)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, paymentinstrumentid, PaymentInstrumentID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, friendlyname, FriendlyName, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, friendlyname, FriendlyName, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, createddate, CreatedDate, ::utility::datetime);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, backupstoredpi, BackupStoredPI, StoredPI);
 IMPLEMENT_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(PaymentInstrument, thestoredpi, TheStoredPI, StoredPI);
@@ -752,7 +752,7 @@ END_ENTITY_DESTRUCTOR(CreditRecord)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, creditrecordid, CreditRecordID, int32_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, isgood, IsGood, bool);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, reason, Reason, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, reason, Reason, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditRecord, createddate, CreatedDate, ::utility::datetime);
 
 IMPLEMENT_EDM_INFO(CreditRecord, Microsoft.Test.OData.Services.ODataWCFService, CreditRecord)
@@ -778,9 +778,9 @@ END_ENTITY_CONSTRUCTOR(CreditCardPI, PaymentInstrument)
 BEGIN_ENTITY_DESTRUCTOR(CreditCardPI)
 END_ENTITY_DESTRUCTOR(CreditCardPI)
 
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber, CardNumber, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername, HolderName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv, CVV, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cardnumber, CardNumber, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, holdername, HolderName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, cvv, CVV, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, experationdate, ExperationDate, ::utility::datetime);
 IMPLEMENT_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, creditrecords, CreditRecords, CreditRecord);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(CreditCardPI, balance, Balance, double);
@@ -811,8 +811,8 @@ BEGIN_ENTITY_DESTRUCTOR(StoredPI)
 END_ENTITY_DESTRUCTOR(StoredPI)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(StoredPI, storedpiid, StoredPIID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(StoredPI, piname, PIName, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(StoredPI, pitype, PIType, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(StoredPI, piname, PIName, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(StoredPI, pitype, PIType, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(StoredPI, createddate, CreatedDate, ::utility::datetime);
 
 IMPLEMENT_EDM_INFO(StoredPI, Microsoft.Test.OData.Services.ODataWCFService, StoredPI)
@@ -839,9 +839,9 @@ BEGIN_ENTITY_DESTRUCTOR(Subscription)
 END_ENTITY_DESTRUCTOR(Subscription)
 
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, subscriptionid, SubscriptionID, int32_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, templateguid, TemplateGuid, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, title, Title, ::utility::string_t);
-IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, category, Category, ::utility::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, templateguid, TemplateGuid, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, title, Title, ::odata::string_t);
+IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, category, Category, ::odata::string_t);
 IMPLEMENT_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(Subscription, createddate, CreatedDate, ::utility::datetime);
 
 IMPLEMENT_EDM_INFO(Subscription, Microsoft.Test.OData.Services.ODataWCFService, Subscription)
@@ -862,9 +862,9 @@ BEGIN_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription)
     ON_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription, createddate)
 END_SERIALIZE_PROPERTY_IN_ENTITY_MAPPING(Subscription)
 
-IMPLEMENT_FUNCTION_IMPORT_P2(InMemoryEntities, GetBossEmails, odata_primitive_query_executor<::utility::string_t>, start, int32_t, start, count, int32_t, count);
+IMPLEMENT_FUNCTION_IMPORT_P2(InMemoryEntities, GetBossEmails, odata_primitive_query_executor<::odata::string_t>, start, int32_t, start, count, int32_t, count);
 
-IMPLEMENT_ACTION_IMPORT_P1(InMemoryEntities, ResetBossEmail, odata_primitive_query_executor<::utility::string_t>, emails, std::vector<::utility::string_t>, emails);
+IMPLEMENT_ACTION_IMPORT_P1(InMemoryEntities, ResetBossEmail, odata_primitive_query_executor<::odata::string_t>, emails, std::vector<::odata::string_t>, emails);
 
 IMPLEMENT_ACTION_IMPORT_P1(InMemoryEntities, Discount, odata_void_query_executor, percentage, int32_t, percentage);
 
@@ -878,9 +878,9 @@ IMPLEMENT_ACTION_IMPORT_P0(InMemoryEntities, ResetDataSource, odata_void_query_e
 
 IMPLEMENT_FUNCTION_IMPORT_P1(InMemoryEntities, GetPerson, odata_entityset_query_executor<Person>, address, Address, address);
 
-IMPLEMENT_FUNCTION_IMPORT_P1(InMemoryEntities, GetPerson2, odata_entityset_query_executor<Person>, city, ::utility::string_t, city);
+IMPLEMENT_FUNCTION_IMPORT_P1(InMemoryEntities, GetPerson2, odata_entityset_query_executor<Person>, city, ::odata::string_t, city);
 
-IMPLEMENT_FUNCTION_IMPORT_P1(InMemoryEntities, GetProductsByAccessLevel, odata_primitive_query_executor<::utility::string_t>, accessLevel, AccessLevel, accessLevel);
+IMPLEMENT_FUNCTION_IMPORT_P1(InMemoryEntities, GetProductsByAccessLevel, odata_primitive_query_executor<::odata::string_t>, accessLevel, AccessLevel, accessLevel);
 
 DECLARE_DERIVED_COMPLEX_CREATOR_FUNC(HomeAddress, homeaddress)
 DECLARE_DERIVED_COMPLEX_CREATOR_FUNC(CompanyAddress, companyaddress)

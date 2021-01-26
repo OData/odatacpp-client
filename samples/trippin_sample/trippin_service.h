@@ -65,9 +65,9 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_COMPLEX_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(countryregion, CountryRegion, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(region, Region, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(name, Name, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(countryregion, CountryRegion, ::odata::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(region, Region, ::odata::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(name, Name, ::odata::string_t);
 };
 
 class Location : public type_base
@@ -78,7 +78,7 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_COMPLEX_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(address, Address, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(address, Address, ::odata::string_t);
     DECLARE_COMPLEX_PROPERTY_IN_COMPLEX_MAPPING(city, City, City);
 };
 
@@ -90,7 +90,7 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_COMPLEX_MAPPING();
 
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(buildinginfo, BuildingInfo, ::utility::string_t);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_COMPLEX_MAPPING(buildinginfo, BuildingInfo, ::odata::string_t);
 };
 
 class AirportLocation : public Location
@@ -111,19 +111,19 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(username, UserName, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(firstname, FirstName, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(lastname, LastName, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(username, UserName, ::odata::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(firstname, FirstName, ::odata::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(lastname, LastName, ::odata::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(concurrency, Concurrency, int64_t);
-    DECLARE_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(emails, Emails, ::utility::string_t);
+    DECLARE_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(emails, Emails, ::odata::string_t);
     DECLARE_NULLABLE_ENUM_PROPERTY_IN_ENTITY_MAPPING(gender, Gender, PersonGender);
     DECLARE_COLLECTION_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(addressinfo, AddressInfo, Location);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(friends, Friends, Person);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(trips, Trips, Trip);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(photo, Photo, Photo);
     DECLARE_FUNCTION_P0(Person, GetFavoriteAirline, odata_entityset_query_executor<Airline>);
-    DECLARE_FUNCTION_P1(Person, GetFriendsTrips, odata_entityset_query_executor<Trip>, userName, ::utility::string_t, userName);
-    DECLARE_ACTION_P2(Person, ShareTrip, odata_void_query_executor, userName, ::utility::string_t, userName, tripId, int32_t, tripId);
+    DECLARE_FUNCTION_P1(Person, GetFriendsTrips, odata_entityset_query_executor<Trip>, userName, ::odata::string_t, userName);
+    DECLARE_ACTION_P2(Person, ShareTrip, odata_void_query_executor, userName, ::odata::string_t, userName, tripId, int32_t, tripId);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, UserName, username);
 };
@@ -136,8 +136,8 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(airlinecode, AirlineCode, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(airlinecode, AirlineCode, ::odata::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::odata::string_t);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, AirlineCode, airlinecode);
 };
@@ -151,7 +151,7 @@ public:
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(id, Id, int64_t);
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::utility::string_t);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::odata::string_t);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, Id, id);
 };
@@ -164,9 +164,9 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(icaocode, IcaoCode, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::utility::string_t);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(iatacode, IataCode, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(icaocode, IcaoCode, ::odata::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::odata::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(iatacode, IataCode, ::odata::string_t);
     DECLARE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(location, Location, AirportLocation);
 
     DECLARE_GET_KEY_PROPERTY_STRING_ONE_PARAM(type_base, IcaoCode, icaocode);
@@ -181,7 +181,7 @@ public:
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(planitemid, PlanItemId, int32_t);
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(confirmationcode, ConfirmationCode, ::utility::string_t);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(confirmationcode, ConfirmationCode, ::odata::string_t);
     DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(startsat, StartsAt, ::utility::datetime);
     DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(duration, Duration, ::utility::seconds);
     DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(endsat, EndsAt, ::utility::datetime);
@@ -198,14 +198,14 @@ public:
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(tripid, TripId, int32_t);
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(shareid, ShareId, ::utility::string_t);
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(description, Description, ::utility::string_t);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(shareid, ShareId, ::odata::string_t);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(description, Description, ::odata::string_t);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(startsat, StartsAt, ::utility::datetime);
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(name, Name, ::odata::string_t);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(photos, Photos, Photo);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(budget, Budget, float);
     DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(endsat, EndsAt, ::utility::datetime);
-    DECLARE_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(tags, Tags, ::utility::string_t);
+    DECLARE_COLLECTION_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(tags, Tags, ::odata::string_t);
     DECLARE_COLLECTION_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(planitems, PlanItems, PlanItem);
     DECLARE_FUNCTION_P0(Trip, GetInvolvedPeople, odata_entityset_query_executor<Person>);
 
@@ -220,7 +220,7 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(seatnumber, SeatNumber, ::utility::string_t);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(seatnumber, SeatNumber, ::odata::string_t);
 
     DECLARE_GET_KEY_PROPERTY_STRING_NO_PARAM(PlanItem);
 };
@@ -233,7 +233,7 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(flightnumber, FlightNumber, ::utility::string_t);
+    DECLARE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(flightnumber, FlightNumber, ::odata::string_t);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(to, To, Airport);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(from, From, Airport);
     DECLARE_NAVIGATION_PROPERTY_IN_ENTITY_MAPPING(airline, Airline, Airline);
@@ -249,7 +249,7 @@ public:
     DECLARE_EDM_INFO();
     ENABLE_PROPERTY_IN_ENTITY_MAPPING();
 
-    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(description, Description, ::utility::string_t);
+    DECLARE_NULLABLE_PRIMITIVE_PROPERTY_IN_ENTITY_MAPPING(description, Description, ::odata::string_t);
     DECLARE_COMPLEX_PROPERTY_IN_ENTITY_MAPPING(occursat, OccursAt, EventLocation);
 
     DECLARE_GET_KEY_PROPERTY_STRING_NO_PARAM(PlanItem);
@@ -258,7 +258,7 @@ public:
 class DefaultContainer : public odata_service_context
 {
 public:
-    DefaultContainer(const ::utility::string_t& baseAddress, client_options options = client_options()) : odata_service_context(baseAddress, options)
+    DefaultContainer(const ::odata::string_t& baseAddress, client_options options = client_options()) : odata_service_context(baseAddress, options)
     {
     }
 
@@ -266,29 +266,29 @@ public:
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Photo>, odata_query_builder>> create_photos_query()
     {
-        return create_query<odata_entityset_query_executor<Photo>, odata_query_builder>(U("Photos"));
+        return create_query<odata_entityset_query_executor<Photo>, odata_query_builder>(_XPLATSTR("Photos"));
     }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Airline>, odata_query_builder>> create_airlines_query()
     {
-        return create_query<odata_entityset_query_executor<Airline>, odata_query_builder>(U("Airlines"));
+        return create_query<odata_entityset_query_executor<Airline>, odata_query_builder>(_XPLATSTR("Airlines"));
     }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Person>, odata_query_builder>> create_people_query()
     {
-        return create_query<odata_entityset_query_executor<Person>, odata_query_builder>(U("People"));
+        return create_query<odata_entityset_query_executor<Person>, odata_query_builder>(_XPLATSTR("People"));
     }
 
     DECLARE_FUNCTION_IMPORT_P2(DefaultContainer, GetNearestAirport, odata_entityset_query_executor<Airport>, lat, double, lat, lon, double, lon);
 
     std::shared_ptr<odata_service_query<odata_singleton_query_executor<Person>, odata_query_builder>> create_me_query()
     {
-        return create_query<odata_singleton_query_executor<Person>, odata_query_builder>(U("Me"));
+        return create_query<odata_singleton_query_executor<Person>, odata_query_builder>(_XPLATSTR("Me"));
     }
 
     std::shared_ptr<odata_service_query<odata_entityset_query_executor<Airport>, odata_query_builder>> create_airports_query()
     {
-        return create_query<odata_entityset_query_executor<Airport>, odata_query_builder>(U("Airports"));
+        return create_query<odata_entityset_query_executor<Airport>, odata_query_builder>(_XPLATSTR("Airports"));
     }
 
 };
