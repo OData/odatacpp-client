@@ -256,31 +256,31 @@ class string_t
 		string_t& insert(size_type index, ::utility::string_t const &str, size_type index_str, size_type count = npos)   { auto s = s_.get(); s.insert(index, str, index_str, count);    s_ = std::move(s); return *this; }
 		const_iterator insert(const_iterator pos, value_type ch)
 		{
-			auto s    = s_.get();
-			auto iter = s.insert(s.begin() + (pos - s_.get().cbegin()), ch);
-			s_        = std::move(s);
-			return cbegin() + (iter - s.begin());
+			auto s = s_.get();
+			auto length = s.insert(s.begin() + (pos - s_.get().cbegin()), ch) - s.begin();
+			s_ = std::move(s);
+			return cbegin() + length;
 		}
 		const_iterator insert(const_iterator pos, size_type count, value_type ch)
 		{
 			auto s = s_.get();
-			auto iter = s.insert(s.begin() + (pos - s_.get().cbegin()), count, ch);
+			auto length = s.insert(s.begin() + (pos - s_.get().cbegin()), count, ch) - s.begin();
 			s_ = std::move(s);
-			return cbegin() + (iter - s.begin());
+			return cbegin() + length;
 		}
 		template<typename InputIt> const_iterator insert(const_iterator pos, InputIt first, InputIt last)
 		{
 			auto s = s_.get();
-			auto iter = s.insert(s.begin() + (pos - s_.get().cbegin()), first, last);
+			auto length = s.insert(s.begin() + (pos - s_.get().cbegin()), first, last) - s.begin();
 			s_ = std::move(s);
-			return cbegin() + (iter - s.begin());
+			return cbegin() + length;
 		}
 		const_iterator insert(const_iterator pos, std::initializer_list<value_type> ilist)
 		{
 			auto s = s_.get();
-			auto iter = s.insert(s.begin() + (pos - s_.get().cbegin()), ilist);
+			auto length = s.insert(s.begin() + (pos - s_.get().cbegin()), ilist) - s.begin();
 			s_ = std::move(s);
-			return cbegin() + (iter - s.begin());
+			return cbegin() + length;
 		}
 		template <typename T> string_t& insert(size_type pos, T const &t)                                                { auto s = s_.get(); s.insert(pos, t);                          s_ = std::move(s); return *this; }
 		template <typename T> string_t& insert(size_type index, T const &t, size_type index_str, size_type count = npos) { auto s = s_.get(); s.insert(index, t, index_str, count);      s_ = std::move(s); return *this; }
@@ -290,16 +290,16 @@ class string_t
 		const_iterator erase(const_iterator position)
 		{
 			auto s = s_.get();
-			auto iter = s.erase(s.begin() + (position - s_.get().cbegin()));
+			auto length = s.erase(s.begin() + (position - s_.get().cbegin())) - s.begin();
 			s_ = std::move(s);
-			return cbegin() + (iter - s.begin());
+			return cbegin() + length;
 		}
 		const_iterator erase(const_iterator first, const_iterator last)
 		{
 			auto s = s_.get();
-			auto iter = s.erase(s.begin() + (first - s_.get().cbegin()), s.begin() + (last - s_.get().cbegin()));
+			auto length = s.erase(s.begin() + (first - s_.get().cbegin()), s.begin() + (last - s_.get().cbegin())) - s.begin();
 			s_ = std::move(s);
-			return cbegin() + (iter - s.begin());
+			return cbegin() + length;
 		}
 
 		// push_back
